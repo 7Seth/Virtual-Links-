@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Links! | System Override</title>
+    <link rel="shortcut icon" href="https://www.dropbox.com/scl/fi/rda7ohwdqojn7q2goa66i/iconpkmbw.png?rlkey=w4amn3yc2nhewlzz2v136qfo4&st=qkdl9xhk&raw=1" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --green-type: #4ade80; --red-type: #f87171; --blue-type: #60a5fa; --hacker-green: #00ff41; }     
+        html { scroll-snap-type: y mandatory; scroll-behavior: smooth; height: 100%;}
+
+        body { background: #000; color: #e0e0e0; font-family: 'Rajdhani', sans-serif; margin: 0; overflow-x: hidden;height: 100%; }
+        body.loading { overflow: hidden; }
+        
+        section, footer { height: 100vh;width: 100%;scroll-snap-align: start; scroll-snap-stop: always;position: relative; overflow: hidden; display: flex; align-items: center; }
+
+        .master-bg { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: #000; }
+        .grid-lines { 
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px; width: 100%; height: 100%; opacity: 0.5;
+        }
+
+        .dynamic-light {
+            position: absolute; width: 50vw; height: 50vw; border-radius: 0;
+            filter: blur(150px); opacity: 0.08; mix-blend-mode: screen;
+            animation: light-move 20s infinite alternate ease-in-out;
+            background: #fff;
+        }
+        .light-1 { top: -15%; left: -15%; }
+        .light-2 { bottom: -15%; right: -15%; animation-delay: -7s; }
+
+        @keyframes light-move {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(15%, 10%) scale(1.1); opacity: 0.12; }
+            100% { transform: translate(-10%, 15%) scale(0.95); opacity: 0.08; }
+        }
+
+        .bubble {
+            position: absolute; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%; pointer-events: none; animation: float-up var(--d) infinite linear;
+            bottom: -50px;
+        }
+        @keyframes float-up { to { transform: translateY(-110vh) translateX(var(--x)); opacity: 0; } }
+
+        .hero-container { position: relative; display: inline-block; }
+        .title-gradient {
+            background: linear-gradient(to bottom, #fff 30%, #a3a3a3 70%, #525252 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            position: relative; z-index: 10;
+        }
+        .hero-scanline {
+            position: absolute; width: 130%; height: 2px; background: rgba(255,255,255,0.8);
+            left: -15%; z-index: 20; box-shadow: 0 0 15px #fff;
+            animation: scan-hero 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            pointer-events: none; opacity: 0.5;
+        }
+        @keyframes scan-hero { 0% { top: -10%; } 100% { top: 110%; } }
+
+        .hero-title-corrupted {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            color: #fff; z-index: 11; opacity: 0; pointer-events: none; font-family: 'Orbitron', sans-serif;
+            animation: glitch-reveal 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+        @keyframes glitch-reveal { 
+            0%, 5%, 95%, 100% { opacity: 0; clip-path: inset(0 0 0 0); transform: translate(0); }
+            10%, 15% { opacity: 0.8; clip-path: inset(20% 0 60% 0); transform: translate(-5px, 2px); text-shadow: -2px 0 #fff; }
+            30%, 35% { opacity: 0.5; clip-path: inset(50% 0 10% 0); transform: translate(5px, -2px); text-shadow: 2px 0 #000; }
+            60%, 65% { opacity: 0.9; clip-path: inset(10% 0 80% 0); transform: translate(-2px, 5px); text-shadow: -2px 0 #fff; }
+        }
+
+        .btn-modern {
+            position: relative; padding: 18px 45px; font-weight: 900; overflow: hidden;
+            background: #000; color: #fff; border: 1px solid rgba(255,255,255,0.2);
+            clip-path: polygon(0 0, 92% 0, 100% 25%, 100% 100%, 8% 100%, 0 75%);
+            transition: 0.3s; font-family: 'Orbitron', sans-serif; font-size: 11px; letter-spacing: 2px;
+        }
+        .btn-modern:hover { transform: translateY(-5px) scale(1.05); border-color: cyan; color: #fff; box-shadow: 0 10px 0 rgba(0,255,255,0.75); }
+        .btn-modern::before {
+            content: 'LOGIN_FAIL'; position: absolute; inset: 0; background: transparent; color: #fff;
+            display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.1s;
+            z-index: 5; font-weight: 400; text-shadow: 0 0 10px #fff;
+        }
+        .btn-modern:hover::before { opacity: 1; animation: btn-glitch-text 0.5s steps(1) infinite; }
+        .btn-modern:hover .btn-text-content { opacity: 0; } 
+        
+        @keyframes btn-glitch-text { 
+            0% { content: 'SYSTEM_ERROR'; } 25% { content: 'ACCESS_DENIED'; }
+            50% { content: 'HACK_DETECTED'; } 75% { content: 'OVERRIDE'; } 100% { content: 'LOGIN_FAIL'; }
+        }
+
+        .btn-decrypt { width: 220px; height: 45px; transition: 1s; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.1); transition: all 1.5s ease-in-out; }
+        .btn-decrypt .revealed { display: none; transition: all 1.5s ease-in-out; }
+        .btn-decrypt:hover .original { display: none; transition: all 1.5s ease-in-out; }
+        .btn-decrypt:hover .revealed { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; height: 100%; background: #5865F2; color: #fff; position: absolute; top: 0; left: 0; animation: skew-glitch 1s infinite; transition: all 1.5s ease-in-out; }
+
+        .section-solid-white { background: #ffffff !important; color: #ffffff !important; }
+        .white-grid-lines { 
+            background: 
+                radial-gradient(rgba(0,0,0,0.15) 1.5px, transparent 0),
+                linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
+            background-size: 30px 30px, 90px 90px, 90px 90px;
+            width: 100%; height: 100%; position: absolute; inset: 0; z-index: 1;
+        }
+        .section-solid-white {position: relative;background: #000 !important;overflow: hidden;}
+        .section-solid-white::after {content: '';position: absolute;top: 0;right: 0;width: 100%;height: 100%;background-color: #000;background-image: linear-gradient(45deg, #111 25%, transparent 25%, transparent 75%, #222 75%), linear-gradient(45deg, #111 25%, transparent 25%, transparent 75%, #111 75%);background-size: 66px 66px;background-position: 0 0, 30px 30px;z-index: 1; pointer-events: none;opacity: 0.85;}
+
+        .card-pokemon { transition: 0.5s; position: relative; overflow: hidden; background: #000; border: 2px solid rgba(255,255,255,0.1); cursor: pointer; border-radius: 4px; }
+        .card-pokemon img { transition: 0.7s cubic-bezier(0.19, 1, 0.22, 1); filter: brightness(10%) grayscale(1); transform: scale(0.9); }
+        .card-pokemon:hover { transform: scale(1.05) translateY(-10px); z-index: 30; }
+        .card-pokemon:hover img { filter: brightness(100%) grayscale(0); transform: scale(1.2); }
+        
+        .card-snivy:hover { border: 7px solid var(--green-type); box-shadow: 0 0 40px rgba(74, 222, 128, 0.4); }
+        .card-tepig:hover { border: 7px solid var(--red-type); box-shadow: 0 0 40px rgba(248, 113, 113, 0.4); }
+        .card-oshawott:hover { border: 7px solid var(--blue-type); box-shadow: 0 0 40px rgba(96, 165, 250, 0.4); }
+
+        .card-scanline { width: 100%; height: 7px; position: absolute; top: -100%; left: 0; animation: card-scan 2.5s linear infinite; z-index: 10; opacity: 0; }
+        .card-pokemon:hover .card-scanline { opacity: 1; }
+        @keyframes card-scan { 0% { top: -100%; } 100% { top: 200%; } }
+
+        .core-card { position: relative; background: #000; border: 1px solid rgba(255,255,255,0.05); transition: 0.4s; z-index: 1; }
+        .core-card::after { content: ''; position: absolute; inset: -2px; background: linear-gradient(45deg, #003b00, var(--hacker-green), #003b00); z-index: -1; opacity: 0; transition: 0.3s; }
+        .core-card:hover::after { opacity: 1; }
+        .core-card:hover h4, .core-card:hover p, .core-card:hover i { color: #fff !important; opacity: 1 !important; }
+
+        .split-box { height: 100%; flex: 1; transition: 0.9s cubic-bezier(0.19, 1, 0.22, 1); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; padding: 60px; }
+        .split-box:hover { flex: 2.5; }
+        
+        .zekrom-img { position: absolute; right: -100px; bottom: 0; height: 75%; opacity: 0.5; transition: 0.9s cubic-bezier(0.19, 1, 0.22, 1); filter: drop-shadow(0 0 50px rgba(255,255,255,0.1)); transform: scaleX(1); }
+        .reshiram-img { position: absolute; left: -100px; bottom: 0; height: 75%; opacity: 0.5; transition: 0.9s cubic-bezier(0.19, 1, 0.22, 1); filter: drop-shadow(0 0 50px rgba(0,0,0,0.2)); transform: scaleX(-1); }
+
+        .split-box:hover .zekrom-img { opacity: 0.8; transform: scaleX(1) scale(1.05) translate(-20px, -10px); }
+        .split-box:hover .reshiram-img { opacity: 0.8; transform: scaleX(-1) scale(1.05) translate(20px, -10px); }
+
+        .event-message { background: rgba(10, 10, 10, 0.8); border-left: 8px solid #333; padding: 30px; margin-bottom: 25px; transition: 0.4s; }
+        .event-message:hover { transform: translateX(-20px); background: rgba(153, 27, 27, 0.1); border-left-color: #ef4444; }
+        .event-message:hover h4, .event-message:hover p { color: #f87171 !important; }
+
+        .celebi-float { position: absolute; width: 250px; z-index: 999; opacity: 0.4; pointer-events: none; filter: drop-shadow(0 0 7px #4ade80); transition: all 4s ease-in-out; }
+        @keyframes celebi-random { 0%   { top: 10%; left: 10%; transform: scale(1); } 25%  { top: 80%; left: 20%; transform: scale(1.2) rotate(10deg); } 50%  { top: 40%; left: 70%; transform: scale(0.8) rotate(-10deg); } 75%  { top: 20%; left: 80%; transform: scale(1.1); } 100% { top: 10%; left: 10%; transform: scale(1); }}
+
+        .footer-line-container { width: 100%; display: flex; justify-content: center; margin-bottom: 40px; }
+        .footer-line { width: 150px; height: 1px; background: linear-gradient(to right, transparent, #3b82f6, transparent); }
+        
+        .orbitron { font-family: 'Orbitron', sans-serif; }
+
+        .pokemon-transition-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; display: flex; flex-direction: column; z-index: 9998; pointer-events: none; }
+        .strip { flex: 1; background: black; width: 100%; transform: scaleX(1); transition: transform 0.6s cubic-bezier(0.8, 0, 0.2, 1); }
+        .strip:nth-child(odd) { transform-origin: left; }
+        .strip:nth-child(even) { transform-origin: right; }
+        .pokemon-transition-overlay.hidden .strip { transform: scaleX(0); }
+        .loader-content { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; transition: opacity 0.3s ease; }
+        .loader-content.fade-out { opacity: 0; pointer-events: none; }
+        @keyframes animationFrames { 0% { transform: rotate(0deg); } 100% { transform: rotate(-720deg); } }
+        #loader-svg { width: 300px; animation: animationFrames ease-in-out 1.2s infinite; }
+    </style>
+</head>
+<body>
+    <div class="master-bg">
+        <div class="grid-lines"></div>
+        <div class="dynamic-light light-1"></div>
+        <div class="dynamic-light light-2"></div>
+        <div id="bubbles"></div>
+    </div>
+
+    <nav class="fixed w-full z-50 px-10 py-6 flex justify-between items-center bg-black/70 backdrop-blur-md border-b border-black/5">
+        <div class="orbitron font-black text-2xl tracking-tighter text-white">VIRTUAL <span class="text-white opacity-60">LINKS!</span></div>
+        <div class="h-[1px] flex-grow mx-10 bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
+        <button class="btn-decrypt orbitron text-[10px] tracking-[0.3em] font-bold text-white">
+            <span class="original">ENCRYPTED_ACCESS</span>
+            <span class="revealed"><i class="fab fa-discord"></i> DISCORD</span>
+        </button>
+    </nav>
+
+    <section class="justify-center text-center relative">
+        <img src="https://www.dropbox.com/scl/fi/ep6ini3azdv1u4kgdarro/1740649_b9e37.gif?rlkey=1qma9fkqa52o8qw0xxz2zzlxz&st=v4zm63to&raw=1" class="celebi-float" alt="Celebi">
+        <div class="z-10 px-6">
+            <h2 class="orbitron text-white text-[10px] mb-6 tracking-[1.5em] opacity-60 uppercase">Neo Team Plasma // System</h2>
+            <div class="hero-container">
+                <div class="hero-scanline"></div>
+                <h1 class="orbitron text-6xl md:text-9xl font-black tracking-tighter title-gradient">VIRTUAL LINKS!</h1>
+                <h1 class="hero-title-corrupted font-black tracking-tighter text-6xl md:text-9xl">VIRTUAL LINKS!</h1>
+            </div>
+            <p class="max-w-3xl mx-auto mt-12 text-gray-500 text-lg italic font-light leading-relaxed">
+                "TEXTO PENDENTE"
+            </p>
+            <div class="flex justify-center gap-10 mt-16 relative z-30">
+                <button class="btn-modern"><span class="btn-text-content">LINK START!</span></button>
+                <button class="btn-modern"><span class="btn-text-content">POKÉDEX // ACCESS</span></button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-solid-white justify-end px-20">
+
+    <div class="max-w-6xl w-full text-right relative z-10">
+        <h2 class="orbitron text-5xl italic mb-4 uppercase tracking-tighter">O Chamado de Celebi</h2>
+        <p class="orbitron text-[11px] mb-16 tracking-[0.4em] text-white/40 uppercase font-bold">Viajante do Tempo Detectado // Sincronizando Realidade</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 relative z-20">
+                <div class="card-pokemon card-snivy p-10">
+                    <div class="card-scanline bg-[#4ade80] shadow-[0_0_15px_#4ade80]"></div>
+                    <span class="orbitron text-[#4ade80] text-6xl absolute top-3 right-3 font-black z-20 opacity-30">#495</span>
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/495.png" class="w-48 ml-auto mb-6 relative z-10">
+                    <h3 class="orbitron font-bold text-3xl text-[#4ade80] relative z-20 tracking-wider">SNIVY</h3>
+                    <p class="text-[12px] mt-5 leading-relaxed uppercase tracking-wide text-white relative z-20">TEXTO PENDENTE.</p>
+                </div>
+                <div class="card-pokemon card-tepig p-10">
+                    <div class="card-scanline bg-[#f87171] shadow-[0_0_15px_#f87171]"></div>
+                    <span class="orbitron text-[#f87171] text-6xl absolute top-3 right-3 font-black z-20 opacity-30">#498</span>
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/498.png" class="w-48 ml-auto mb-6 relative z-10">
+                    <h3 class="orbitron font-bold text-3xl text-[#f87171] relative z-20 tracking-wider">TEPIG</h3>
+                    <p class="text-[12px] mt-5 leading-relaxed uppercase tracking-wide text-white relative z-20">TEXTO PENDENTE.</p>
+                </div>
+                <div class="card-pokemon card-oshawott p-10">
+                    <div class="card-scanline bg-[#60a5fa] shadow-[0_0_15px_#60a5fa]"></div>
+                    <span class="orbitron text-[#60a5fa] text-6xl absolute top-3 right-3 font-black z-20 opacity-30">#501</span>
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/501.png" class="w-48 ml-auto mb-6 relative z-10">
+                    <h3 class="orbitron font-bold text-3xl text-[#60a5fa] relative z-20 tracking-wider">OSHAWOTT</h3>
+                    <p class="text-[12px] mt-5 leading-relaxed uppercase tracking-wide text-white relative z-20">TEXTO PENDENTE.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="justify-start px-20">
+        <div class="max-w-4xl z-10">
+            <h2 class="orbitron text-4xl font-black text-white mb-12 uppercase italic tracking-tight opacity-90">Core Virtual System</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-20">
+                <div class="core-card flex gap-5 p-10">
+                    <i class="fas fa-microchip text-5xl text-white opacity-20"></i>
+                    <div>
+                        <h4 class="orbitron font-bold text-lg text-white">G-PLASMA AI</h4>
+                        <p class="text-xs text-gray-500 mt-3 uppercase tracking-wider leading-relaxed">A entidade senciente que coordena a nova ordem. Uma mente coletiva digital que processa o destino de cada cidadão de Unova.</p>
+                    </div>
+                </div>
+                <div class="core-card flex gap-5 p-10">
+                    <i class="fas fa-network-wired text-5xl text-white opacity-20"></i>
+                    <div>
+                        <h4 class="orbitron font-bold text-lg text-white">REDE VIRTUAL LINKS</h4>
+                        <p class="text-xs text-gray-500 mt-3 uppercase tracking-wider leading-relaxed">O ecossistema que fundiu o mundo físico ao digital. Uma teia de conexões que sustenta a paz... ou a prisão perfeita.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="p-0 flex flex-row border-y border-white/5">
+        <div class="split-box bg-[#000] border-r border-white/10 group-black">
+            <img src="https://www.dropbox.com/scl/fi/8rqi5fah3wc9nvpabz1wq/zekrom-pokemon-zekrom.gif?rlkey=3pnox9gpmuplkppgkgo1vnpq6&st=2eeh47bo&raw=1" class="zekrom-img">
+            <div class="relative z-10">
+                <h2 class="orbitron text-7xl font-black text-white opacity-90 tracking-tighter">TEAM BLACK</h2>
+                <p class="text-white/60 orbitron text-xs tracking-[0.6em] my-8 uppercase font-bold">O Herói dos Ideais // Zekrom</p>
+                <p class="max-w-lg text-gray-400 italic text-xl leading-relaxed font-light">TEXTO PENDENTE.</p>
+            </div>
+        </div>
+        <div class="split-box bg-[#fff] text-black group-white">
+            <img src="https://www.dropbox.com/scl/fi/phpvhi62mgk2og9pcrbk3/reshiram-pokemon-reshiram.gif?rlkey=bj8pvr1jn7f1gd5hcyispzasv&st=uq6cusq2&raw=1" class="reshiram-img">
+            <div class="relative z-10 text-right ml-auto">
+                <h2 class="orbitron text-7xl font-black tracking-tighter">TEAM WHITE</h2>
+                <p class="text-black/60 orbitron text-xs tracking-[0.6em] my-8 uppercase font-bold">O Herói da Verdade // Reshiram</p>
+                <p class="max-w-lg text-gray-800 italic text-xl leading-relaxed font-light">TEXTO PENDENTE.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="justify-end px-20">
+        <div class="max-w-4xl w-full text-right">
+            <h2 class="orbitron text-5xl font-black text-white mb-16 uppercase italic tracking-tight">Mensagens do Sistema</h2>
+            <div class="space-y-8 relative z-20">
+                <div class="event-message">
+                    <span class="orbitron text-[11px] text-white font-bold tracking-[0.5em] opacity-50">PRIORITY // ALPHA</span>
+                    <h4 class="text-3xl font-bold mt-3 text-white uppercase italic">O Apagão de Castelia</h4>
+                    <p class="text-gray-400 mt-5 text-sm uppercase tracking-wide">TEXTO PENDENTE.</p>
+                </div>
+                <div class="event-message">
+                    <span class="orbitron text-[11px] text-white font-bold tracking-[0.5em] opacity-50">CRITICAL // OVERRIDE</span>
+                    <h4 class="text-3xl font-bold mt-3 text-white uppercase italic">Protocolo G-Ghetsis</h4>
+                    <p class="text-gray-400 mt-5 text-sm uppercase tracking-wide">TEXTO PENDENTE.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="flex-col justify-center text-center px-10 bg-black">
+        <div class="flex flex-col items-center mb-10">
+            <img src="https://www.dropbox.com/scl/fi/480cflc155lmxpkmlwr4j/centerpkmbw.png?rlkey=leovgwbvok4anolgjdjx92dui&st=liramjcz&raw=1" class="w-16 h-16 mb-4 opacity-80" alt="Center Icon">
+            <div class="orbitron text-blue-500 text-[10px] tracking-[1.5em] uppercase font-bold">Final Transmission</div>
+        </div>
+        <p class="orbitron text-[10px] font-light text-white/50 leading-relaxed italic max-w-2xl mx-auto mb-16 tracking-widest">
+            TEXTO PENDENTE.
+        </p>
+        <div class="footer-line-container">
+            <div class="footer-line"></div>
+        </div>
+        <p class="text-[9px] orbitron text-gray-700 tracking-[0.9em] uppercase">Virtual Links! Project // Resilience Engine v1.0 // Unova 2126</p>
+    </footer>
+     <script>
+(function() {
+    const STRIP_COUNT = 12;
+    const style = document.createElement('style');
+    style.textContent = `
+        body.loading { margin: 0; padding: 0; overflow: hidden; }
+        
+        .pokemon-transition-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            display: flex; flex-direction: column; z-index: 9998;
+            pointer-events: none;
+        }
+
+        .strip {
+            flex: 1;
+            background: black;
+            width: 100%;
+            transform: scaleX(1);
+            transition: transform 0.6s cubic-bezier(0.8, 0, 0.2, 1);
+        }
+
+        .strip:nth-child(odd) { transform-origin: left; }
+        .strip:nth-child(even) { transform-origin: right; }
+
+        .pokemon-transition-overlay.hidden .strip {
+            transform: scaleX(0);
+        }
+
+        ${Array.from({ length: STRIP_COUNT }).map((_, i) => `
+            .strip:nth-child(${i + 1}) { transition-delay: ${i * 0.04}s; }
+        `).join('')}
+
+        .loader-content {
+            position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999; transition: opacity 0.3s ease;
+        }
+        .loader-content.fade-out { opacity: 0; pointer-events: none; }
+
+        @keyframes animationFrames { 0% { transform: rotate(0deg); } 100% { transform: rotate(-720deg); } }
+        #loader-svg { width: 300px; animation: animationFrames ease-in-out 1.2s infinite; }
+        
+        #top1 { transform-origin: bottom center; animation: move_top1 ease-out 1.2s infinite; }
+        @keyframes move_top1 { 50% { transform: translate(-1.5%, -25%) scale(1.3) rotate(-0.5deg); } }
+        
+        #top2 { transform-origin: bottom left; animation: move_top2 ease-out 1.2s infinite; }
+        @keyframes move_top2 { 50% { transform: translate(-10%, 1%) scale(1.1) rotate(-2.1deg); } }
+        
+        #bottom1 { transform-origin: top center; animation: move_bottom1 ease-out 1.2s infinite; }
+        @keyframes move_bottom1 { 50% { transform: translate(0%, 45%) scale(1.3) rotate(0deg); } }
+        
+        #bottom2 { transform-origin: top left; animation: move_bottom2 ease-out 1.2s infinite; }
+        @keyframes move_bottom2 { 50% { transform: translate(38%, 1%) scale(1.3) rotate(-3.5deg); } }
+        
+        #bottom3 { transform-origin: top right; animation: move_bottom3 ease-out 1.2s infinite; }
+        @keyframes move_bottom3 { 50% { transform: translate(12%, 5%) scale(1.1) rotate(-1deg); } }
+        
+        #bottom4 { transform-origin: top left; animation: move_bottom4 ease-out 1.2s infinite; }
+        @keyframes move_bottom4 { 50% { transform: translate(-12%, 5%) scale(1.1) rotate(0deg); } }
+    `;
+    document.head.appendChild(style);
+
+    const overlay = document.createElement('div');
+    overlay.className = 'pokemon-transition-overlay';
+    for (let i = 0; i < STRIP_COUNT; i++) {
+        const strip = document.createElement('div');
+        strip.className = 'strip';
+        overlay.appendChild(strip);
+    }
+
+    const loaderContainer = document.createElement('div');
+    loaderContainer.className = 'loader-content';
+    loaderContainer.innerHTML = `
+        <svg id="loader-svg" viewBox="0 0 330 331.7">
+            <circle id="center" fill="#FFFFFF" cx="165" cy="165.9" r="36.5"/>
+            <g id="bottom">
+                <path id="bottom1" fill="#FFFFFF" d="M165,267.6c-28.7,0-54.6-11.9-73.1-31L76.2,252c22.5,23.2,53.9,37.6,88.8,37.6c30.5,0,58.4-11,80-29.3l-14.6-16.5C212.7,258.6,189.9,267.6,165,267.6z"/>
+                <path id="bottom2" fill="#FFFFFF" d="M288.1,178.4l-22.1,0c-3.2,26.1-16.4,49.2-35.6,65.3l14.6,16.5C268.7,240.1,284.8,211.2,288.1,178.4z"/>
+                <path id="bottom3" fill="#FFFFFF" d="M244.8,178.4C244.8,178.4,244.8,178.4,244.8,178.4l-21.8,0c-3.8,18.8-16.6,33.7-33.7,41.4l0,0l8.8,19.6c-9.4,4.3-19.8,6.8-30.8,7.1l0.5,21c50.6-1.4,92-39.8,98.1-89.1L244.8,178.4z"/>
+                <path id="bottom4" fill="#FFFFFF" d="M198.2,239.5l-8.8-19.6c-7.4,3.4-15.7,5.2-24.4,5.2c-28.4,0-52.1-20-57.9-46.6l-21.8,0l-0.1,0l-21.1,0c0,0.1,0,0.1,0,0.2l-0.1-0.2l-22.1,0.1c2.9,28.5,15.4,54.1,34.3,73.5l15.7-15.4l-0.1-0.2c18.5,19.2,44.5,31.1,73.2,31.1c0.9,0,1.9,0,2.8,0l-0.5-21C178.4,246.2,188.8,243.7,198.2,239.5z"/>
+            </g>
+            <g id="top">
+                <path id="top3" fill="#FFFFFF" d="M288.1,153.2c-2.2-22.1-10.3-42.5-22.7-59.7l-17.9,12.9l-17,12.3c0.1,0.2,0.2,0.3,0.3,0.5c-14.6-20.6-38.7-34-65.8-34c-40.3,0-73.7,29.5-79.8,68.1l21.9,0c5.8-26.7,29.5-46.6,57.9-46.6c28.4,0,52.1,20,57.9,46.6L288.1,153.2z"/>
+                <path id="top2" fill="#FFFFFF" d="M165,64.1c-39.2,0-73.3,22.2-90.2,54.7l-19.5-10.2c-7.1,13.6-11.7,28.6-13.3,44.6l22.1,0l21.2,0c6-38.6,39.5-68.1,79.8-68.1c7.9,0,15.6,1.2,22.8,3.3l5.9-20.2C184.6,65.6,175,64.1,165,64.1z"/>
+                <path id="top1" fill="#FFFFFF" d="M193.7,68.2l-5.9,20.2c17.4,5.1,32.4,15.9,42.7,30.3l17-12.3l17.9-12.9c-15.9-22-38.8-38.6-65.5-46.4c-11.1-3.3-22.8-5-34.9-5c-47.7,0-89.1,27-109.7,66.6l19.5,10.2c17-32.5,51-54.7,90.2-54.7C175,64.1,184.6,65.6,193.7,68.2"/>
+            </g>
+        </svg>
+    `;
+
+    document.body.appendChild(overlay);
+    document.body.appendChild(loaderContainer);
+    document.body.classList.add('loading');
+
+    window.addEventListener('load', function() {
+        loaderContainer.classList.add('fade-out');
+        setTimeout(() => {
+            overlay.classList.add('hidden');
+            document.body.classList.remove('loading');
+        }, 300);
+        setTimeout(() => {
+            overlay.remove();
+            loaderContainer.remove();
+        }, 2000);
+    });
+})();
+</script>
+
+<script>
+    const celebi = document.querySelector('.celebi-float');
+function moveCelebi() {
+  const x = Math.floor(Math.random() * (window.innerWidth - 200));
+  const y = Math.floor(Math.random() * (window.innerHeight - 200));
+  const r = Math.floor(Math.random() * 40) - 20;
+  celebi.style.left = `${x}px`; celebi.style.top = `${y}px`; celebi.style.transform = `rotate(${r}deg)`;
+}
+moveCelebi(); setInterval(moveCelebi, 4000);
+</script>
+</body>
+</html>
