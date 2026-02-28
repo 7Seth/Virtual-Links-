@@ -6,6 +6,7 @@
     <title>Unova: Trainer Card</title>
     <link rel="icon" href="https://www.dropbox.com/scl/fi/rda7ohwdqojn7q2goa66i/iconpkmbw.png?rlkey=w4amn3yc2nhewlzz2v136qfo4&st=63n5zpvx&raw=1" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         body { font-family: 'Press Start 2P', system-ui; background: #111; color: #111; margin: 0; padding: 20px 0; background-image: linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%), linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%); background-size: 66px 66px; background-position: 0 0, 30px 30px; }
         .trainer-card { width: 100%; max-width: 600px; height: auto; background-color: #f0f0f0; background-image: linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%), linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%); background-size: cover; background-position: 50% 50%; border: 12px solid #111; border-radius: 8px; box-shadow: 0 40px 80px -20px rgb(0 0 0 / 0.8), inset 0 0 60px rgba(255,255,255,0.4); position: relative; overflow: hidden; color: #111; box-sizing: border-box; margin: 0 auto; }
@@ -48,7 +49,7 @@
         .action-btn:hover { background: #111; color: #fff; transform: translateY(-1px); }
         .action-btn:active { transform: scale(0.98); }
         .container { max-width: 600px; margin: 0 auto; }
-        .buttons { margin-top: 20px; margin-bottom: 40px; display: flex; justify-content: center; gap: 2px; flex-wrap: wrap; }
+        .buttons { margin-top: 20px; margin-bottom: 40px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
 
         @media (max-width: 767px) {
             .message-input { font-size: 8px; }
@@ -252,6 +253,7 @@
         <div class="buttons flex justify-center gap-4">
             <button onclick="saveTrainerData()" class="action-btn">SALVAR</button>
             <button onclick="resetCard()" class="action-btn">RESETAR</button>
+            <button onclick="exportCard()" class="action-btn" style="background:#111;color:#fff;">DOWNLOAD</button>
         </div>
     </div>
 
@@ -259,14 +261,14 @@
         const unovaCities = ["Nuvema", "Accumula", "Striaton", "Nacrene", "Castelia", "Nimbasa", "Driftveil", "Mistralton", "Icirrus", "Opelucid", "Aspertia", "Floccesy", "Virbank", "Lentimas", "Undella", "Lacunosa"];
         const badWords = ['porra','caralho','foda','foder','merda','puta','puto','viado','buceta','pica','cu','cacete','bunda','filho da puta','foda-se','arrombado','babaca','corno','pau','rola','fuck','shit','asshole','bitch','cunt','dick','pussy','bastard','faggot','nigger','motherfucker','cock','whore','slut'];
         const unovaBadges = [
-            { id: 0, name: 'Trio', img: 'https://www.dropbox.com/scl/fi/xcyse44n51tk7gs38gif4/unova1.png?rlkey=uhnigyzxl4h3k33sac2f0r42p&st=qr1oebjl&raw=1' },
-            { id: 1, name: 'Basic', img: 'https://www.dropbox.com/scl/fi/qovm7kc1pms0lmehfcs99/unova2.png?rlkey=rpdbgo39wgvh1wgng6jowub33&st=kbu75e8e&raw=1' },
-            { id: 2, name: 'Insect', img: 'https://www.dropbox.com/scl/fi/3f25bzxbey2mveozxm7h7/unova3.png?rlkey=zavywa53fr6rt4oir1izyt4xp&st=s3cxio1d&raw=1' },
-            { id: 3, name: 'Bolt', img: 'https://www.dropbox.com/scl/fi/qrowli1zzy7conb855ami/unova4.png?rlkey=5fi4kapm21jn9ihrww6397l2w&st=kelyf4es&raw=1' },
-            { id: 4, name: 'Quake', img: 'https://www.dropbox.com/scl/fi/fvnyj0sp5se2f8mredxlp/unova5.png?rlkey=kxwgwqujzdxinb3kmmp4wtge5&st=tuwwmm17&raw=1' },
-            { id: 5, name: 'Jet', img: 'https://www.dropbox.com/scl/fi/phc85uh3kqzg15r7bxj22/unova6.png?rlkey=6lirdtnsp8d9ed46xukfcb962&st=u5gqn21e&raw=1' },
-            { id: 6, name: 'Freeze', img: 'https://www.dropbox.com/scl/fi/pnjg8s68jr6bwzufotmxd/unova7.png?rlkey=o2qdc51l5606wqnu003c7ubfo&st=j1gxnizi&raw=1' },
-            { id: 7, name: 'Legend', img: 'https://www.dropbox.com/scl/fi/2ob8ryqbn365fudoomzz7/unova8.png?rlkey=our1fnhosk020ysxhfqaco0id&st=h4xwp5h7&raw=1' }
+            { id: 0, name: 'Trio', img: 'unova1.png' },
+            { id: 1, name: 'Basic', img: 'unova2.png' },
+            { id: 2, name: 'Insect', img: 'unova3.png' },
+            { id: 3, name: 'Bolt', img: 'unova4.png' },
+            { id: 4, name: 'Quake', img: 'unova5.png' },
+            { id: 5, name: 'Jet', img: 'unova6.png' },
+            { id: 6, name: 'Freeze', img: 'unova7.png' },
+            { id: 7, name: 'Legend', img: 'unova8.png' }
         ];
         let currentID = '000000', isDataSaved = false, trainerData = {}, currentPhotoURL = 'https://www.dropbox.com/scl/fi/480cflc155lmxpkmlwr4j/centerpkmbw.png?rlkey=leovgwbvok4anolgjdjx92dui&st=y2wu3x1a&raw=1';
         const card = document.getElementById('trainer-card'), nameInput = document.getElementById('name-input'), idDisplay = document.getElementById('card-id'), genderSelect = document.getElementById('gender-select'), ageInput = document.getElementById('age-input'), heightInput = document.getElementById('height-input'), weightInput = document.getElementById('weight-input'), originSelect = document.getElementById('origin-select'), messageInput = document.getElementById('message-input'), cardPhoto = document.getElementById('card-photo'), photoArea = document.getElementById('photo-area'), photoUpload = document.getElementById('photo-upload');
@@ -430,6 +432,50 @@
         function focusHeight() { heightInput.focus(); }
         function focusWeight() { weightInput.focus(); }
         function focusOrigin() { originSelect.focus(); }
+        function exportCard() {
+            const cardElement = document.getElementById('trainer-card');
+            html2canvas(cardElement, {
+                scale: 3,
+                useCORS: true,
+                backgroundColor: cardElement.style.backgroundColor || '#f0f0f0',
+                logging: false,
+                onclone: (clonedDoc) => {
+                    const clonedCard = clonedDoc.getElementById('trainer-card');
+                    clonedDoc.querySelectorAll('input, select, textarea').forEach(el => {
+                        if (el.id === 'photo-upload') return;
+                        const span = clonedDoc.createElement('span');
+                        let text = '';
+                        if (el.tagName === 'SELECT') {
+                            text = el.options[el.selectedIndex] ? el.options[el.selectedIndex].textContent : el.value;
+                        } else {
+                            text = el.value || '';
+                        }
+                        span.textContent = text;
+                        span.style.cssText = window.getComputedStyle(el).cssText;
+                        span.style.border = 'none';
+                        span.style.background = 'transparent';
+                        span.style.padding = '0';
+                        span.style.margin = '0';
+                        span.style.textAlign = el.style.textAlign || 'center';
+                        span.style.fontWeight = '900';
+                        el.parentNode.replaceChild(span, el);
+                    });
+                }
+            }).then(canvas => {
+                const fileName = `unova-trainer-card-${currentID || '000000'}.png`;
+                const link = document.createElement('a');
+                link.download = fileName;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                const btn = document.querySelector('button[onclick="exportCard()"]');
+                const originalText = btn.textContent;
+                btn.textContent = '✅ BAIXADO!';
+                setTimeout(() => btn.textContent = originalText, 2000);
+            }).catch(err => {
+                console.error('Erro no html2canvas:', err);
+                alert('Erro ao gerar a imagem.\n\nDica: Use Live Server (VS Code) ou hospede o arquivo.');
+            });
+        }
         window.onload = init;
     </script>
 </body>
