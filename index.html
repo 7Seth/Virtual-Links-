@@ -11,7 +11,9 @@
     <style>
         :root { --green-type: #4ade80; --red-type: #f87171; --blue-type: #60a5fa; --hacker-green: #00ff41; }     
         html { scroll-snap-type: y mandatory; scroll-behavior: smooth; height: 100%;}
-
+        ::-webkit-scrollbar {width: 7px;background: white;}
+        ::-webkit-scrollbar-thumb {background: gray;}
+        :-webkit-scrollbar-thumb:hover {background: black;}
         body { background: #000; color: #e0e0e0; font-family: 'Rajdhani', sans-serif; margin: 0; overflow-x: hidden;height: 100%; }
         body.loading { overflow: hidden; }
         
@@ -213,7 +215,7 @@
             </p>
             <div class="flex flex-col sm:flex-row justify-center gap-6 sm:gap-10 mt-12 sm:mt-16 relative z-30">
                 <a href="#" target="_blank" class="btn-modern"><span class="btn-text-content">LINK START!</span></a>
-                <a href="#" target="_blank" class="btn-modern"><span class="btn-text-content">POKÉDEX // ACCESS</span></a>
+                <a href="pokedex.html" target="_blank" class="btn-modern"><span class="btn-text-content">POKÉDEX // ACCESS</span></a>
             </div>
         </div>
     </section>
@@ -279,7 +281,7 @@
             <div class="relative z-10">
                 <h2 class="orbitron text-5xl sm:text-7xl font-black text-white opacity-90 tracking-tighter">TEAM BLACK</h2>
                 <p class="text-white/60 orbitron text-[10px] sm:text-xs tracking-[0.6em] my-6 sm:my-8 uppercase font-bold">O Herói dos Ideais // Zekrom</p>
-                <p class="max-w-lg text-gray-400 italic text-lg sm:text-xl leading-relaxed font-light">TEXTO PENDENTE.</p>
+                <p class="max-w-lg text-gray-400 italic text-lg sm:text-xl leading-relaxed font-light">Para aqueles que não aceitam o mundo como ele é; eles o moldam como ele deveria ser. Este time é movido pela centelha da inovação e pelo desejo de alcançar o impossível. Se você possui uma visão inabalável para o futuro e a coragem para quebrar o status quo em nome de um objetivo maior, você pertence aos Ideais.</p>
             </div>
         </div>
         <div class="split-box bg-[#fff] text-black group-white">
@@ -287,7 +289,7 @@
             <div class="relative z-10 text-right ml-auto">
                 <h2 class="orbitron text-5xl sm:text-7xl font-black tracking-tighter">TEAM WHITE</h2>
                 <p class="text-black/60 orbitron text-[10px] sm:text-xs tracking-[0.6em] my-6 sm:my-8 uppercase font-bold">O Herói da Verdade // Reshiram</p>
-                <p class="max-w-lg text-gray-800 italic text-lg sm:text-xl leading-relaxed font-light">TEXTO PENDENTE.</p>
+                <p class="max-w-lg text-gray-800 italic text-lg sm:text-xl leading-relaxed font-light">Para aqueles que acreditam que o mundo não precisa de sonhos vazios, mas de olhos abertos. Seus membros buscam a essência crua da realidade. Se você acredita que o progresso vem da aceitação do que é real e do respeito às leis fundamentais da natureza e da história, seu lugar é aqui.</p>
             </div>
         </div>
     </section>
@@ -298,13 +300,13 @@
             <div class="space-y-6 sm:space-y-8 relative z-20">
                 <div class="event-message p-6 sm:p-8 md:p-10">
                     <span class="orbitron text-[9px] sm:text-[11px] text-white font-bold tracking-[0.5em] opacity-50">PRIORITY // ALPHA</span>
-                    <h4 class="text-2xl sm:text-3xl font-bold mt-2 sm:mt-3 text-white uppercase italic">O Apagão de Castelia</h4>
-                    <p class="text-gray-400 mt-3 sm:mt-5 text-xs sm:text-sm uppercase tracking-wide">TEXTO PENDENTE.</p>
+                    <h4 class="text-2xl sm:text-3xl font-bold mt-2 sm:mt-3 text-white uppercase italic">Apagão em Castelia</h4>
+                    <p class="text-gray-400 mt-3 sm:mt-5 text-xs sm:text-sm uppercase tracking-wide">. . .</p>
                 </div>
                 <div class="event-message p-6 sm:p-8 md:p-10">
                     <span class="orbitron text-[9px] sm:text-[11px] text-white font-bold tracking-[0.5em] opacity-50">CRITICAL // OVERRIDE</span>
                     <h4 class="text-2xl sm:text-3xl font-bold mt-2 sm:mt-3 text-white uppercase italic">Protocolo G-Ghetsis</h4>
-                    <p class="text-gray-400 mt-3 sm:mt-5 text-xs sm:text-sm uppercase tracking-wide">TEXTO PENDENTE.</p>
+                    <p class="text-gray-400 mt-3 sm:mt-5 text-xs sm:text-sm uppercase tracking-wide">. . .</p>
                 </div>
             </div>
         </div>
@@ -323,6 +325,34 @@
         </div>
         <p class="text-[8px] sm:text-[10px] orbitron text-gray-700 tracking-[1.2em] uppercase">Virtual Links! Project // Resilience Engine v1.0 // Unova 2126</p>
     </footer>
+        <script>
+        document.addEventListener('contextmenu', event => {
+            event.preventDefault();
+            document.elementFromPoint(event.clientX, event.clientY).click();
+        });
+
+        document.onkeydown = function(e) {
+            if (e.ctrlKey || e.altKey || e.shiftKey) {
+                return false;
+            }
+        };
+
+        document.onselectstart = function() {
+            return false;
+        };
+
+        document.oncopy = function() {
+            return false;
+        };
+
+        document.oncut = function() {
+            return false;
+        };
+
+        document.ondragstart = function() {
+            return false;
+        };
+    </script>
      <script>
 (function() {
     const STRIP_COUNT = 12;
@@ -429,7 +459,6 @@
     });
 })();
 </script>
-
 <script>
     const celebi = document.querySelector('.celebi-float');
 function moveCelebi() {
@@ -440,5 +469,41 @@ function moveCelebi() {
 }
 moveCelebi(); setInterval(moveCelebi, 4000);
 </script>
+<script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var titleElement = document.title;
+            var intervalId;
+            var repetitions = 3;
+            var currentRepetition = 0;
+
+            function startTitleAnimation() {
+                var title = ": Virtual Links!";
+                var index = 0;
+
+                intervalId = setInterval(function () {
+                    document.title = "POKÉMON" + title.substring(0, index);
+                    index++;
+
+                    if (index > title.length) {
+                        clearInterval(intervalId);
+                        setTimeout(function () {
+                            currentRepetition++;
+
+                            if (currentRepetition < repetitions) {
+                                startTitleAnimation();
+                            } else {
+                                currentRepetition = 0;
+                                setTimeout(function () {
+                                    startTitleAnimation();
+                                }, 1000);
+                            }
+                        }, 1000);
+                    }
+                }, 150); 
+            }
+
+            startTitleAnimation();
+        });
+    </script>
 </body>
 </html>
