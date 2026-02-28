@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Unova Link - Terminal v4.0 Elite</title>
+<link rel="shortcut icon" href="https://www.dropbox.com/scl/fi/rda7ohwdqojn7q2goa66i/iconpkmbw.png?rlkey=w4amn3yc2nhewlzz2v136qfo4&st=qkdl9xhk&raw=1" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Teko:wght@400;600&family=Orbitron:wght@400;700&family=Rajdhani:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+:root { --unova-blue: #00f2ff; --unova-black: #000000; --bg-dark: #000000; --card-white: #ffffff; }
+body { background: var(--bg-dark); color: white; font-family: 'Teko', sans-serif; margin: 0; overflow-x: hidden; user-select: none; }
+.master-bg { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: #000; }
+.grid-lines { background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px); background-size: 50px 50px; width: 100%; height: 100%; opacity: 0.5; }
+.dynamic-light { position: absolute; width: 60vw; height: 60vw; border-radius: 50%; filter: blur(150px); opacity: 0.07; mix-blend-mode: screen; animation: light-move 20s infinite alternate ease-in-out; background: #fff; }
+.light-1 { top: -10%; left: -10%; }
+.light-2 { bottom: -10%; right: -10%; animation-delay: -5s; }
+@keyframes light-move { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(10%, 5%) scale(1.1); } 100% { transform: translate(-5%, 10%) scale(0.9); } }
+.nav-container { border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000; width: 100%; padding: 15px 40px; display: flex; align-items: center; justify-content: space-between; }
+.header-line { flex-grow: 1; height: 1px; margin: 0 30px; background: linear-gradient(to right, transparent, rgba(0, 242, 255, 0.4), transparent); }
+.search-input { background: #000; border: 1px solid rgba(255,255,255,0.1); color: white; font-family: 'Orbitron'; padding: 8px 15px; font-size: 10px; outline: none; width: 220px; transition: 0.3s; }
+.search-input:focus { border-color: white; }
+.btn-modern { position: relative; padding: 8px 20px; font-weight: 900; overflow: hidden; background: #000; color: #fff; border: 1px solid rgba(255,255,255,0.2); clip-path: polygon(0 0, 92% 0, 100% 25%, 100% 100%, 8% 100%, 0 75%); transition: 0.3s; font-family: 'Orbitron', sans-serif; font-size: 10px; letter-spacing: 1px; cursor: pointer; }
+.btn-modern:hover { transform: translateY(-3px) scale(1.03); border-color: #fff; box-shadow: 0 5px 15px rgba(255,255,255,0.1); }
+.btn-modern:hover .btn-text-content { opacity: 0; }
+.btn-modern::before { content: 'SYSTEM_ERR'; position: absolute; inset: 0; background: transparent; color: #fff; display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.1s; z-index: 5; font-weight: 400; text-shadow: 0 0 8px #fff; }
+.btn-modern:hover::before { opacity: 1; animation: btn-glitch-text 0.4s steps(1) infinite; }
+@keyframes btn-glitch-text { 0% { content: 'FETCHING...'; } 25% { content: 'UNOVA_NET'; } 50% { content: 'ACCESSING'; } 75% { content: 'FILTERING'; } }
+.type-dropdown { position: relative; }
+.drop-content { display: none; position: absolute; background: #000; border: 1px solid white; width: 280px; padding: 10px; z-index: 2000; grid-template-columns: 1fr 1fr; gap: 5px; right: 0; box-shadow: 0 0 30px #000; }
+.type-dropdown:hover .drop-content { display: grid; }
+.type-pill { padding: 4px; font-family: 'Rajdhani'; font-weight: 600; cursor: pointer; border: 1px solid transparent; opacity: 0.4; font-size: 11px; text-align: center; text-transform: uppercase; color: white; transition: 0.2s; }
+.type-pill.active { opacity: 1; border-color: white; box-shadow: 0 0 8px currentColor; }
+.btn-decrypt { min-width: 180px; height: 35px; transition: 0.4s; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.1); font-size: 10px; letter-spacing: 2px; font-family: 'Orbitron'; background: transparent; color: white; cursor: pointer; }
+.btn-decrypt .revealed { display: none; }
+.btn-decrypt:hover .original { display: none; }
+.btn-decrypt:hover .revealed { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; height: 100%; background: #fff; color: #000; position: absolute; top: 0; left: 0; font-weight: bold; }
+.counter-display { font-family: 'Press Start 2P'; font-size: 8px; color: rgba(255,255,255,0.4); margin-bottom: 20px; text-align: center; width: 100%; }
+#scroll-nav { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background: #000; border: 2px solid #fff; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10001; font-family: 'Orbitron'; clip-path: polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%); transition: 0.3s; }
+#scroll-nav:hover { box-shadow: 0 0 15px white; }
+#pokedex { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 50px; max-width: 1400px; margin: 40px auto; padding: 0 40px 50px; }
+.pokemon-card { background: var(--card-white); border: 6px solid var(--unova-black); position: relative; color: var(--unova-black); display: flex; flex-direction: column; height: 1000px; transition: 0.4s; box-shadow: 12px 12px 0px rgba(255, 255, 255, 0.05); }
+.pokemon-card:hover { transform: translateY(-10px); box-shadow: 0 0 40px rgba(255,255,255,0.2); }
+.pokemon-card.captured { border-color: var(--unova-black); box-shadow: 0 0 30px rgba(255,255,255,0.15); }
+.capture-zone { position: absolute; top: 15px; right: 15px; z-index: 10; border: 3px solid #000; width: 30px; height: 30px; background: white; }
+.capture-checkbox { appearance: none; width: 100%; height: 100%; cursor: pointer; margin: 0; }
+.capture-checkbox:checked { background: var(--unova-black); }
+.img-container { height: 260px; display: flex; align-items: center; justify-content: center; background: white; }
+.pkmn-img { width: 90%; height: 90%; object-fit: contain; filter: brightness(0); transition: 0.6s; }
+.pokemon-card:hover .pkmn-img, .pokemon-card.captured .pkmn-img { filter: brightness(1); }
+.film-strip { height: 45px; background: var(--unova-black); display: flex; justify-content: space-around; align-items: center; }
+.film-strip span { width: 30px; height: 45px; background: white; }
+.card-body { background: var(--unova-black); color: white; flex-grow: 1; padding: 25px; display: flex; flex-direction: column; }
+.id-num { font-family: 'Orbitron'; color: white; opacity: 0.5; font-size: 1.2rem; }
+.name { font-size: 2.8rem; text-transform: uppercase; line-height: 0.8; margin: 8px 0; font-weight: 700; color: white; }
+.description { font-family: 'Press Start 2P'; font-size: 8px; color: #aaa; line-height: 1.5; margin-bottom: 15px; height: 45px; overflow: hidden; }
+.type-tag { display: inline-block; padding: 4px 12px; font-size: 0.8rem; text-transform: uppercase; margin-right: 5px; font-family: 'Press Start 2P'; color: white; }
+.level-header { display: flex; justify-content: space-between; align-items: center; font-family: 'Orbitron'; color: white; margin: 10px 0; }
+.lvl-input { background: white; color: black; border: none; width: 45px; font-family: 'Orbitron'; font-weight: bold; text-align: center; }
+.lvl-slider { width: 100%; accent-color: white; }
+.stat-line { display: flex; justify-content: space-between; font-family: 'Press Start 2P'; font-size: 8px; margin-bottom: 6px; }
+.stat-val { color: white; }
+.moves-list { overflow-y: auto; height: 180px; border: 1px solid #222; background: rgba(255,255,255,0.03); margin-top: 10px; }
+.moves-list::-webkit-scrollbar { width: 6px; background: transparent; }
+.moves-list::-webkit-scrollbar-thumb { background: white; }
+.move-item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #111; font-size: 8px; font-family: 'Press Start 2P'; cursor: crosshair; border-left: 6px solid #444; }
+.move-item:hover { background: rgba(255, 255, 255, 0.05); }
+.move-lvl.learned { color: white; }
+.rank-selector { margin-top: auto; display: flex; align-items: center; justify-content: space-between; padding-top: 15px; border-top: 1px solid #333; }
+.rank-label { font-family: 'Orbitron'; color: white; opacity: 0.6; font-size: 0.7rem; }
+.rank-icons { display: flex; gap: 8px; }
+.rank-btn { width: 25px; height: 12px; background: #222; border: 1px solid #444; cursor: pointer; clip-path: polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%); }
+.rank-btn.active { background: white; box-shadow: 0 0 10px white; border-color: white; }
+#region-selector { display: flex; justify-content: center; gap: 15px; padding: 60px 0; background: rgba(0,0,0,0.95); border-top: 1px solid rgba(255,255,255,0.1); margin-top: 50px; }
+.region-btn { width: 60px; height: 60px; background: #000; border: 1px solid #333; color: #555; font-family: 'Orbitron'; font-size: 22px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; clip-path: polygon(15% 0, 100% 0, 85% 100%, 0 100%); }
+.region-btn.active { border-color: white; color: white; box-shadow: 0 0 20px rgba(255,255,255,0.2); transform: scale(1.1); }
+#move-hud { position: fixed; display: none; z-index: 10000; background: rgba(0, 0, 0, 0.98); border: 1px solid white; padding: 15px; width: 280px; pointer-events: none; font-family: 'Orbitron'; box-shadow: 0 0 30px rgba(255, 255, 255, 0.1); clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%); }
+::-webkit-scrollbar {width: 7px; background: black;}
+::-webkit-scrollbar-thumb {background: #333;}
+::-webkit-scrollbar-thumb:hover {background: #555;}
+</style>
+</head>
+<body onkeydown="return handleKeys(event)">
+<div class="master-bg">
+<div class="grid-lines"></div>
+<div class="dynamic-light light-1"></div>
+<div class="dynamic-light light-2"></div>
+</div>
+<nav class="nav-container">
+<div class="orbitron font-black text-xl tracking-tighter text-white flex items-center">POKÉDEX <span class="text-white opacity-50 ml-2">POKÉMON</span></div>
+<div class="header-line"></div>
+<div class="flex items-center gap-6">
+<input type="text" id="name-search" class="search-input" placeholder="BUSCAR DATABASE..." oninput="applyFilters()">
+<div class="type-dropdown">
+<button class="btn-modern" id="type-label"><span class="btn-text-content">FILTRAR TIPOS (0)</span></button>
+<div class="drop-content" id="type-filters"></div>
+</div>
+<button class="btn-decrypt" onclick="clearAllFilters()">
+<span class="original">ENCRYPTED_ACCESS</span>
+<span class="revealed"><i class="fas fa-sync"></i> LIMPAR</span>
+</button>
+</div>
+</nav>
+<div class="pt-10">
+<div class="counter-display" id="main-counter">0 / 0 DESCOBERTOS</div>
+</div>
+<div id="scroll-nav" onclick="handleScrollNav()">▼</div>
+<div id="move-hud">
+<div id="hud-name" style="color:white;border-bottom:1px solid #222;margin-bottom:10px"></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:10px">
+<div>PWR: <span id="hud-pwr" style="color:white">--</span></div>
+<div>ACC: <span id="hud-acc" style="color:white">--</span></div>
+<div>PP: <span id="hud-pp" style="color:white">--</span></div>
+<div>TIPO: <span id="hud-type" style="color:white">--</span></div>
+</div>
+<div id="hud-desc" style="font-size:9px;margin-top:10px;color:#888;font-family:sans-serif"></div>
+</div>
+<div id="pokedex"></div>
+<div id="region-selector">
+<div class="region-btn" id="btn-5" onclick="changeRegion(5, 494, 649, this)">5</div>
+<div class="region-btn" id="btn-4" onclick="changeRegion(4, 387, 493, this)">4</div>
+<div class="region-btn" id="btn-3" onclick="changeRegion(3, 252, 386, this)">3</div>
+<div class="region-btn" id="btn-2" onclick="changeRegion(2, 152, 251, this)">2</div>
+<div class="region-btn" id="btn-1" onclick="changeRegion(1, 1, 151, this)">1</div>
+</div>
+<script>
+const TYPE_COLORS = { fire: '#F08030', water: '#6890F0', grass: '#78C850', electric: '#F8D030', ice: '#98D8D8', fighting: '#C03028', poison: '#A040A0', ground: '#E0C068', flying: '#A890F0', psychic: '#F85888', bug: '#A8B820', rock: '#B8A038', ghost: '#705898', dragon: '#7038F8', dark: '#705848', steel: '#B8B8D0', normal: '#A8A878', fairy: '#EE99AC' };
+let capturedList = JSON.parse(localStorage.getItem('unova_capture_list')) || [];
+let selectedTypes = [];
+let currentRegionCount = 0;
+let moveCache = {};
+let abortController = null;
+async function init() {
+const tf = document.getElementById('type-filters');
+Object.keys(TYPE_COLORS).forEach(t => {
+const p = document.createElement('div');
+p.className='type-pill'; p.style.backgroundColor=TYPE_COLORS[t]; p.innerText=t;
+p.onclick=() => {
+p.classList.toggle('active');
+const i=selectedTypes.indexOf(t);
+i>-1?selectedTypes.splice(i,1):selectedTypes.push(t);
+document.getElementById('type-label').querySelector('.btn-text-content').innerText = `FILTRAR TIPOS (${selectedTypes.length})`;
+applyFilters();
+};
+tf.appendChild(p);
+});
+changeRegion(5, 494, 649, document.getElementById('btn-5'));
+}
+async function changeRegion(gen, start, end, btn) {
+if (abortController) abortController.abort();
+abortController = new AbortController();
+document.querySelectorAll('.region-btn').forEach(b => b.classList.remove('active'));
+btn.classList.add('active');
+const grid = document.getElementById('pokedex');
+grid.innerHTML = '<div style="font-family:Orbitron; color:white; opacity:0.3; grid-column: 1/-1; text-align:center; padding: 100px; letter-spacing:5px">SINCRONIZANDO DATABASE REGIONAL...</div>';
+currentRegionCount = (end - start) + 1;
+updateMainCounter();
+for (let i = start; i <= end; i++) {
+try {
+const p = await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`, { signal: abortController.signal }).then(r => r.json());
+const s = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${i}`, { signal: abortController.signal }).then(r => r.json());
+if (i === start) grid.innerHTML = '';
+grid.appendChild(createCardElement(p, s));
+} catch (e) { if (e.name !== 'AbortError') console.log(e); }
+}
+}
+function createCardElement(p, s) {
+const desc = s.flavor_text_entries.find(e => e.language.name === 'en')?.flavor_text.replace(/\f/g, ' ') || "";
+const isCap = capturedList.includes(p.id);
+const card = document.createElement('div');
+card.className = `pokemon-card ${isCap?'captured':''}`;
+card.setAttribute('data-id', p.id);
+card.setAttribute('data-name', p.name);
+card.setAttribute('data-types', p.types.map(t => t.type.name).join(','));
+card.innerHTML = `<div class="capture-zone"><input type="checkbox" class="capture-checkbox" ${isCap?'checked':''} onchange="toggleCap(${p.id})"></div><div class="img-container"><img src="${p.sprites.other['official-artwork'].front_default}" class="pkmn-img" loading="lazy"></div><div class="film-strip"><span></span><span></span><span></span><span></span><span></span></div><div class="card-body"><div class="id-num">#${p.id}</div><div class="name">${p.name}</div><div class="description">${desc}</div><div style="margin-bottom:15px">${p.types.map(t => `<span class="type-tag" style="background:${TYPE_COLORS[t.type.name]}">${t.type.name}</span>`).join('')}</div><div class="level-control"><div class="level-header"><span>ESTATÍSTICAS</span><input type="number" class="lvl-input" value="1" min="1" max="100" oninput="updSt(${p.id})"></div><input type="range" class="lvl-slider" min="1" max="100" value="1" oninput="sync(${p.id},this.value)"><div class="stats-box">${p.stats.map(st => `<div class="stat-line"><span>${st.stat.name.toUpperCase()}</span><span class="stat-val" data-base="${st.base_stat}">${st.base_stat}</span></div>`).join('')}</div></div><div class="moves-list" id="m-${p.id}"><div style="padding:20px; font-size:8px; color:white; opacity:0.3">AGUARDANDO SEQUÊNCIA...</div></div><div class="rank-selector"><span class="rank-label">ELITE RANK</span><div class="rank-icons">${[1,2,3].map(i => `<div class="rank-btn" onclick="setR(${p.id},${i})"></div>`).join('')}</div></div></div>`;
+setTimeout(() => loadMovesSerial(p), 100);
+return card;
+}
+async function loadMovesSerial(p) {
+const container = document.getElementById(`m-${p.id}`);
+if (!container) return;
+const mvs = p.moves.filter(m => m.version_group_details[0].move_learn_method.name === "level-up").sort((a,b) => a.version_group_details[0].level_learned_at - b.version_group_details[0].level_learned_at);
+let html = '';
+for (const m of mvs) {
+const mName = m.move.name;
+let d;
+if (moveCache[mName]) { d = moveCache[mName]; } 
+else { try { d = await fetch(m.move.url).then(r => r.json()); moveCache[mName] = d; } catch(e) { continue; } }
+html += `<div class="move-item" data-lvl="${m.version_group_details[0].level_learned_at}" style="border-left-color:${TYPE_COLORS[d.type.name]}" onmousemove="shHUD(event,'${d.name.toUpperCase()}','${d.power}','${d.accuracy}','${d.pp}','${d.type.name}','${d.effect_entries.find(e => e.language.name==='en')?.short_effect||""}')" onmouseleave="hiHUD()"><span>${mName.replace(/-/g,' ').toUpperCase()}</span><span class="move-lvl">LVL ${m.version_group_details[0].level_learned_at}</span></div>`;
+}
+container.innerHTML = html;
+updSt(p.id);
+}
+function clearAllFilters() {
+document.getElementById('name-search').value = '';
+selectedTypes = [];
+document.querySelectorAll('.type-pill').forEach(p => p.classList.remove('active'));
+document.getElementById('type-label').querySelector('.btn-text-content').innerText = 'FILTRAR TIPOS (0)';
+applyFilters();
+}
+function applyFilters() {
+const s = document.getElementById('name-search').value.toLowerCase();
+document.querySelectorAll('.pokemon-card').forEach(c => {
+const t = c.dataset.types.split(',');
+const mN = c.dataset.name.includes(s) || c.dataset.id.includes(s);
+const mT = selectedTypes.length === 0 || selectedTypes.some(type => t.includes(type));
+c.style.display = mN && mT ? 'flex' : 'none';
+});
+}
+function sync(id, v) { const c = document.querySelector(`[data-id="${id}"]`); if (c) { c.querySelector('.lvl-input').value = v; updSt(id); } }
+function updSt(id) {
+const c = document.querySelector(`[data-id="${id}"]`); if (!c) return;
+const l = parseInt(c.querySelector('.lvl-input').value) || 1;
+const r = c.querySelectorAll('.rank-btn.active').length;
+c.querySelectorAll('.stat-val').forEach(e => {
+const b = parseInt(e.dataset.base);
+e.innerText = Math.floor(b + (b*(l/50)) + (r*20));
+});
+c.querySelectorAll('.move-item').forEach(i => {
+const req = parseInt(i.dataset.lvl);
+i.querySelector('.move-lvl').classList.toggle('learned', req <= l);
+i.style.opacity = req <= l ? "1" : "0.3";
+});
+}
+function setR(id, v) { const b = document.querySelectorAll(`[data-id="${id}"] .rank-btn`); b.forEach((x, i) => x.classList.toggle('active', i < v)); updSt(id); }
+function toggleCap(id) { 
+const i = capturedList.indexOf(id); i > -1 ? capturedList.splice(i, 1) : capturedList.push(id); 
+localStorage.setItem('unova_capture_list', JSON.stringify(capturedList)); 
+document.querySelector(`[data-id="${id}"]`).classList.toggle('captured'); 
+updateMainCounter(); 
+}
+function updateMainCounter() { 
+const cur = document.querySelectorAll('.pokemon-card.captured').length;
+const counter = document.getElementById('main-counter');
+if(counter) counter.innerText = `${cur} / ${currentRegionCount} DESCOBERTOS`; 
+}
+function shHUD(e, n, pw, ac, pp, t, d) { const h = document.getElementById('move-hud'); h.style.display = 'block'; h.style.left = (e.clientX+15)+'px'; h.style.top = (e.clientY+15)+'px'; document.getElementById('hud-name').innerText = n; document.getElementById('hud-pwr').innerText = pw!=='null'?pw:'--'; document.getElementById('hud-acc').innerText = ac!=='null'?ac:'--'; document.getElementById('hud-pp').innerText = pp; document.getElementById('hud-type').innerText = t.toUpperCase(); document.getElementById('hud-desc').innerText = d.replace(/\$effect_chance/g, ''); }
+function hiHUD() { document.getElementById('move-hud').style.display = 'none'; }
+function handleScrollNav() { const mid = (document.documentElement.scrollHeight - window.innerHeight) / 2; window.scrollTo({ top: window.scrollY > mid ? 0 : document.documentElement.scrollHeight, behavior: 'smooth' }); }
+window.onscroll = () => { const b = document.getElementById('scroll-nav'); b.innerText = window.scrollY > (document.documentElement.scrollHeight - window.innerHeight) / 2 ? '▲' : '▼'; };
+function handleKeys(e) { if ((e.ctrlKey || e.shiftKey || e.altKey) && e.keyCode !== 82) return false; if (e.keyCode === 123) return false; }
+init();
+</script>
+<script>
+(function() {
+    const STRIP_COUNT = 12;
+    const style = document.createElement('style');
+    style.textContent = `
+        body.loading { margin: 0; padding: 0; overflow: hidden; }
+        
+        .pokemon-transition-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            display: flex; flex-direction: column; z-index: 9998;
+            pointer-events: none;
+        }
+
+        .strip {
+            flex: 1;
+            background: black;
+            width: 100%;
+            transform: scaleX(1);
+            transition: transform 0.6s cubic-bezier(0.8, 0, 0.2, 1);
+        }
+
+        .strip:nth-child(odd) { transform-origin: left; }
+        .strip:nth-child(even) { transform-origin: right; }
+
+        .pokemon-transition-overlay.hidden .strip {
+            transform: scaleX(0);
+        }
+
+        ${Array.from({ length: STRIP_COUNT }).map((_, i) => `
+            .strip:nth-child(${i + 1}) { transition-delay: ${i * 0.04}s; }
+        `).join('')}
+
+        .loader-content {
+            position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999; transition: opacity 0.3s ease;
+        }
+        .loader-content.fade-out { opacity: 0; pointer-events: none; }
+
+        @keyframes animationFrames { 0% { transform: rotate(0deg); } 100% { transform: rotate(-720deg); } }
+        #loader-svg { width: 300px; animation: animationFrames ease-in-out 1.2s infinite; }
+        
+        #top1 { transform-origin: bottom center; animation: move_top1 ease-out 1.2s infinite; }
+        @keyframes move_top1 { 50% { transform: translate(-1.5%, -25%) scale(1.3) rotate(-0.5deg); } }
+        
+        #top2 { transform-origin: bottom left; animation: move_top2 ease-out 1.2s infinite; }
+        @keyframes move_top2 { 50% { transform: translate(-10%, 1%) scale(1.1) rotate(-2.1deg); } }
+        
+        #bottom1 { transform-origin: top center; animation: move_bottom1 ease-out 1.2s infinite; }
+        @keyframes move_bottom1 { 50% { transform: translate(0%, 45%) scale(1.3) rotate(0deg); } }
+        
+        #bottom2 { transform-origin: top left; animation: move_bottom2 ease-out 1.2s infinite; }
+        @keyframes move_bottom2 { 50% { transform: translate(38%, 1%) scale(1.3) rotate(-3.5deg); } }
+        
+        #bottom3 { transform-origin: top right; animation: move_bottom3 ease-out 1.2s infinite; }
+        @keyframes move_bottom3 { 50% { transform: translate(12%, 5%) scale(1.1) rotate(-1deg); } }
+        
+        #bottom4 { transform-origin: top left; animation: move_bottom4 ease-out 1.2s infinite; }
+        @keyframes move_bottom4 { 50% { transform: translate(-12%, 5%) scale(1.1) rotate(0deg); } }
+    `;
+    document.head.appendChild(style);
+
+    const overlay = document.createElement('div');
+    overlay.className = 'pokemon-transition-overlay';
+    for (let i = 0; i < STRIP_COUNT; i++) {
+        const strip = document.createElement('div');
+        strip.className = 'strip';
+        overlay.appendChild(strip);
+    }
+
+    const loaderContainer = document.createElement('div');
+    loaderContainer.className = 'loader-content';
+    loaderContainer.innerHTML = `
+        <svg id="loader-svg" viewBox="0 0 330 331.7">
+            <circle id="center" fill="#FFFFFF" cx="165" cy="165.9" r="36.5"/>
+            <g id="bottom">
+                <path id="bottom1" fill="#FFFFFF" d="M165,267.6c-28.7,0-54.6-11.9-73.1-31L76.2,252c22.5,23.2,53.9,37.6,88.8,37.6c30.5,0,58.4-11,80-29.3l-14.6-16.5C212.7,258.6,189.9,267.6,165,267.6z"/>
+                <path id="bottom2" fill="#FFFFFF" d="M288.1,178.4l-22.1,0c-3.2,26.1-16.4,49.2-35.6,65.3l14.6,16.5C268.7,240.1,284.8,211.2,288.1,178.4z"/>
+                <path id="bottom3" fill="#FFFFFF" d="M244.8,178.4C244.8,178.4,244.8,178.4,244.8,178.4l-21.8,0c-3.8,18.8-16.6,33.7-33.7,41.4l0,0l8.8,19.6c-9.4,4.3-19.8,6.8-30.8,7.1l0.5,21c50.6-1.4,92-39.8,98.1-89.1L244.8,178.4z"/>
+                <path id="bottom4" fill="#FFFFFF" d="M198.2,239.5l-8.8-19.6c-7.4,3.4-15.7,5.2-24.4,5.2c-28.4,0-52.1-20-57.9-46.6l-21.8,0l-0.1,0l-21.1,0c0,0.1,0,0.1,0,0.2l-0.1-0.2l-22.1,0.1c2.9,28.5,15.4,54.1,34.3,73.5l15.7-15.4l-0.1-0.2c18.5,19.2,44.5,31.1,73.2,31.1c0.9,0,1.9,0,2.8,0l-0.5-21C178.4,246.2,188.8,243.7,198.2,239.5z"/>
+            </g>
+            <g id="top">
+                <path id="top3" fill="#FFFFFF" d="M288.1,153.2c-2.2-22.1-10.3-42.5-22.7-59.7l-17.9,12.9l-17,12.3c0.1,0.2,0.2,0.3,0.3,0.5c-14.6-20.6-38.7-34-65.8-34c-40.3,0-73.7,29.5-79.8,68.1l21.9,0c5.8-26.7,29.5-46.6,57.9-46.6c28.4,0,52.1,20,57.9,46.6L288.1,153.2z"/>
+                <path id="top2" fill="#FFFFFF" d="M165,64.1c-39.2,0-73.3,22.2-90.2,54.7l-19.5-10.2c-7.1,13.6-11.7,28.6-13.3,44.6l22.1,0l21.2,0c6-38.6,39.5-68.1,79.8-68.1c7.9,0,15.6,1.2,22.8,3.3l5.9-20.2C184.6,65.6,175,64.1,165,64.1z"/>
+                <path id="top1" fill="#FFFFFF" d="M193.7,68.2l-5.9,20.2c17.4,5.1,32.4,15.9,42.7,30.3l17-12.3l17.9-12.9c-15.9-22-38.8-38.6-65.5-46.4c-11.1-3.3-22.8-5-34.9-5c-47.7,0-89.1,27-109.7,66.6l19.5,10.2c17-32.5,51-54.7,90.2-54.7C175,64.1,184.6,65.6,193.7,68.2"/>
+            </g>
+        </svg>
+    `;
+
+    document.body.appendChild(overlay);
+    document.body.appendChild(loaderContainer);
+    document.body.classList.add('loading');
+
+    window.addEventListener('load', function() {
+        loaderContainer.classList.add('fade-out');
+        setTimeout(() => {
+            overlay.classList.add('hidden');
+            document.body.classList.remove('loading');
+        }, 300);
+        setTimeout(() => {
+            overlay.remove();
+            loaderContainer.remove();
+        }, 2000);
+    });
+})();
+</script>
+<script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var titleElement = document.title;
+            var intervalId;
+            var repetitions = 3;
+            var currentRepetition = 0;
+
+            function startTitleAnimation() {
+                var title = ": Virtual Links!";
+                var index = 0;
+
+                intervalId = setInterval(function () {
+                    document.title = "POKÉMON" + title.substring(0, index);
+                    index++;
+
+                    if (index > title.length) {
+                        clearInterval(intervalId);
+                        setTimeout(function () {
+                            currentRepetition++;
+
+                            if (currentRepetition < repetitions) {
+                                startTitleAnimation();
+                            } else {
+                                currentRepetition = 0;
+                                setTimeout(function () {
+                                    startTitleAnimation();
+                                }, 1000);
+                            }
+                        }, 1000);
+                    }
+                }, 150); 
+            }
+
+            startTitleAnimation();
+        });
+    </script>
+</body>
+</html>
