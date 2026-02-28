@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unova: Trainer Card</title>
+    <link rel="icon" href="https://www.dropbox.com/scl/fi/rda7ohwdqojn7q2goa66i/iconpkmbw.png?rlkey=w4amn3yc2nhewlzz2v136qfo4&st=63n5zpvx&raw=1" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Press Start 2P', system-ui; background: #111; color: #111; margin: 0; padding: 20px 0; background-image: linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%), linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%); background-size: 66px 66px; background-position: 0 0, 30px 30px; }
+        .trainer-card { width: 100%; max-width: 600px; height: auto; background-color: #f0f0f0; background-image: linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%), linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%); background-size: cover; background-position: 50% 50%; border: 12px solid #111; border-radius: 8px; box-shadow: 0 40px 80px -20px rgb(0 0 0 / 0.8), inset 0 0 60px rgba(255,255,255,0.4); position: relative; overflow: hidden; color: #111; box-sizing: border-box; margin: 0 auto; }
+        .trainer-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(transparent 50%, rgba(0,0,0,0.015) 50%), linear-gradient(90deg, transparent 50%, rgba(0,0,0,0.015) 50%); background-size: 60px 60px; pointer-events: none; opacity: 0.5; }
+        .card-header { background: #111; color: #fff; padding: 8px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 6px solid #111; }
+        .header-icon { width: 30px; height: 30px; object-fit: contain; border-radius: 0; box-shadow: none; }
+        .content { padding: 10px; display: flex; flex-direction: column; gap: 10px; }
+        .top-section { display: flex; flex-direction: row; gap: 10px; align-items: flex-start; }
+        .left { display: flex; flex-direction: column; align-items: center; }
+        .photo-area { width: 160px; height: 160px; background: #fff; border: 4px solid #111; border-radius: 0; overflow: hidden; cursor: pointer; transition: all 0.2s; margin: 0 auto; }
+        .photo-area:hover { transform: scale(1.02); }
+        .photo-area img { width: 100%; height: 100%; object-fit: cover; }
+        .photo-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; color: #fff; font-size: 10px; text-align: center; padding: 6px; flex-direction: column; }
+        .photo-area:hover .photo-overlay { display: flex; }
+        .name-field { background: transparent; border-bottom: 3px solid #111; border-left: none; border-right: none; border-top: none; border-radius: 0; padding: 2px 8px; height: 24px; margin-top: 16px; position: relative; width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .name-input { font-size: 12px; font-weight: 900; letter-spacing: 0.6px; background: transparent; border: none; width: 100%; text-align: center; color: #111; outline: none; text-transform: uppercase; font-family: 'Press Start 2P', system-ui; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+        .message-area { background: rgba(0,0,0,0.9); color: #fff; border: 3px solid #111; border-radius: 8px; padding: 6px 8px; min-height: 100px; max-height: 100px; overflow: hidden; margin-top: 12px; width: 160px; }
+        .message-input { width: 100%; height: auto; background: transparent; border: none; color: #fff; font-size: 10px; line-height: 1.2; resize: none; outline: none; text-align: left; font-style: italic; font-family: 'Press Start 2P', system-ui; }
+        .right { flex: 1; display: flex; flex-direction: column; justify-content: flex-start; }
+        .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-top: 0; }
+        .stat-box { background: #fff; border: 3px solid #111; border-radius: 4px; padding: 6px 4px; position: relative; min-height: 35px; display: flex; align-items: center; justify-content: space-between; margin-top: 2px; margin-bottom: 2px; }
+        .stat-label { font-size: 8px; color: #111; font-weight: 700; letter-spacing: 0.8px; position: absolute; top: -8px; left: 8px; background: #fff; padding: 0 3px; }
+        .stat-input { font-size: 12px; font-weight: 900; background: transparent; border: none; width: 40%; outline: none; color: #000; padding: 0; text-align: right; cursor: pointer; font-family: 'Press Start 2P', system-ui; }
+        .stat-unit { font-size: 8px; font-weight: 700; color: #000; margin-left: 3px; white-space: nowrap; font-family: 'Press Start 2P', system-ui; }
+        .gender-box { background: #fff; border: 3px solid #111; border-radius: 4px; padding: 6px 4px; position: relative; min-height: 35px; display: flex; align-items: center; justify-content: center; }
+        .gender-select { font-size: 12px; text-align: center; font-weight: 700; background: transparent; border: none; outline: none; color: #111; cursor: pointer; font-family: 'Press Start 2P', system-ui; }
+        .origin-box { grid-column: span 2; background: #fff; border: 3px solid #111; border-radius: 4px; position: relative; min-height: 35px; }
+        .select-input { font-size: 10px; font-weight: 700; background: transparent; border: none; width: 100%; outline: none; color: #111; appearance: none; padding-right: 15px; cursor: pointer; font-family: 'Press Start 2P', system-ui; }
+        .badges { margin-top: 8px; padding: 6px 8px; height: auto; border-radius: 8px; }
+        .badges-grid { display: grid; grid-template-columns: repeat(4, 30px); gap: 10px; height: auto; justify-content: center; }
+        .badge { width: 100%; aspect-ratio: 1; background-color: #111; background-size: contain; background-repeat: no-repeat; background-position: center; border: 2px solid #111; border-radius: 3px; transition: all 0.2s; }
+        .badge:hover { transform: scale(1.05); }
+        .panels { display: flex; flex-direction: column; gap: 10px; justify-content: center; margin: 20px auto 10px; max-width: 90%; }
+        .color-panel, .badges-panel { background: #fff; border: 3px solid #111; border-radius: 8px; padding: 10px; flex: 1; min-width: 100%; box-shadow: 0 20px 40px -10px rgb(0 0 0 / 0.3); }
+        .color-row, .badge-row { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; margin-bottom: 8px; }
+        .color-row label, .badge-row label { font-size: 8px; font-weight: 700; color: #111; min-width: auto; }
+        .color-row input[type="color"] { width: 35px; height: 20px; border: 2px solid #111; border-radius: 3px; cursor: pointer; }
+        .badge-select { font-size: 9px; font-weight: 700; background: transparent; border: 1px solid #111; width: 100%; outline: none; color: #111; padding: 2px; font-family: 'Press Start 2P', system-ui; }
+        .action-btn { font-family: 'Press Start 2P', system-ui; font-size: 10px; font-weight: 700; padding: 6px 16px; border: 2px solid #111; border-radius: 2px; background: #fff; color: #111; cursor: pointer; transition: all 0.2s; letter-spacing: 0.4px; }
+        .action-btn:hover { background: #111; color: #fff; transform: translateY(-1px); }
+        .action-btn:active { transform: scale(0.98); }
+        .container { max-width: 600px; margin: 0 auto; }
+        .buttons { margin-top: 20px; margin-bottom: 40px; display: flex; justify-content: center; gap: 2px; flex-wrap: wrap; }
+
+        @media (max-width: 767px) {
+            .message-input { font-size: 8px; }
+            .stat-input { width: 50%; font-size: 10px; }
+            .name-input { font-size: 10px; }
+            .name-field { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        }
+
+        @media (min-width: 768px) {
+            .container { max-width: 800px; }
+            .trainer-card { max-width: 800px; }
+            .photo-area { width: 200px; height: 200px; }
+            .name-field, .message-area { width: 200px; }
+            .message-area { min-height: 70px; max-height: 70px; }
+            .header-icon { width: 40px; height: 40px; }
+            .card-header { padding: 12px 30px; }
+            .content { padding: 15px; gap: 15px; }
+            .top-section { gap: 15px; }
+            .stats { gap: 6px; }
+            .stat-box { padding: 8px 6px; min-height: 45px; }
+            .stat-label { font-size: 10px; top: -10px; left: 10px; }
+            .stat-input, .gender-select { font-size: 14px; }
+            .stat-unit { font-size: 10px; }
+            .select-input { font-size: 12px; }
+            .badges-grid { grid-template-columns: repeat(4, 40px); gap: 15px; }
+            .message-input { font-size: 10px; }
+            .name-input { font-size: 14px; }
+            .photo-overlay { font-size: 12px; }
+            .color-row input[type="color"] { width: 45px; height: 25px; }
+            .badge-select { font-size: 11px; }
+            .action-btn { font-size: 12px; padding: 8px 20px; }
+            .panels { max-width: 800px; flex-direction: row; gap: 20px; }
+            .color-panel, .badges-panel { min-width: auto; flex: 1; }
+        }
+
+        @media (min-width: 1024px) {
+            .container { max-width: 1000px; }
+            .trainer-card { max-width: 1000px; }
+            .photo-area { width: 240px; height: 240px; }
+            .name-field, .message-area { width: 240px; }
+            .message-area { min-height: 90px; max-height: 90px; }
+            .header-icon { width: 50px; height: 50px; }
+            .card-header { padding: 16px 40px; }
+            .content { padding: 20px; gap: 20px; }
+            .top-section { gap: 20px; }
+            .stats { gap: 8px; }
+            .stat-box { padding: 10px 8px; min-height: 55px; }
+            .stat-label { font-size: 12px; top: -12px; left: 12px; }
+            .stat-input, .gender-select { font-size: 16px; }
+            .stat-unit { font-size: 12px; }
+            .select-input { font-size: 14px; }
+            .badges-grid { grid-template-columns: repeat(4, 50px); gap: 20px; }
+            .message-input { font-size: 12px; }
+            .name-input { font-size: 16px; }
+            .photo-overlay { font-size: 14px; }
+            .color-row input[type="color"] { width: 55px; height: 30px; }
+            .badge-select { font-size: 13px; }
+            .action-btn { font-size: 14px; padding: 10px 24px; }
+            .panels { max-width: 1000px; flex-direction: row; gap: 20px; }
+            .color-panel, .badges-panel { min-width: auto; flex: 1; }
+        }
+
+        @media (min-width: 1440px) {
+            .container { max-width: 1200px; }
+            .trainer-card { max-width: 1200px; }
+            .photo-area { width: 280px; height: 280px; }
+            .name-field, .message-area { width: 280px; }
+            .message-area { min-height: 110px; max-height: 110px; }
+            .header-icon { width: 60px; height: 60px; }
+            .card-header { padding: 20px 50px; }
+            .content { padding: 25px; gap: 25px; }
+            .top-section { gap: 25px; }
+            .stats { gap: 10px; }
+            .stat-box { padding: 12px 10px; min-height: 65px; }
+            .stat-label { font-size: 14px; top: -14px; left: 14px; }
+            .stat-input, .gender-select { font-size: 18px; }
+            .stat-unit { font-size: 14px; }
+            .select-input { font-size: 16px; }
+            .badges-grid { grid-template-columns: repeat(4, 60px); gap: 25px; }
+            .message-input { font-size: 14px; }
+            .name-input { font-size: 18px; }
+            .photo-overlay { font-size: 16px; }
+            .color-row input[type="color"] { width: 65px; height: 35px; }
+            .badge-select { font-size: 15px; }
+            .action-btn { font-size: 16px; padding: 12px 28px; }
+            .panels { max-width: 1200px; flex-direction: row; gap: 20px; }
+            .color-panel, .badges-panel { min-width: auto; flex: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="trainer-card" class="trainer-card">
+            <div class="card-header">
+                <div class="flex items-center gap-3">
+                    <img id="header-icon" src="https://www.dropbox.com/scl/fi/480cflc155lmxpkmlwr4j/centerpkmbw.png?rlkey=leovgwbvok4anolgjdjx92dui&st=y2wu3x1a&raw=1" class="header-icon" alt="Unova Logo">
+                    <div>
+                        <div class="text-[10px] font-black tracking-widest opacity-70">REGIÃO</div>
+                        <div class="text-2xl font-black -mt-1">UNOVA</div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <div class="text-[11px] font-black tracking-widest">TREINADOR</div>
+                    <div id="card-id" class="font-mono text-3xl font-bold text-white tracking-widest">000000</div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="top-section">
+                    <div class="left">
+                        <div id="photo-area" class="photo-area">
+                            <img id="card-photo" src="https://www.dropbox.com/scl/fi/480cflc155lmxpkmlwr4j/centerpkmbw.png?rlkey=leovgwbvok4anolgjdjx92dui&st=y2wu3x1a&raw=1" alt="Foto do Treinador" class="w-full h-full object-cover">
+                            <div class="photo-overlay">TROCAR FOTO</div>
+                            <input id="photo-upload" type="file" accept="image/*" class="hidden">
+                        </div>
+                        <div class="name-field">
+                            <input id="name-input" type="text" maxlength="14" class="name-input" placeholder="">
+                        </div>
+                        <div class="message-area">
+                            <textarea id="message-input" class="message-input" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="stats">
+                            <div class="gender-box stat-box" onclick="focusGender()">
+                                <div class="stat-label">SEXO</div>
+                                <select id="gender-select" class="gender-select">
+                                    <option value=""></option>
+                                    <option value="Masculino">M</option>
+                                    <option value="Feminino">F</option>
+                                </select>
+                            </div>
+                            <div class="stat-box" onclick="focusAge()">
+                                <div class="stat-label">IDADE</div>
+                                <input id="age-input" type="number" min="09" max="999" maxlength="3" class="stat-input" value="">
+                                <span class="stat-unit">ANOS</span>
+                            </div>
+                            <div class="stat-box" onclick="focusHeight()">
+                                <div class="stat-label">ALTURA</div>
+                                <input id="height-input" type="number" min="140" max="999" maxlength="3" class="stat-input" value="">
+                                <span class="stat-unit">CM</span>
+                            </div>
+                            <div class="stat-box" onclick="focusWeight()">
+                                <div class="stat-label">PESO</div>
+                                <input id="weight-input" type="number" min="25" max="999" maxlength="3" class="stat-input" value="">
+                                <span class="stat-unit">KG</span>
+                            </div>
+                            <div class="origin-box stat-box" onclick="focusOrigin()">
+                                <div class="stat-label">ORIGEM</div>
+                                <select id="origin-select" class="select-input"></select>
+                            </div>
+                        </div>
+                        <div class="badges">
+                            <div id="badges-grid" class="badges-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panels">
+            <div class="color-panel">
+                <div class="color-row">
+                    <label>Fundo do Cartão</label>
+                    <input type="color" id="color-card-bg" value="#f0f0f0">
+                </div>
+                <div class="color-row">
+                    <label>Bordas do Cartão</label>
+                    <input type="color" id="color-card-border" value="#111111">
+                </div>
+                <div class="color-row">
+                    <label>Bordas Internas</label>
+                    <input type="color" id="color-border" value="#111111">
+                </div>
+                <div class="color-row">
+                    <label>Fonte das Informações</label>
+                    <input type="color" id="color-text" value="#111111">
+                </div>
+                <div class="color-row">
+                    <label>Fundo dos Títulos</label>
+                    <input type="color" id="color-label-bg" value="#ffffff">
+                </div>
+                <div class="color-row">
+                    <label>Borda do Recado</label>
+                    <input type="color" id="color-message-border" value="#111111">
+                </div>
+                <div class="color-row">
+                    <label>Fundo do Recado</label>
+                    <input type="color" id="color-message-bg" value="#111111">
+                </div>
+                <div class="color-row">
+                    <label>Fonte do Recado</label>
+                    <input type="color" id="color-message-text" value="#ffffff">
+                </div>
+            </div>
+            
+            <div class="badges-panel">
+                <div id="badges-selects"></div>
+            </div>
+        </div>
+        
+        <div class="buttons flex justify-center gap-4">
+            <button onclick="saveTrainerData()" class="action-btn">SALVAR</button>
+            <button onclick="resetCard()" class="action-btn">RESETAR</button>
+        </div>
+    </div>
+
+    <script>
+        const unovaCities = ["Nuvema", "Accumula", "Striaton", "Nacrene", "Castelia", "Nimbasa", "Driftveil", "Mistralton", "Icirrus", "Opelucid", "Aspertia", "Floccesy", "Virbank", "Lentimas", "Undella", "Lacunosa"];
+        const badWords = ['porra','caralho','foda','foder','merda','puta','puto','viado','buceta','pica','cu','cacete','bunda','filho da puta','foda-se','arrombado','babaca','corno','pau','rola','fuck','shit','asshole','bitch','cunt','dick','pussy','bastard','faggot','nigger','motherfucker','cock','whore','slut'];
+        const unovaBadges = [
+            { id: 0, name: 'Trio', img: 'https://www.dropbox.com/scl/fi/xcyse44n51tk7gs38gif4/unova1.png?rlkey=uhnigyzxl4h3k33sac2f0r42p&st=qr1oebjl&raw=1' },
+            { id: 1, name: 'Basic', img: 'https://www.dropbox.com/scl/fi/qovm7kc1pms0lmehfcs99/unova2.png?rlkey=rpdbgo39wgvh1wgng6jowub33&st=kbu75e8e&raw=1' },
+            { id: 2, name: 'Insect', img: 'https://www.dropbox.com/scl/fi/3f25bzxbey2mveozxm7h7/unova3.png?rlkey=zavywa53fr6rt4oir1izyt4xp&st=s3cxio1d&raw=1' },
+            { id: 3, name: 'Bolt', img: 'https://www.dropbox.com/scl/fi/qrowli1zzy7conb855ami/unova4.png?rlkey=5fi4kapm21jn9ihrww6397l2w&st=kelyf4es&raw=1' },
+            { id: 4, name: 'Quake', img: 'https://www.dropbox.com/scl/fi/fvnyj0sp5se2f8mredxlp/unova5.png?rlkey=kxwgwqujzdxinb3kmmp4wtge5&st=tuwwmm17&raw=1' },
+            { id: 5, name: 'Jet', img: 'https://www.dropbox.com/scl/fi/phc85uh3kqzg15r7bxj22/unova6.png?rlkey=6lirdtnsp8d9ed46xukfcb962&st=u5gqn21e&raw=1' },
+            { id: 6, name: 'Freeze', img: 'https://www.dropbox.com/scl/fi/pnjg8s68jr6bwzufotmxd/unova7.png?rlkey=o2qdc51l5606wqnu003c7ubfo&st=j1gxnizi&raw=1' },
+            { id: 7, name: 'Legend', img: 'https://www.dropbox.com/scl/fi/2ob8ryqbn365fudoomzz7/unova8.png?rlkey=our1fnhosk020ysxhfqaco0id&st=h4xwp5h7&raw=1' }
+        ];
+        let currentID = '000000', isDataSaved = false, trainerData = {}, currentPhotoURL = 'https://www.dropbox.com/scl/fi/480cflc155lmxpkmlwr4j/centerpkmbw.png?rlkey=leovgwbvok4anolgjdjx92dui&st=y2wu3x1a&raw=1';
+        const card = document.getElementById('trainer-card'), nameInput = document.getElementById('name-input'), idDisplay = document.getElementById('card-id'), genderSelect = document.getElementById('gender-select'), ageInput = document.getElementById('age-input'), heightInput = document.getElementById('height-input'), weightInput = document.getElementById('weight-input'), originSelect = document.getElementById('origin-select'), messageInput = document.getElementById('message-input'), cardPhoto = document.getElementById('card-photo'), photoArea = document.getElementById('photo-area'), photoUpload = document.getElementById('photo-upload');
+        const colorCardBg = document.getElementById('color-card-bg');
+        const colorCardBorder = document.getElementById('color-card-border');
+        const colorBorder = document.getElementById('color-border');
+        const colorText = document.getElementById('color-text');
+        const colorLabelBg = document.getElementById('color-label-bg');
+        const colorMessageBorder = document.getElementById('color-message-border');
+        const colorMessageBg = document.getElementById('color-message-bg');
+        const colorMessageText = document.getElementById('color-message-text');
+        function init() {
+            originSelect.innerHTML = '<option value=""></option>';
+            unovaCities.forEach(city => { const o = document.createElement('option'); o.value = city; o.textContent = city.toUpperCase(); originSelect.appendChild(o); });
+            const badgesGrid = document.getElementById('badges-grid');
+            badgesGrid.innerHTML = '';
+            for (let i = 0; i < 8; i++) {
+                const div = document.createElement('div');
+                div.className = 'badge';
+                div.dataset.index = i;
+                badgesGrid.appendChild(div);
+            }
+            const selectsContainer = document.getElementById('badges-selects');
+            selectsContainer.innerHTML = '';
+            for (let i = 0; i < 8; i++) {
+                const row = document.createElement('div');
+                row.className = 'badge-row';
+                row.innerHTML = `
+                    <label>Insígnia ${i+1}</label>
+                    <select id="badge-select-${i}" class="badge-select">
+                        <option value="">Nenhuma</option>
+                    </select>
+                `;
+                selectsContainer.appendChild(row);
+                const select = row.querySelector('select');
+                unovaBadges.forEach(badge => {
+                    const opt = document.createElement('option');
+                    opt.value = badge.id;
+                    opt.textContent = badge.name.toUpperCase();
+                    select.appendChild(opt);
+                });
+                select.addEventListener('change', handleBadgeSelectChange);
+            }
+            const saved = localStorage.getItem('unovaTrainerCardBW37');
+            if (saved) { trainerData = JSON.parse(saved); currentID = trainerData.id; isDataSaved = true; }
+            else { currentID = Math.floor(100000 + Math.random() * 900000).toString().padStart(6, '0'); isDataSaved = false; trainerData = { name: '', gender: '', age: '', height: '', weight: '', origin: '', message: '', photo: currentPhotoURL, badges: Array(8).fill(''), colors: { cardBg: '#f0f0f0', cardBorder: '#111111', border: '#111111', text: '#111111', labelBg: '#ffffff', messageBorder: '#111111', messageBg: '#111111', messageText: '#ffffff' } }; }
+            loadTrainerData();
+            [colorCardBg, colorCardBorder, colorBorder, colorText, colorLabelBg, colorMessageBorder, colorMessageBg, colorMessageText].forEach(el => el.addEventListener('input', applyColors));
+            nameInput.addEventListener('input', () => { nameInput.value = nameInput.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, '').slice(0, 14); updateLive(); });
+            genderSelect.addEventListener('change', updateLive); ageInput.addEventListener('input', updateLive); heightInput.addEventListener('input', updateLive); weightInput.addEventListener('input', updateLive); originSelect.addEventListener('change', updateLive); messageInput.addEventListener('input', () => { filterBadWords(); updateLive(); });
+            photoArea.addEventListener('click', () => photoUpload.click()); photoUpload.addEventListener('change', handlePhotoUpload);
+            originSelect.addEventListener('change', () => { originSelect.style.fontWeight = '900'; });
+        }
+        function loadTrainerData() {
+            nameInput.value = trainerData.name || ''; idDisplay.textContent = currentID; genderSelect.value = trainerData.gender || ''; ageInput.value = trainerData.age || ''; heightInput.value = trainerData.height || ''; weightInput.value = trainerData.weight || ''; originSelect.value = trainerData.origin || ''; messageInput.value = trainerData.message || '';
+            if (trainerData.photo) { currentPhotoURL = trainerData.photo; cardPhoto.src = currentPhotoURL; }
+            if (trainerData.badges && trainerData.badges.length === 8) {
+                for (let i = 0; i < 8; i++) {
+                    document.getElementById(`badge-select-${i}`).value = trainerData.badges[i] || '';
+                    updateBadgeDisplay(i);
+                }
+            }
+            if (trainerData.colors) {
+                colorCardBg.value = trainerData.colors.cardBg;
+                colorCardBorder.value = trainerData.colors.cardBorder;
+                colorBorder.value = trainerData.colors.border;
+                colorText.value = trainerData.colors.text;
+                colorLabelBg.value = trainerData.colors.labelBg;
+                colorMessageBorder.value = trainerData.colors.messageBorder;
+                colorMessageBg.value = trainerData.colors.messageBg;
+                colorMessageText.value = trainerData.colors.messageText;
+                applyColors();
+            }
+            updateLive();
+        }
+        function handleBadgeSelectChange(e) {
+            const changedSelect = e.target;
+            const allSelects = document.querySelectorAll('.badge-select');
+            const index = parseInt(changedSelect.id.split('-')[2]);
+            updateBadgeDisplay(index);
+            const selectedValues = Array.from(allSelects).map(s => s.value).filter(v => v !== '');
+            allSelects.forEach(select => {
+                Array.from(select.options).forEach(opt => {
+                    if (opt.value && selectedValues.includes(opt.value) && opt.value !== select.value) {
+                        opt.disabled = true;
+                    } else {
+                        opt.disabled = false;
+                    }
+                });
+            });
+        }
+        function updateBadgeDisplay(index) {
+            const select = document.getElementById(`badge-select-${index}`);
+            const badgeDiv = document.querySelector(`.badge[data-index="${index}"]`);
+            if (!badgeDiv) return;
+            const value = select.value;
+            if (value) {
+                const badge = unovaBadges.find(b => b.id == value);
+                badgeDiv.style.backgroundImage = `url(${badge.img})`;
+                badgeDiv.style.backgroundColor = '#111';
+                badgeDiv.style.border = '2px solid #888';
+                badgeDiv.style.borderRadius = '3px';
+            } else {
+                badgeDiv.style.backgroundImage = 'none';
+                badgeDiv.style.backgroundColor = '#111';
+                badgeDiv.style.border = '2px solid #111';
+                badgeDiv.style.borderRadius = '3px';
+            }
+        }
+        function applyColors() {
+            const cardBg = colorCardBg.value;
+            const cardBorder = colorCardBorder.value;
+            const border = colorBorder.value;
+            const textColor = colorText.value;
+            const labelBg = colorLabelBg.value;
+            const msgBorder = colorMessageBorder.value;
+            const msgBg = colorMessageBg.value;
+            const msgText = colorMessageText.value;
+            card.style.backgroundColor = cardBg;
+            card.style.borderColor = cardBorder;
+            document.querySelectorAll('.stat-box, .name-field, .gender-box, .origin-box, .badge').forEach(el => el.style.borderColor = border);
+            document.querySelectorAll('.stat-label, .stat-input, .stat-unit, .gender-select, .select-input, .name-input').forEach(el => {
+                el.style.color = textColor;
+                if (el.classList.contains('stat-label')) el.style.backgroundColor = labelBg;
+            });
+            document.querySelectorAll('.message-area').forEach(el => {
+                el.style.backgroundColor = msgBg;
+                el.style.borderColor = msgBorder;
+                el.style.color = msgText;
+            });
+            document.querySelectorAll('.message-input').forEach(el => el.style.color = msgText);
+        }
+        function updateLive() {}
+        function filterBadWords() {
+            let t = messageInput.value; badWords.forEach(w => { t = t.replace(new RegExp(w, 'gi'), '****'); }); messageInput.value = t;
+        }
+        function handlePhotoUpload(e) {
+            const f = e.target.files[0];
+            if (!f || f.size > 5 * 1024 * 1024) { alert('Foto inválida! Máx 5MB.'); return; }
+            const r = new FileReader(); r.onload = ev => { currentPhotoURL = ev.target.result; cardPhoto.src = currentPhotoURL; }; r.readAsDataURL(f);
+        }
+        function saveTrainerData() {
+            const badges = [];
+            for (let i = 0; i < 8; i++) {
+                badges.push(document.getElementById(`badge-select-${i}`).value || '');
+            }
+            trainerData = { id: currentID, name: nameInput.value.trim(), gender: genderSelect.value, age: ageInput.value, height: heightInput.value, weight: weightInput.value, origin: originSelect.value, message: messageInput.value.trim(), photo: currentPhotoURL, badges: badges, colors: { cardBg: colorCardBg.value, cardBorder: colorCardBorder.value, border: colorBorder.value, text: colorText.value, labelBg: colorLabelBg.value, messageBorder: colorMessageBorder.value, messageBg: colorMessageBg.value, messageText: colorMessageText.value } };
+            localStorage.setItem('unovaTrainerCardBW37', JSON.stringify(trainerData)); isDataSaved = true;
+            const b = document.querySelector('button[onclick="saveTrainerData()"]'); const o = b.textContent; b.textContent = 'SALVO!'; setTimeout(() => { b.textContent = o; }, 1400);
+        }
+        function resetCard() {
+            if (!confirm('Resetar TODO o cartão? ID, foto e tudo serão apagados.')) return;
+            localStorage.removeItem('unovaTrainerCardBW37'); isDataSaved = false;
+            currentID = Math.floor(100000 + Math.random() * 900000).toString().padStart(6, '0'); currentPhotoURL = 'https://www.dropbox.com/scl/fi/480cflc155lmxpkmlwr4j/centerpkmbw.png?rlkey=leovgwbvok4anolgjdjx92dui&st=y2wu3x1a&raw=1';
+            trainerData = { name: '', gender: '', age: '', height: '', weight: '', origin: '', message: '', photo: currentPhotoURL, badges: Array(8).fill(''), colors: { cardBg: '#f0f0f0', cardBorder: '#111111', border: '#111111', text: '#111111', labelBg: '#ffffff', messageBorder: '#111111', messageBg: '#111111', messageText: '#ffffff' } };
+            loadTrainerData();
+            const b = document.querySelector('button[onclick="resetCard()"]'); const o = b.textContent; b.textContent = 'RESETADO!'; setTimeout(() => { b.textContent = o; }, 1400);
+        }
+        function focusGender() { genderSelect.focus(); }
+        function focusAge() { ageInput.focus(); }
+        function focusHeight() { heightInput.focus(); }
+        function focusWeight() { weightInput.focus(); }
+        function focusOrigin() { originSelect.focus(); }
+        window.onload = init;
+    </script>
+</body>
+</html>
