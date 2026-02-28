@@ -16,9 +16,19 @@ body { background: var(--bg-dark); color: white; font-family: 'Teko', sans-serif
 .light-1 { top: -10%; left: -10%; }
 .light-2 { bottom: -10%; right: -10%; animation-delay: -5s; }
 @keyframes light-move { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(10%, 5%) scale(1.1); } 100% { transform: translate(-5%, 10%) scale(0.9); } }
-.nav-container { border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000; width: 100%; padding: 15px 40px; display: flex; align-items: center; justify-content: space-between; }
-.header-line { flex-grow: 1; height: 1px; margin: 0 30px; background: linear-gradient(to right, transparent, rgba(0, 242, 255, 0.4), transparent); }
-.search-input { background: #000; border: 1px solid rgba(255,255,255,0.1); color: white; font-family: 'Orbitron'; padding: 8px 15px; font-size: 10px; outline: none; width: 220px; transition: 0.3s; }
+.nav-container {
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+}
+.header-line {
+    display: none;
+}
+.search-input { background: #000; border: 1px solid rgba(255,255,255,0.1); color: white; font-family: 'Orbitron'; padding: 8px 15px; font-size: 10px; outline: none; transition: 0.3s; }
 .search-input:focus { border-color: white; }
 .btn-modern { position: relative; padding: 8px 20px; font-weight: 900; overflow: hidden; background: #000; color: #fff; border: 1px solid rgba(255,255,255,0.2); clip-path: polygon(0 0, 92% 0, 100% 25%, 100% 100%, 8% 100%, 0 75%); transition: 0.3s; font-family: 'Orbitron', sans-serif; font-size: 10px; letter-spacing: 1px; cursor: pointer; }
 .btn-modern:hover { transform: translateY(-3px) scale(1.03); border-color: #fff; box-shadow: 0 5px 15px rgba(255,255,255,0.1); }
@@ -78,6 +88,23 @@ body { background: var(--bg-dark); color: white; font-family: 'Teko', sans-serif
 ::-webkit-scrollbar {width: 7px; background: black;}
 ::-webkit-scrollbar-thumb {background: #333;}
 ::-webkit-scrollbar-thumb:hover {background: #555;}
+
+@media (min-width: 768px) {
+    .nav-container { padding: 15px 40px; }
+    .header-line {
+        display: block;
+        flex-grow: 1;
+        height: 1px;
+        margin: 0 30px;
+        background: linear-gradient(to right, transparent, rgba(0, 242, 255, 0.4), transparent);
+    }
+    .search-input { width: 220px !important; }
+}
+
+@media (max-width: 767px) {
+    .search-input { font-size: 13px; padding: 10px 14px; width: 100%; }
+    .btn-modern, .btn-decrypt { font-size: 9px; padding: 9px 16px; min-width: auto; height: 38px; }
+}
 </style>
 </head>
 <body onkeydown="return handleKeys(event)">
@@ -86,21 +113,25 @@ body { background: var(--bg-dark); color: white; font-family: 'Teko', sans-serif
 <div class="dynamic-light light-1"></div>
 <div class="dynamic-light light-2"></div>
 </div>
-<nav class="nav-container">
-<div class="orbitron font-black text-xl tracking-tighter text-white flex items-center">POKÉDEX <span class="text-white opacity-50 ml-2">POKÉMON</span></div>
-<div class="header-line"></div>
-<div class="flex items-center gap-6">
-<input type="text" id="name-search" class="search-input" placeholder="BUSCAR DATABASE..." oninput="applyFilters()">
-<div class="type-dropdown">
-<button class="btn-modern" id="type-label"><span class="btn-text-content">FILTRAR TIPOS (0)</span></button>
-<div class="drop-content" id="type-filters"></div>
-</div>
-<button class="btn-decrypt" onclick="clearAllFilters()">
-<span class="original">ENCRYPTED_ACCESS</span>
-<span class="revealed"><i class="fas fa-sync"></i> LIMPAR</span>
-</button>
-</div>
+
+<nav class="nav-container flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 px-4 md:px-10 py-4 md:py-[15px]">
+    <div class="orbitron font-black text-xl tracking-tighter text-white flex items-center w-full md:w-auto justify-center md:justify-start">
+        POKÉDEX <span class="text-white opacity-50 ml-2">POKÉMON</span>
+    </div>
+    <div class="header-line"></div>
+    <div class="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+        <input type="text" id="name-search" class="search-input" placeholder="BUSCAR DATABASE..." oninput="applyFilters()">
+        <div class="type-dropdown w-full sm:w-auto">
+            <button class="btn-modern w-full sm:w-auto" id="type-label"><span class="btn-text-content">FILTRAR TIPOS (0)</span></button>
+            <div class="drop-content" id="type-filters"></div>
+        </div>
+        <button class="btn-decrypt w-full sm:w-auto" onclick="clearAllFilters()">
+            <span class="original">ENCRYPTED_ACCESS</span>
+            <span class="revealed"><i class="fas fa-sync"></i> LIMPAR</span>
+        </button>
+    </div>
 </nav>
+
 <div class="pt-10">
 <div class="counter-display" id="main-counter">0 / 0 DESCOBERTOS</div>
 </div>
@@ -123,6 +154,7 @@ body { background: var(--bg-dark); color: white; font-family: 'Teko', sans-serif
 <div class="region-btn" id="btn-2" onclick="changeRegion(2, 152, 251, this)">2</div>
 <div class="region-btn" id="btn-1" onclick="changeRegion(1, 1, 151, this)">1</div>
 </div>
+
 <script>
 const TYPE_COLORS = { fire: '#F08030', water: '#6890F0', grass: '#78C850', electric: '#F8D030', ice: '#98D8D8', fighting: '#C03028', poison: '#A040A0', ground: '#E0C068', flying: '#A890F0', psychic: '#F85888', bug: '#A8B820', rock: '#B8A038', ghost: '#705898', dragon: '#7038F8', dark: '#705848', steel: '#B8B8D0', normal: '#A8A878', fairy: '#EE99AC' };
 let capturedList = JSON.parse(localStorage.getItem('unova_capture_list')) || [];
