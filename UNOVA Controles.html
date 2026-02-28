@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://www.dropbox.com/scl/fi/rda7ohwdqojn7q2goa66i/iconpkmbw.png?rlkey=w4amn3yc2nhewlzz2v136qfo4&st=63n5zpvx&raw=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Share+Tech&display=swap">
+    
+    <title>POKÉMON: Virtual Links!</title>
+    <style>
+        :root {font-size: 16px;}
+        img {user-select: none;}
+        body {background: #f8f8f8;margin: 0;padding: 0;font-family: 'Bungee', cursive;display: flex;flex-direction: row;height: 100vh;overflow: hidden;}
+        .title-font {font-family: 'Press Start 2P', cursive;}
+        body::before {content: '';position: fixed;top: 0;left: 0;width: 50%;height: 100%;background-color: #111;background-image: linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%), linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%);background-size: 66px 66px;background-position: 0 0, 30px 30px;z-index: -2;}
+        body::after {content: '';position: fixed;top: 0;right: 0;width: 50%;height: 100%;background-color: #f0f0f0;background-image: linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%), linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%);background-size: 66px 66px;background-position: 0 0, 30px 30px;z-index: -2;}
+        .left-container {width: 49.5%;height: 100vh;display: flex;flex-direction: column;overflow: hidden;}
+        .right-container {width: 50.5%;height: 100vh;overflow-y: auto;overflow-x: hidden;padding: 1rem;box-sizing: border-box;}
+        .content {font-family: 'Share Tech', sans-serif;line-height: 1.6;font-size: 1.1rem;border: 10px solid black;border-right: 7px dashed black;border-left: 7px dashed black;border-radius: 7px;padding: 70px;background: rgba(255,255,255, 0.75);display: flex;flex-direction: column;min-height: 100%;}
+        .content p {margin-bottom: 1rem;text-align: justify;}
+        .content-bottom {margin-top: auto;text-align: center;padding: 1rem;margin-bottom: 1rem;}
+        .content-bottom img {max-width: 5rem;height: auto;display: block;margin: 0 auto;}
+        .right-container::-webkit-scrollbar {width: 7px;background: white;}
+        .right-container::-webkit-scrollbar-thumb {background: gray;}
+        .right-container::-webkit-scrollbar-thumb:hover {background: black;}
+        header {background-color: rgba(0, 0, 0, 0.88);color: white;padding: 1.5rem;display: flex;align-items: center;justify-content: space-between;width: 100%;box-sizing: border-box;flex-shrink: 0;margin-top: 0.5%;}
+        header img {width: 2.25rem;height: auto;margin-top: -2vh;}
+        @keyframes gradientRepeat {0% {background-position: 0% 0%;}25% {background-position: 100% 0%;}50% {background-position: 100% 100%;}75% {background-position: 0% 100%;}100% {background-position: 0% 0%;}}
+        .cape {width: 99.5%;padding: 3.1rem 0;text-align: center;background: linear-gradient(135deg, #001F3F, #003366, #663399, #8A2BE2, #7FFFD4, #00CED1, #20B2AA, #3CB371, #2E8B57, #006400);display: flex;justify-content: center;align-items: center;background-size: 200% 200%;animation: gradientRepeat 7s linear infinite;flex-shrink: 0;}
+        .cape img {max-width: 5rem;height: auto;filter: contrast(40%) brightness(40%);animation: rotate 4s linear infinite;display: block;transition: filter 0.3s ease;}
+        .cape img:hover {filter: contrast(40%) brightness(100%);}
+        @keyframes rotate {0% {transform: rotate(0deg);}50% {transform: rotate(-200deg);}70% {transform: rotate(200deg);}100% {transform: rotate(0deg);}}
+        footer {background: linear-gradient(to bottom, #000000, #111111, #222222);color: white;padding: 3rem;text-align: center;border-bottom: 1.5rem double #222;width: 100%;flex-grow: 1;box-sizing: border-box;display: flex;flex-direction: column;justify-content: center;margin-bottom: 1px;}
+        .button-frame {display: flex;justify-content: space-between;align-items: flex-start;background: none;padding: 0.1rem 1.8rem 0.1rem 0.1rem;width: 100%;flex-shrink: 0;}
+        .main-menu {display: flex;flex-direction: column;align-items: start;user-select: none;width: 58%;}
+        .main-buttons {width: 100%;text-decoration: none;color: white;background-color: rgba(255,255,255, 0.4);border: 0.4rem groove white;border-right-style: ridge;border-bottom-style: ridge;font-family: 'Press Start 2P', sans-serif;font-size: 0.7rem;padding: 0.75rem 1rem;margin: 5px 0;cursor: pointer;box-sizing: border-box;}
+        .main-buttons:hover {border-color: cyan;border-right-style: ridge;border-bottom-style: ridge;border-radius: 0.25rem;}
+        .button-container {display: flex;justify-content: center;margin-top: 1rem;flex-wrap: wrap;}
+        .pokebutton {width: 3.1rem;height: 3.1rem;margin: 0 1rem;padding: 0;background-color: transparent;border-radius: 50%;border: 0.4rem groove white;border-right-style: ridge;border-bottom-style: ridge;overflow: hidden;cursor: pointer;}
+        .pokebutton img {width: 100%;height: 100%;border-radius: 50%;object-fit: cover;}
+        .pokebutton img:hover {filter: invert(100%);}
+        #date {font-size: 0.7rem;user-select: none;font-family: 'Share Tech', sans-serif;}
+        #clock {font-size: 0.9rem;user-select: none;font-family: 'Share Tech', sans-serif;}
+        .indicador {display: none;position: fixed;top: 0;right: 0;background-color: #222;padding: 0.7rem 0.5rem 0.5rem 0.7rem;width: 30%;text-align: center;color: white;font-family: 'Share Tech' !important;font-size: 1.1rem;z-index: 999999;border-radius: 0.5rem 0 0 0.5rem;}
+        @media (max-width: 768px) {body {flex-direction: column;height: auto;overflow-y: auto;}body::before {background-color: #f0f0f0;background-image: linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%), linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%);}body::after {top: 0;height: 100%;}.left-container {width: 100%;height: auto;order: 1;margin-bottom: 0;}.right-container {width: 100%;height: auto;flex-grow: 1;order: 2;padding: 1rem;margin-top: 0;border: 10px solid black;border-radius: 3px;box-sizing: border-box;position: relative;}.button-frame {position: sticky;top: 0;z-index: 10;background-color: rgba(0, 0, 0, 0.95);width: 100%;box-sizing: border-box;padding: 0.6rem 1rem;justify-content: space-between;}header {margin-top: 0;padding: 1rem;}header img {margin-top: 0;}.cape {padding: 2rem 0;}.cape img {max-width: 4rem;}footer {padding: 1.5rem;border-bottom-width: 1rem;margin-bottom: 0;}.main-buttons {font-size: 0.6rem;padding: 0.5rem 0.75rem;border-width: 0.3rem;}.pokebutton {width: 2.5rem;height: 2.5rem;margin: 0 0.5rem;border-width: 0.3rem;}.content {font-size: 1rem;padding: 1rem;min-height: auto;height: auto;display: flex;flex-direction: column;padding-bottom: 6rem;}.content-bottom {position: static;margin-top: auto;margin-bottom: 1rem;}.content-bottom img {max-width: 4rem;}.indicador {width: 50%;left: auto;right: 0;}.main-menu {width: 68%;}}
+        @media (max-width: 480px) {.pokebutton {width: 2rem;height: 2rem;margin: 0 0.25rem;}.button-container {margin-top: 0.5rem;}.content {padding: 0.5rem;padding-bottom: 4rem;}}
+        .down-arrow {display: flex;justify-content: center;margin-bottom: 1px;}
+        .down-arrow img {max-width: 3rem;height: auto;}
+    </style>
+</head>
+<body>
+
+    <div class="left-container">
+        <div class="button-frame">
+            <div class="main-menu">
+                <a href="" class="main-buttons">INTRO</a>
+                <a href="" class="main-buttons">ENREDO</a>
+                <a href="" class="main-buttons">AVENTURAS</a>
+                <a href="" class="main-buttons">SISTEMAS</a>
+                <a href="" class="main-buttons">CONTROLES</a>
+            </div>
+        </div>
+
+        <header>
+            <img src="https://www.dropbox.com/scl/fi/ll6ch6ff83v8lfb4ov08m/signalpkmbw.gif?rlkey=kzpsssn8sdfyac7oyxe4ds208&st=0tet7vai&raw=1">
+            <div id="date"></div>
+            <div id="clock"></div>
+        </header>
+        
+        <div class="cape">
+            <img src="https://www.dropbox.com/scl/fi/480cflc155lmxpkmlwr4j/centerpkmbw.png?rlkey=leovgwbvok4anolgjdjx92dui&st=y2wu3x1a&raw=1">
+        </div>
+        
+        <footer>
+            <div class="down-arrow">
+                <img src="https://www.dropbox.com/scl/fi/lg0rb2vflhy1tyrpr5y5s/arrow-down.gif?rlkey=pr6jtpp8y3u1qfcxglvro41vw&st=vzg7ydif&raw=1" alt="Down Arrow">
+            </div>
+
+            <div class="button-container">
+                <a href=""><div class="pokebutton" id="pokedex"><img title="Pokédex" src="https://www.dropbox.com/scl/fi/83u64f6125glsj2ds8vj9/pok-dexpkmbw.png?rlkey=1q2xwmp2h1t0ua96t3oluuk8j&st=epzb8imz&raw=1"></div></a>
+                
+                <a href=""><div class="pokebutton" id="pokemon"><img title="Pokémon" src="https://www.dropbox.com/scl/fi/vqi3i8v1j8twlltrg54jo/pok-monpkmbw.png?rlkey=ifl8w0g436gvw5g16b60pammm&st=5gl0sp9l&raw=1"></div></a>
+                
+                <a href=""><div class="pokebutton" id="mochila"><img title="Mochila" src="https://www.dropbox.com/scl/fi/30y4c4hvxy6rml9txwdz0/mochilapkmbw.png?rlkey=phjrfx6ityxyk80k0b3l6l5i8&st=eq22cuey&raw=1"></div></a>
+                
+                <a href=""><div class="pokebutton" id="mercado"><img title="Mercado" src="https://www.dropbox.com/scl/fi/n4nu7knoh265cu6ogztra/pokemartpkmbw.png?rlkey=zx4q3wp1ddpnjo7vukvzohjqe&st=20hh53k8&raw=1"></div></a>
+                
+                <a href=""><div class="pokebutton" id="salvar"><img title="Salvar" src="https://www.dropbox.com/scl/fi/8a7fsjvrl080z7qihhsxz/salvarpkmbw.png?rlkey=h2chvobe6h0t0p6hsflvolfw5&st=egiimnn6&raw=1"></div></a>
+                
+                <a href=""><div class="pokebutton" id="presentes"><img title="Presentes" src="https://www.dropbox.com/scl/fi/4stx69jj00x2oadq9khec/giftpkmbw.png?rlkey=9rrblgflbungunc1ymulatx53&st=lbxspee3&raw=1"></div></a>
+            </div>
+            
+            <div class="button-container">
+                <a href=""><div class="pokebutton" id="mapa"><img title="Mapa" src="https://www.dropbox.com/scl/fi/t1ka6hn45fv084ciev3zv/mapapkmbw.png?rlkey=tw6dyvf466kf6behkad683l4k&st=p72bdyb6&raw=1"></div></a>
+                
+                <a href=""><div class="pokebutton" id="desafios"><img title="Conquistas" src="https://www.dropbox.com/scl/fi/mphot2jnzetll750y5afi/conquistaspkmbw.png?rlkey=iul0igrcxbdfyqs89w6bjhuom&st=ht6ql7av&raw=1"></div></a>
+                
+                <a href=""><div class="pokebutton" id="alertas"><img title="Notificações" src="https://www.dropbox.com/scl/fi/fuu2e7xqaml2hiy29cq60/notifica-espkmbw.png?rlkey=m0624n6x8rebi69egigfy10is&st=zj68h2rv&raw=1"></div></a>
+                
+                <a href=""><div class="pokebutton" id="treinador"><img title="Treinador" src="https://www.dropbox.com/scl/fi/uq4iufoikjb62145ov0h6/treinadorpkmbw.png?rlkey=8qvvsk0u03ll0hodtc40vb6j5&st=ocgaa4bs&raw=1"></div></a>
+                
+                <a href=""><div class="pokebutton" id="classificacao"><img title="Classificação" src="https://www.dropbox.com/scl/fi/4ljlfdglhmshse0kkffpb/classifica-opkmbw.png?rlkey=z4p57kupz6a9pp5a4kcx0c8na&st=rouspxrm&raw=1"></div></a>
+                
+                <a href=""><div class="pokebutton" id="ovos"><img title="Ovos" src="https://www.dropbox.com/scl/fi/n1mqd7qx4bek23rgkxacm/ieggpkmbw.png?rlkey=41mw3vjhcmjipjxke1d1jfyb6&st=bez2ch7l&raw=1"></div></a>
+            </div>
+        </footer>
+    </div>
+
+    <div class="right-container">
+        <div class="content">
+            <style>
+        h1 {
+            color: #000000;
+            font-size: 3rem;
+            margin-bottom: 30px;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        .highlight {
+            font-weight: bold;
+            font-size: 1.25em;
+            color: black;
+            margin-top: 20px;
+        }
+        a.link {
+            color: gray;
+            text-decoration: none;
+        }
+        a.link:hover {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+            </style>
+            <h1>Guia de Introdução ao RPG</h1>
+    
+    <p>Você está prestes a entrar em um <a href="" class="link">mundo fantástico</a> e cheio de maravilhas, onde vai viver aventuras espetaculares de sua grandiosa imaginação.</p>
+    
+    <p>Falar com pessoas interessantes, <a href="" class="link">explorar lugares incríveis</a> e aprender coisas novas, seja numa grande cidade moderna com muito neon e tecnologia avançada, vilarejos calmos e acolhedores, cavernas e salões misteriosos, estradas cheias de surpresas, e até mesmo pelos infinitos céus e mares. Por que não?</p>
+    
+    <p>Ah, e quando finalmente decidir começar seu incrível passeio nesse vasto mundo, não se esqueça de dar uma olhada no <a href="" class="link">mapa</a>!</p>
+    
+    <p>Você também pode ser surpreendido por novos caminhos, e oportunidades podem se abrir ou fechar se você superar seus <a href="" class="link">desafios</a> e solucionar mistérios, ajudando ou atrapalhando pessoas e criaturas durante sua jornada. Por que não criar novas rotas? Quem constrói essa jornada é você, <a href="" class="link">treinador</a>! De vez em quando, outros <a href="" class="link">treinadores</a> vão te chamar para batalhas animadas ou provas divertidas. Então, espero que você goste de <a href="" class="link">desafios</a>, porque a própria natureza e seus pokémon selvagens vão testar seus limites, cada obstáculo vem com uma nova oportunidade.</p>
+    
+    <p>Ao superar esses momentos, você poderá ser recompensado de maneiras inesperadas! Durante as <a href="" class="link">aventuras</a>, você poderá ganhar e até mesmo encontrar itens e ferramentas úteis, nunca se sabe, não é mesmo? Por isso, sempre ande com uma <a href="" class="link">mochila</a>. A qualquer momento alguém pode surgir no seu caminho propondo <a href="" class="link">trocas ou vendas</a>. Quando tiver oportunidade, vá a um <a href="" class="link">Pokémart</a>, compartilhe ideias, sugestões e novidades com outros treinadores, um <a href="" class="link">Pokémon center</a> costuma ter um pouco de tudo isso e parece um ótimo ponto para descansar e restaurar a saúde da sua <a href="" class="link">Equipe Pokémon</a> antes de continuar a viagem.</p>
+    
+    <p>Essa Jornada Pokémon vai muito além de só batalhar e coletar ou de se tornar poderoso. É sobre mergulhar na riqueza desse universo e viver esse mundo fascinante, conhecendo incontáveis pessoas, <a href="" class="link">histórias</a> épicas e tocantes, lugares e criaturas inesquecíveis. O Professor Pokémon está trabalhando em um projeto inovador e precisa catalogar dados sobre os Pokémon de Unova. Você poderia ajudá-lo com a mais nova <a href="" class="link">Pokédex</a>? Na semana passada sua equipe de pesquisa anunciou a descoberta de novos tipos de <a href="" class="link">Ovos Pokémon</a> na região. Isso significa que novas criaturas podem nascer e se tornar parte da nossa vivência. Seria incrível acompanhar esse desenvolvimento!</p>
+    
+    <p>Registre momentos especiais sempre que puder, para reviver memórias e compartilhar sua história com o mundo. Suba na <a href="" class="link">Classificação Regional</a> e seja um treinador destaque, reconhecido por sua grande fama, poder e conquistas únicas. Se você ainda não se sentiu recompensado pela oportunidade de vivenciar todos esses momentos incríveis, saiba que ao concluir desafios você também poderá receber <a href="" class="link">recompensas exclusivas</a> que vão enriquecer sua experiência!</p>
+    
+    <p>Através disso tudo, você vai alcançar crescimento pessoal verdadeiro. Essa viagem não é sobre se mover e perambular pelo mapa, mas sim uma viagem coletiva, onde todos criam e vivenciam momentos especiais juntos. Trabalhe suas ideias e veja a mágica do RPG acontecer!</p>
+    
+    <p>Você vai construir uma grande história conosco.</p>
+    
+    <p class="highlight">NESSE JOGO, O CONTROLE É A MENTE, TUDO SE FAZ DE MANEIRA CRIATIVA.</p>
+            
+            <div class="content-bottom">
+                <img src="https://www.dropbox.com/scl/fi/rda7ohwdqojn7q2goa66i/iconpkmbw.png?rlkey=w4amn3yc2nhewlzz2v136qfo4&st=63n5zpvx&raw=1" alt="Ícone Pokémon">
+            </div>
+        </div>
+    </div>
+
+    <div class="indicador">
+        <p id="indicadorText"></p> 
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var titleElement = document.title;
+            var intervalId;
+            var repetitions = 3;
+            var currentRepetition = 0;
+
+            function startTitleAnimation() {
+                var title = ": Virtual Links!";
+                var index = 0;
+
+                intervalId = setInterval(function () {
+                    document.title = "POKÉMON" + title.substring(0, index);
+                    index++;
+
+                    if (index > title.length) {
+                        clearInterval(intervalId);
+                        setTimeout(function () {
+                            currentRepetition++;
+
+                            if (currentRepetition < repetitions) {
+                                startTitleAnimation();
+                            } else {
+                                currentRepetition = 0;
+                                setTimeout(function () {
+                                    startTitleAnimation();
+                                }, 1000);
+                            }
+                        }, 1000);
+                    }
+                }, 150); 
+            }
+
+            startTitleAnimation();
+        });
+    </script>
+
+    <script>
+        function updateClockAndDate() {
+            var now = new Date();
+            
+            var futureDate = new Date(now.getFullYear() + 100, now.getMonth(), now.getDate());
+            
+            var optionsDate = { month: 'short', day: 'numeric', year: 'numeric' };
+            var dateString = futureDate.toLocaleDateString('en-US', optionsDate);
+            document.getElementById('date').innerText = dateString;
+
+            var tokyoTime = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Tokyo"}));
+            var hours = tokyoTime.getHours();
+            var minutes = tokyoTime.getMinutes();
+            var seconds = tokyoTime.getSeconds();
+
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+
+            var timeString = hours + ':' + minutes + ':' + seconds;
+            document.getElementById('clock').innerText = timeString;
+        }
+
+        setInterval(updateClockAndDate, 1000); 
+        updateClockAndDate(); 
+    </script>
+
+    <script>
+        function changeText(text) {
+            var indicadorText = document.getElementById('indicadorText');
+            indicadorText.innerHTML = text;
+
+            var indicador = document.querySelector('.indicador');
+            indicador.style.display = (text !== '') ? 'flex' : 'none';
+        }
+
+        function hideIndicador() {
+            var indicador = document.querySelector('.indicador');
+            indicador.style.display = 'none';
+        }
+
+        const buttonConfigs = [
+            { id: 'pokedex', text: 'POKÉDEX' },
+            { id: 'pokemon', text: 'POKÉMON' },
+            { id: 'mochila', text: 'MOCHILA' },
+            { id: 'mercado', text: 'MERCADO' },
+            { id: 'salvar', text: 'SALVAR' },
+            { id: 'presentes', text: 'PRESENTES' },
+            { id: 'mapa', text: 'MAPA' },
+            { id: 'desafios', text: 'CONQUISTAS' },
+            { id: 'alertas', text: 'NOTIFICAÇÕES' },
+            { id: 'treinador', text: 'TREINADOR' },
+            { id: 'classificacao', text: 'CLASSIFICAÇÃO' },
+            { id: 'ovos', text: 'OVOS' }
+        ];
+
+        buttonConfigs.forEach(config => {
+            const el = document.getElementById(config.id);
+            if (el) {
+                el.addEventListener('mouseover', () => changeText(config.text));
+                el.addEventListener('mouseout', hideIndicador);
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('contextmenu', event => {
+            event.preventDefault();
+            document.elementFromPoint(event.clientX, event.clientY).click();
+        });
+
+        document.onkeydown = function(e) {
+            if (e.ctrlKey || e.altKey || e.shiftKey) {
+                return false;
+            }
+        };
+
+        document.onselectstart = function() {
+            return false;
+        };
+
+        document.oncopy = function() {
+            return false;
+        };
+
+        document.oncut = function() {
+            return false;
+        };
+
+        document.ondragstart = function() {
+            return false;
+        };
+    </script>
+
+</body>
+</html>
