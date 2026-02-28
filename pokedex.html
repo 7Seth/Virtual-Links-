@@ -23,9 +23,9 @@ body { background: var(--bg-dark); color: white; font-family: 'Teko', sans-serif
 ::-webkit-scrollbar-thumb:hover { background: #555; }
 .nav-container { border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000; width: 100%; padding: 10px; }
 .header-line { display: none; }
-.search-input { background: #000; border: 1px solid rgba(255,255,255,0.1); color: white; font-family: 'Orbitron'; padding: 6px 10px; font-size: 10px; outline: none; transition: 0.3s; width: 100%; }
+.search-input { background: #000; border: 1px solid rgba(255,255,255,0.1); color: white; font-family: 'Orbitron'; padding: 10px 16px; font-size: 10px; outline: none; transition: 0.3s; width: 100%; }
 .search-input:focus { border-color: white; }
-.btn-modern { position: relative; padding: 6px 10px; font-weight: 900; overflow: hidden; background: #000; color: #fff; border: 1px solid rgba(255,255,255,0.2); clip-path: polygon(0 0, 92% 0, 100% 25%, 100% 100%, 8% 100%, 0 75%); transition: 0.3s; font-family: 'Orbitron', sans-serif; font-size: 8px; letter-spacing: 1px; cursor: pointer; }
+.btn-modern { position: relative; padding: 10px 14px; font-weight: 900; overflow: hidden; background: #000; color: #fff; border: 1px solid rgba(255,255,255,0.2); clip-path: polygon(0 0, 92% 0, 100% 25%, 100% 100%, 8% 100%, 0 75%); transition: 0.3s; font-family: 'Orbitron', sans-serif; font-size: 8px; letter-spacing: 1px; cursor: pointer; }
 .btn-modern:hover .btn-text-content { opacity: 0; }
 .btn-modern::before { content: ''; position: absolute; inset: 0; background: transparent; color: #fff; display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.1s; z-index: 5; font-weight: 400; text-shadow: 0 0 8px #fff; }
 .btn-modern:hover::before { opacity: 1; animation: btn-glitch-text 0.4s steps(1) infinite; }
@@ -33,13 +33,13 @@ body { background: var(--bg-dark); color: white; font-family: 'Teko', sans-serif
 .type-dropdown { position: relative; }
 .drop-content { display: none; position: absolute; background: #000; border: 1px solid white; width: 220px; padding: 8px; z-index: 2000; grid-template-columns: 1fr 1fr; gap: 4px; right: 0; box-shadow: 0 0 30px #000; }
 .type-dropdown:hover .drop-content { display: grid; }
-.type-pill { padding: 3px; font-family: 'Rajdhani'; font-weight: 600; cursor: pointer; border: 1px solid transparent; opacity: 0.4; font-size: 9px; text-align: center; text-transform: uppercase; color: white; transition: 0.2s; }
+.type-pill { padding: 3px; font-size: 11px!important; font-family: 'Rajdhani'; font-weight: 600; cursor: pointer; border: 1px solid transparent; opacity: 0.4; font-size: 9px; text-align: center; text-transform: uppercase; color: white; transition: 0.2s; }
 .type-pill.active { opacity: 1; border-color: white; box-shadow: 0 0 8px currentColor; }
 .btn-decrypt { min-width: 120px; height: 30px; transition: 0.4s; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.1); font-size: 8px; letter-spacing: 1px; font-family: 'Orbitron'; background: transparent; color: white; cursor: pointer; }
 .btn-decrypt .revealed { display: none; }
 .btn-decrypt:hover .original { display: none; }
 .btn-decrypt:hover .revealed { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; height: 100%; background: #fff; color: #000; position: absolute; top: 0; left: 0; font-weight: bold; }
-.counter-display { font-family: 'Press Start 2P'; font-size: 6px; color: rgba(255,255,255,0.4); margin-bottom: 15px; text-align: center; width: 100%; }
+.counter-display { font-family: 'Press Start 2P'; font-size: 8px; color: rgba(255,255,255,0.4); margin-bottom: 15px; text-align: center; width: 100%; }
 #scroll-nav { position: fixed; bottom: 15px; right: 15px; width: 35px; height: 35px; background: #000; border: 2px solid #fff; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10001; font-family: 'Orbitron'; clip-path: polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%); transition: 0.3s; font-size: 12px; }
 #pokedex { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; width: 100%; max-width: 100vw; margin: 10px 0; padding: 0 6px 50px; }
 .pokemon-card { background: var(--card-white); border: 2px solid var(--unova-black); position: relative; color: var(--unova-black); display: flex; flex-direction: column; height: auto; transition: 0.4s; box-shadow: 3px 3px 0px rgba(255, 255, 255, 0.05); overflow: hidden; width: 100%; }
@@ -55,7 +55,7 @@ body { background: var(--bg-dark); color: white; font-family: 'Teko', sans-serif
 .card-body { background: var(--unova-black); color: white; flex-grow: 1; padding: 6px; display: flex; flex-direction: column; width: 100%; }
 .id-num { font-family: 'Orbitron'; color: white; opacity: 0.5; font-size: 0.5rem; }
 .name { font-size: 0.85rem; text-transform: uppercase; line-height: 1; margin: 3px 0; font-weight: 700; color: white; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.description { font-family: 'Press Start 2P'; font-size: 4px; color: #aaa; line-height: 1.2; margin-bottom: 5px; min-height: 25px; }
+.description { font-family: 'Press Start 2P'; font-size: 9px!important; color: #aaa; line-height: 1.2; margin-bottom: 5px; min-height: 25px; }
 .type-tag { display: inline-block; padding: 1px 3px; font-size: 0.4rem; text-transform: uppercase; margin-right: 2px; font-family: 'Press Start 2P'; color: white; }
 .level-header { display: flex; justify-content: space-between; align-items: center; font-family: 'Orbitron'; color: white; margin: 4px 0; font-size: 0.6rem; }
 .lvl-input { background: white; color: black; border: none; width: 25px; font-family: 'Orbitron'; font-weight: bold; text-align: center; font-size: 0.6rem; }
@@ -103,7 +103,7 @@ body { background: var(--bg-dark); color: white; font-family: 'Teko', sans-serif
 <div class="orbitron font-black text-xl tracking-tighter text-white flex items-center w-full md:w-auto justify-center md:justify-start"> POKÉDEX <span class="text-white opacity-50 ml-2">POKÉMON</span> </div>
 <div class="header-line"></div>
 <div class="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
-<input type="text" id="name-search" class="search-input" placeholder="BUSCAR DATABASE..." oninput="applyFilters()">
+<input type="text" id="name-search" class="search-input" placeholder="//NOME ou ID..." oninput="applyFilters()">
 <div class="type-dropdown w-full sm:w-auto">
 <button class="btn-modern w-full sm:w-auto" id="type-label"><span class="btn-text-content">FILTRAR TIPOS (0)</span></button>
 <div class="drop-content" id="type-filters"></div>
@@ -144,176 +144,260 @@ let currentRange = {start: 0, end: 0};
 let moveCache = {};
 let abortController = null;
 let isHudLocked = false;
+let currentLockedElement = null;
 
 async function init() {
-const tf = document.getElementById('type-filters');
-Object.keys(TYPE_COLORS).forEach(t => {
-const p = document.createElement('div');
-p.className='type-pill'; p.style.backgroundColor=TYPE_COLORS[t]; p.innerText=t;
-p.onclick=() => {
-p.classList.toggle('active');
-const i=selectedTypes.indexOf(t);
-i>-1?selectedTypes.splice(i,1):selectedTypes.push(t);
-document.getElementById('type-label').querySelector('.btn-text-content').innerText = `FILTRAR TIPOS (${selectedTypes.length})`;
-applyFilters();
-};
-tf.appendChild(p);
-});
-changeRegion(5, 494, 649, document.getElementById('btn-5'));
-}
-
-async function changeRegion(gen, start, end, btn) {
-if (abortController) abortController.abort();
-abortController = new AbortController();
-document.querySelectorAll('.region-btn').forEach(b => b.classList.remove('active'));
-btn.classList.add('active');
-const grid = document.getElementById('pokedex');
-grid.innerHTML = '<div style="font-family:Orbitron; color:white; opacity:0.3; grid-column: 1/-1; text-align:center; padding: 100px; letter-spacing:5px">SINCRONIZANDO...</div>';
-currentRange = {start, end};
-updateMainCounter();
-for (let i = start; i <= end; i++) {
-try {
-const p = await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`, { signal: abortController.signal }).then(r => r.json());
-const s = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${i}`, { signal: abortController.signal }).then(r => r.json());
-if (i === start) grid.innerHTML = '';
-grid.appendChild(createCardElement(p, s));
-} catch (e) { if (e.name !== 'AbortError') console.log(e); }
-}
-}
-
-function createCardElement(p, s) {
-const desc = s.flavor_text_entries.find(e => e.language.name === 'en')?.flavor_text.replace(/\f/g, ' ') || "";
-const isCap = capturedList.includes(p.id);
-const card = document.createElement('div');
-card.className = `pokemon-card ${isCap?'captured':''}`;
-card.setAttribute('data-id', p.id);
-card.setAttribute('data-name', p.name);
-card.setAttribute('data-types', p.types.map(t => t.type.name).join(','));
-card.innerHTML = `<div class="capture-zone"><input type="checkbox" class="capture-checkbox" ${isCap?'checked':''} onchange="toggleCap(${p.id})"></div><div class="img-container"><img src="${p.sprites.other['official-artwork'].front_default}" class="pkmn-img" loading="lazy"></div><div class="film-strip"><span></span><span></span><span></span><span></span><span></span></div><div class="card-body"><div class="id-num">#${p.id}</div><div class="name">${p.name}</div><div class="description">${desc}</div><div style="margin-bottom:15px">${p.types.map(t => `<span class="type-tag" style="background:${TYPE_COLORS[t.type.name]}">${t.type.name}</span>`).join('')}</div><div class="level-control"><div class="level-header"><span>ESTATÍSTICAS</span><input type="number" class="lvl-input" value="1" min="1" max="100" oninput="updSt(${p.id})"></div><input type="range" class="lvl-slider" min="1" max="100" value="1" oninput="sync(${p.id},this.value)"><div class="stats-box">${p.stats.map(st => `<div class="stat-line"><span>${st.stat.name.toUpperCase()}</span><span class="stat-val" data-base="${st.base_stat}">${st.base_stat}</span></div>`).join('')}</div></div><div class="moves-list" id="m-${p.id}"><div style="padding:20px; font-size:8px; color:white; opacity:0.3">SEQUENCIANDO...</div></div><div class="rank-selector"><span class="rank-label">ELITE RANK</span><div class="rank-icons">${[1,2,3].map(i => `<div class="rank-btn" onclick="setR(${p.id},${i})"></div>`).join('')}</div></div></div>`;
-setTimeout(() => loadMovesSerial(p), 100);
-return card;
-}
-
-async function loadMovesSerial(p) {
-const container = document.getElementById(`m-${p.id}`);
-if (!container) return;
-const mvs = p.moves.filter(m => m.version_group_details[0].move_learn_method.name === "level-up").sort((a,b) => a.version_group_details[0].level_learned_at - b.version_group_details[0].level_learned_at);
-let html = '';
-for (const m of mvs) {
-const mName = m.move.name;
-let d;
-if (moveCache[mName]) { d = moveCache[mName]; } 
-else { try { d = await fetch(m.move.url).then(r => r.json()); moveCache[mName] = d; } catch(e) { continue; } }
-const effect = d.effect_entries.find(e => e.language.name==='en')?.short_effect || "No details.";
-html += `<div class="move-item" data-lvl="${m.version_group_details[0].level_learned_at}" style="border-left-color:${TYPE_COLORS[d.type.name]}" onmousemove="shHUD(event,'${d.name.toUpperCase()}','${d.power}','${d.accuracy}','${d.pp}','${d.type.name}','${effect.replace(/'/g, "\\'")}')" onmouseleave="hiHUD()" onclick="lockHUD(event)"><span>${mName.replace(/-/g,' ').toUpperCase()}</span><span class="move-lvl">LVL ${m.version_group_details[0].level_learned_at}</span></div>`;
-}
-container.innerHTML = html;
-updSt(p.id);
-}
-
-function shHUD(e, n, pw, ac, pp, t, d) {
-if (isHudLocked) return;
-const h = document.getElementById('move-hud');
-h.style.display = 'block';
-h.style.left = (e.clientX + 15) + 'px';
-h.style.top = (e.clientY + 15) + 'px';
-document.getElementById('hud-name').innerText = n;
-document.getElementById('hud-pwr').innerText = pw !== 'null' ? pw : '--';
-document.getElementById('hud-acc').innerText = ac !== 'null' ? ac : '--';
-document.getElementById('hud-pp').innerText = pp;
-document.getElementById('hud-type').innerText = t.toUpperCase();
-document.getElementById('hud-desc').innerText = d.replace(/\$effect_chance/g, '');
-}
-
-function hiHUD() { if (!isHudLocked) document.getElementById('move-hud').style.display = 'none'; }
-function lockHUD(e) { e.stopPropagation(); isHudLocked = true; }
-function handleGlobalClick(e) { if (isHudLocked) { isHudLocked = false; document.getElementById('move-hud').style.display = 'none'; } }
-
-function handleScrollNav() { 
-const threshold = 500;
-if (window.scrollY > threshold) { window.scrollTo({ top: 0, behavior: 'smooth' }); } 
-else { window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' }); }
+    const tf = document.getElementById('type-filters');
+    Object.keys(TYPE_COLORS).forEach(t => {
+        const p = document.createElement('div');
+        p.className='type-pill'; p.style.backgroundColor=TYPE_COLORS[t]; p.innerText=t;
+        p.onclick=() => {
+            p.classList.toggle('active');
+            const i=selectedTypes.indexOf(t);
+            i>-1?selectedTypes.splice(i,1):selectedTypes.push(t);
+            document.getElementById('type-label').querySelector('.btn-text-content').innerText = `FILTRAR TIPOS (${selectedTypes.length})`;
+            applyFilters();
+        };
+        tf.appendChild(p);
+    });
+    changeRegion(5, 494, 649, document.getElementById('btn-5'));
+    document.addEventListener('click', handleGlobalClick);
+    
+    const scrollBtn = document.getElementById('scroll-nav');
+    if(scrollBtn) {
+        scrollBtn.onclick = () => {
+            const threshold = 500;
+            if (window.scrollY > threshold) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+            }
+        };
+    }
 }
 
 window.onscroll = function() {
-const btn = document.getElementById('scroll-nav');
-btn.innerText = window.scrollY > 500 ? '▲' : '▼';
+    const btn = document.getElementById('scroll-nav');
+    if(btn) {
+        btn.innerText = window.scrollY > 500 ? '▲' : '▼';
+    }
 };
 
-function clearAllFilters() {
-document.getElementById('name-search').value = '';
-selectedTypes = [];
-document.querySelectorAll('.type-pill').forEach(p => p.classList.remove('active'));
-document.getElementById('type-label').querySelector('.btn-text-content').innerText = 'FILTRAR TIPOS (0)';
-applyFilters();
+async function changeRegion(gen, start, end, btn) {
+    if (abortController) abortController.abort();
+    abortController = new AbortController();
+    document.querySelectorAll('.region-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const grid = document.getElementById('pokedex');
+    grid.innerHTML = '<div style="font-family:Orbitron; color:white; opacity:0.3; grid-column: 1/-1; text-align:center; padding: 100px; letter-spacing:5px">SINCRONIZANDO...</div>';
+    currentRange = {start, end};
+    updateMainCounter();
+    for (let i = start; i <= end; i++) {
+        try {
+            const p = await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`, { signal: abortController.signal }).then(r => r.json());
+            const s = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${i}`, { signal: abortController.signal }).then(r => r.json());
+            if (i === start) grid.innerHTML = '';
+            grid.appendChild(createCardElement(p, s));
+        } catch (e) { if (e.name !== 'AbortError') console.log(e); }
+    }
+}
+
+function createCardElement(p, s) {
+    const desc = s.flavor_text_entries.find(e => e.language.name === 'en')?.flavor_text.replace(/\f/g, ' ') || "";
+    const isCap = capturedList.includes(p.id);
+    const card = document.createElement('div');
+    card.className = `pokemon-card ${isCap?'captured':''}`;
+    card.setAttribute('data-id', p.id);
+    card.setAttribute('data-name', p.name);
+    card.setAttribute('data-types', p.types.map(t => t.type.name).join(','));
+    
+    card.onmousemove = (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--x', `${x}px`);
+        card.style.setProperty('--y', `${y}px`);
+    };
+
+    card.innerHTML = `
+        <div class="capture-zone"><input type="checkbox" class="capture-checkbox" ${isCap?'checked':''} onchange="toggleCap(${p.id})"></div>
+        <div class="img-container"><img src="${p.sprites.other['official-artwork'].front_default}" class="pkmn-img" loading="lazy"></div>
+        <div class="film-strip"><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="card-body">
+            <div class="id-num" style="font-size: 1.25rem; font-weight: bold; opacity: 0.7;">#${p.id}</div>
+            <div class="name">${p.name}</div>
+            <div class="description">${desc}</div>
+            <div style="margin-bottom:15px">${p.types.map(t => `<span class="type-tag" style="background:${TYPE_COLORS[t.type.name]}">${t.type.name}</span>`).join('')}</div>
+            
+            <div class="level-control">
+                <div class="level-header">
+                    <span>ESTATÍSTICAS</span>
+                    <input type="number" class="lvl-input" value="1" min="1" max="100" oninput="sync(${p.id},this.value)" style="width: 60px; height: 30px; font-size: 1.2rem; text-align: center;">
+                </div>
+                <input type="range" class="lvl-slider" min="1" max="100" value="1" oninput="sync(${p.id},this.value)">
+                <div class="stats-box">${p.stats.map(st => `<div class="stat-line"><span>${st.stat.name.toUpperCase()}</span><span class="stat-val" data-base="${st.base_stat}">${st.base_stat}</span></div>`).join('')}</div>
+            </div>
+            
+            <div class="moves-list" id="m-${p.id}" style="height: 250px; margin-top: 25px; overflow-y: auto;">
+                <div style="padding:20px; font-size:10px; color:white; opacity:0.3">SEQUENCIANDO...</div>
+            </div>
+            
+            <div class="rank-selector">
+                <span class="rank-label">ELITE RANK</span>
+                <div class="rank-icons">${[1,2,3].map(i => `<div class="rank-btn" onclick="setR(${p.id},${i})"></div>`).join('')}</div>
+            </div>
+        </div>`;
+        
+    setTimeout(() => loadMovesSerial(p), 100);
+    return card;
+}
+
+async function loadMovesSerial(p) {
+    const container = document.getElementById(`m-${p.id}`);
+    if (!container) return;
+    const mvs = p.moves.filter(m => m.version_group_details[0].move_learn_method.name === "level-up").sort((a,b) => a.version_group_details[0].level_learned_at - b.version_group_details[0].level_learned_at);
+    let html = '';
+    for (const m of mvs) {
+        const mName = m.move.name;
+        let d;
+        if (moveCache[mName]) { d = moveCache[mName]; } 
+        else { try { d = await fetch(m.move.url).then(r => r.json()); moveCache[mName] = d; } catch(e) { continue; } }
+        const effect = d.effect_entries.find(e => e.language.name==='en')?.short_effect || "No details.";
+        const lvlReq = m.version_group_details[0].level_learned_at;
+        html += `<div class="move-item" data-lvl="${lvlReq}" style="border-left-color:${TYPE_COLORS[d.type.name]}" onmousemove="shHUD(event,'${d.name.toUpperCase()}','${d.power}','${d.accuracy}','${d.pp}','${d.type.name}','${effect.replace(/'/g, "\\'")}')" onmouseleave="hiHUD()" onclick="lockHUD(event, this)"><span>${mName.replace(/-/g,' ').toUpperCase()}</span><span class="move-lvl">LVL ${lvlReq}</span></div>`;
+    }
+    container.innerHTML = html;
+    updSt(p.id);
+}
+
+function shHUD(e, n, pw, ac, pp, t, d) {
+    if (isHudLocked) return;
+    const h = document.getElementById('move-hud');
+    h.style.display = 'block';
+    h.style.left = (e.clientX + 15) + 'px';
+    h.style.top = (e.clientY + 15) + 'px';
+    document.getElementById('hud-name').innerText = n;
+    document.getElementById('hud-pwr').innerText = pw !== 'null' ? pw : '--';
+    document.getElementById('hud-acc').innerText = ac !== 'null' ? ac : '--';
+    document.getElementById('hud-pp').innerText = pp;
+    document.getElementById('hud-type').innerText = t.toUpperCase();
+    document.getElementById('hud-desc').innerText = d.replace(/\$effect_chance/g, '');
+}
+
+function hiHUD() { if (!isHudLocked) document.getElementById('move-hud').style.display = 'none'; }
+
+function lockHUD(e, el) { 
+    e.stopPropagation(); 
+    if (isHudLocked && currentLockedElement === el) {
+        isHudLocked = false;
+        currentLockedElement = null;
+        hiHUD();
+    } else {
+        isHudLocked = false;
+        currentLockedElement = el;
+        el.dispatchEvent(new MouseEvent('mousemove', { clientX: e.clientX, clientY: e.clientY, bubbles: true }));
+        isHudLocked = true;
+    }
+}
+
+function handleGlobalClick(e) { 
+    if (isHudLocked && !e.target.closest('.move-item')) { 
+        isHudLocked = false; 
+        currentLockedElement = null;
+        document.getElementById('move-hud').style.display = 'none'; 
+    } 
+}
+
+function sync(id, v) { 
+    const c = document.querySelector(`[data-id="${id}"]`); 
+    if (c) { 
+        c.querySelector('.lvl-input').value = v; 
+        c.querySelector('.lvl-slider').value = v;
+        updSt(id); 
+    } 
+}
+
+function updSt(id) {
+    const c = document.querySelector(`[data-id="${id}"]`); if (!c) return;
+    const l = parseInt(c.querySelector('.lvl-input').value) || 1;
+    const r = c.querySelectorAll('.rank-btn.active').length;
+    c.querySelectorAll('.stat-val').forEach(e => {
+        const b = parseInt(e.dataset.base);
+        e.innerText = Math.floor(b + (b*(l/50)) + (r*20));
+    });
+    c.querySelectorAll('.move-item').forEach(m => {
+        const req = parseInt(m.dataset.lvl);
+        if (l < req) {
+            m.style.opacity = "0.2";
+            m.style.filter = "grayscale(1)";
+            m.style.pointerEvents = "none";
+        } else {
+            m.style.opacity = "1";
+            m.style.filter = "none";
+            m.style.pointerEvents = "auto";
+        }
+    });
 }
 
 function applyFilters() {
-const s = document.getElementById('name-search').value.toLowerCase();
-document.querySelectorAll('.pokemon-card').forEach(c => {
-const t = c.dataset.types.split(',');
-const mN = c.dataset.name.includes(s) || c.dataset.id.includes(s);
-const mT = selectedTypes.length === 0 || selectedTypes.some(type => t.includes(type));
-c.style.display = mN && mT ? 'flex' : 'none';
-});
-}
-
-function sync(id, v) { const c = document.querySelector(`[data-id="${id}"]`); if (c) { c.querySelector('.lvl-input').value = v; updSt(id); } }
-function updSt(id) {
-const c = document.querySelector(`[data-id="${id}"]`); if (!c) return;
-const l = parseInt(c.querySelector('.lvl-input').value) || 1;
-const r = c.querySelectorAll('.rank-btn.active').length;
-c.querySelectorAll('.stat-val').forEach(e => {
-const b = parseInt(e.dataset.base);
-e.innerText = Math.floor(b + (b*(l/50)) + (r*20));
-});
+    const s = document.getElementById('name-search').value.toLowerCase();
+    document.querySelectorAll('.pokemon-card').forEach(c => {
+        const t = c.dataset.types.split(',');
+        const mN = c.dataset.name.includes(s) || c.dataset.id.includes(s);
+        const mT = selectedTypes.length === 0 || selectedTypes.some(type => t.includes(type));
+        c.style.display = mN && mT ? 'flex' : 'none';
+    });
 }
 
 function setR(id, v) { const b = document.querySelectorAll(`[data-id="${id}"] .rank-btn`); b.forEach((x, i) => x.classList.toggle('active', i < v)); updSt(id); }
 function toggleCap(id) { 
-const i = capturedList.indexOf(id); i > -1 ? capturedList.splice(i, 1) : capturedList.push(id); 
-localStorage.setItem('unova_capture_list', JSON.stringify(capturedList)); 
-updateMainCounter(); 
+    const i = capturedList.indexOf(id); i > -1 ? capturedList.splice(i, 1) : capturedList.push(id); 
+    localStorage.setItem('unova_capture_list', JSON.stringify(capturedList)); 
+    updateMainCounter(); 
 }
 function updateMainCounter() { 
-const curInRegion = capturedList.filter(id => id >= currentRange.start && id <= currentRange.end).length;
-const total = (currentRange.end - currentRange.start) + 1;
-document.getElementById('main-counter').innerText = `${curInRegion} / ${total} DESCOBERTOS`; 
+    const curInRegion = capturedList.filter(id => id >= currentRange.start && id <= currentRange.end).length;
+    const total = (currentRange.end - currentRange.start) + 1;
+    document.getElementById('main-counter').innerText = `${curInRegion} / ${total} DESCOBERTOS`; 
 }
 
-function handleKeys(e) { if (e.keyCode === 123) return false; }
 init();
-</script>
 
-<script>
 document.addEventListener("DOMContentLoaded", function () {
-var intervalId;
-var repetitions = 3;
-var currentRepetition = 0;
-function startTitleAnimation() {
-var title = ": Pokédex!";
-var index = 0;
-intervalId = setInterval(function () {
-document.title = "POKÉMON" + title.substring(0, index);
-index++;
-if (index > title.length) {
-clearInterval(intervalId);
-setTimeout(function () {
-currentRepetition++;
-if (currentRepetition < repetitions) {
-startTitleAnimation();
-} else {
-currentRepetition = 0;
-setTimeout(function () {
-startTitleAnimation();
-}, 1000);
-}
-}, 1000);
-}
-}, 150); 
-}
-startTitleAnimation();
-});
+            var titleElement = document.title;
+            var intervalId;
+            var repetitions = 3;
+            var currentRepetition = 0;
+
+            function startTitleAnimation() {
+                var title = ": Pokédex";
+                var index = 0;
+
+                intervalId = setInterval(function () {
+                    document.title = "POKÉMON" + title.substring(0, index);
+                    index++;
+
+                    if (index > title.length) {
+                        clearInterval(intervalId);
+                        setTimeout(function () {
+                            currentRepetition++;
+
+                            if (currentRepetition < repetitions) {
+                                startTitleAnimation();
+                            } else {
+                                currentRepetition = 0;
+                                setTimeout(function () {
+                                    startTitleAnimation();
+                                }, 1000);
+                            }
+                        }, 1000);
+                    }
+                }, 150); 
+            }
+
+            startTitleAnimation();
+        });
+
 </script>
 </body>
 </html>
