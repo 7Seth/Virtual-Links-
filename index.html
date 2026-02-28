@@ -157,11 +157,11 @@
         }
         .split-box:hover { flex: 2.5; }
         
-        .zekrom-img { position: absolute; right: -50px; bottom: 0; height: 55%; opacity: 0.5; transition: 0.9s cubic-bezier(0.19, 1, 0.22, 1); filter: drop-shadow(0 0 50px rgba(255,255,255,0.1)); transform: scaleX(1); }
+        .zekrom-img { position: absolute; right: -50px; bottom: 0; height: 55%; opacity: 0.35; transition: 0.9s cubic-bezier(0.19, 1, 0.22, 1); filter: drop-shadow(0 0 50px rgba(255,255,255,0.1)); transform: scaleX(1); }
         @media (min-width: 640px) {
             .zekrom-img { right: -100px; height: 80%; }
         }
-        .reshiram-img { position: absolute; left: -50px; bottom: 0; height: 55%; opacity: 0.5; transition: 0.9s cubic-bezier(0.19, 1, 0.22, 1); filter: drop-shadow(0 0 50px rgba(0,0,0,0.2)); transform: scaleX(-1); }
+        .reshiram-img { position: absolute; left: -50px; bottom: 0; height: 55%; opacity: 0.35; transition: 0.9s cubic-bezier(0.19, 1, 0.22, 1); filter: drop-shadow(0 0 50px rgba(0,0,0,0.2)); transform: scaleX(-1); }
         @media (min-width: 640px) {
             .reshiram-img { left: -100px; height: 80%; }
         }
@@ -253,6 +253,16 @@
         line-height: 1.55 !important;
     }
 }
+
+#text-ideals {
+  -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.5);
+  text-shadow: 1x 1px 4px rgba(0, 0, 0, 1);
+}
+
+#text-truth {
+  -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.5);
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 1);
+}
     </style>
 </head>
 <body>
@@ -343,26 +353,27 @@
                 </div>
             </div>
         </div>
-        <img src="https://www.dropbox.com/scl/fi/bx2qadonld21ypn0ox2kw/TEAM-PLASMA-Silhueta.png?rlkey=e7q7vs0gjq6o8fvy5rk8o16nj&st=txwxx8fw&raw=1" class="absolute right-0 bottom-0 h-[30vh] sm:h-[40vh] opacity-80 filter brightness-0 invert" alt="Team Plasma Silhueta">
+        <img src="https://www.dropbox.com/scl/fi/bx2qadonld21ypn0ox2kw/TEAM-PLASMA-Silhueta.png?rlkey=e7q7vs0gjq6o8fvy5rk8o16nj&st=txwxx8fw&raw=1" class="absolute right-0 bottom-0 h-[25vh] sm:h-[60vh] opacity-80 filter brightness-0 invert" alt="Team Plasma Silhueta">
     </section>
 
-    <section class="p-0 flex flex-col sm:flex-row border-y border-white/5">
-        <div class="split-box bg-[#000] border-b sm:border-r border-white/10 group-black">
-            <img src="https://www.dropbox.com/scl/fi/8rqi5fah3wc9nvpabz1wq/zekrom-pokemon-zekrom.gif?rlkey=3pnox9gpmuplkppgkgo1vnpq6&st=2eeh47bo&raw=1" class="zekrom-img">
-            <div class="relative z-10">
-                <h2 class="orbitron text-5xl sm:text-7xl font-black text-white opacity-90 tracking-tighter">TEAM BLACK</h2>
-                <p class="text-white/60 orbitron text-[10px] sm:text-xs tracking-[0.6em] my-6 sm:my-8 uppercase font-bold">O Herói dos Ideais // Zekrom</p>
-                <p class="max-w-lg text-gray-400 italic text-lg sm:text-xl leading-relaxed font-light">Para aqueles que não aceitam o mundo como ele é, mas sonham em como ele deveria ser. Este time é movido pela centelha da inovação e pelo desejo de alcançar o impossível. Se você possui uma visão inabalável para o futuro e a coragem para quebrar o status quo em nome de um objetivo maior, você pertence aos Ideais.</p>
-            </div>
+<section class="p-0 flex flex-col sm:flex-row border-y border-white/5">
+    <div class="split-box bg-[#000] border-b sm:border-r border-white/10 group-black">
+        <img src="https://www.dropbox.com/scl/fi/8rqi5fah3wc9nvpabz1wq/zekrom-pokemon-zekrom.gif?rlkey=3pnox9gpmuplkppgkgo1vnpq6&st=2eeh47bo&raw=1" class="zekrom-img">
+        <div class="relative z-10">
+            <h2 class="orbitron text-5xl sm:text-7xl font-black text-white opacity-90 tracking-tighter">TEAM BLACK</h2>
+            <p class="text-white/60 orbitron text-[10px] sm:text-xs tracking-[0.6em] my-6 sm:my-8 uppercase font-bold">O Herói dos Ideais // Zekrom</p>
+            <p id="text-ideals" class="max-w-lg text-gray-400 italic text-lg sm:text-xl leading-relaxed font-light">Para aqueles que não aceitam o mundo como ele é, mas sonham em como ele deveria ser. Este time é movido pela centelha da inovação e pelo desejo de alcançar o impossível. Se você possui uma visão inabalável para o futuro e a coragem para quebrar o status quo em nome de um objetivo maior, você pertence aos Ideais.</p>
         </div>
-        <div class="split-box bg-[#fff] text-black group-white">
-            <img src="https://www.dropbox.com/scl/fi/phpvhi62mgk2og9pcrbk3/reshiram-pokemon-reshiram.gif?rlkey=bj8pvr1jn7f1gd5hcyispzasv&st=uq6cusq2&raw=1" class="reshiram-img">
-            <div class="relative z-10 text-right ml-auto">
-                <h2 class="orbitron text-5xl sm:text-7xl font-black tracking-tighter">TEAM WHITE</h2>
-                <p class="text-black/60 orbitron text-[10px] sm:text-xs tracking-[0.6em] my-6 sm:my-8 uppercase font-bold">O Herói da Verdade // Reshiram</p>
-                <p class="max-w-lg text-gray-800 italic text-lg sm:text-xl leading-relaxed font-light">Para aqueles que acreditam que o mundo não precisa de sonhos vazios, mas de olhos abertos. Seus membros buscam a essência crua da realidade. Se você acredita que o progresso vem da aceitação do que é real e do respeito às leis fundamentais da natureza e da história, seu lugar é aqui.</p>
-            </div>
+    </div>
+
+    <div class="split-box bg-[#fff] text-black group-white">
+        <img src="https://www.dropbox.com/scl/fi/phpvhi62mgk2og9pcrbk3/reshiram-pokemon-reshiram.gif?rlkey=bj8pvr1jn7f1gd5hcyispzasv&st=uq6cusq2&raw=1" class="reshiram-img">
+        <div class="relative z-10 text-right ml-auto">
+            <h2 class="orbitron text-5xl sm:text-7xl font-black tracking-tighter">TEAM WHITE</h2>
+            <p class="text-black/60 orbitron text-[10px] sm:text-xs tracking-[0.6em] my-6 sm:my-8 uppercase font-bold">O Herói da Verdade // Reshiram</p>
+            <p id="text-truth" class="max-w-lg text-gray-800 italic text-lg sm:text-xl leading-relaxed font-light">Para aqueles que acreditam que o mundo não precisa de sonhos vazios, mas de olhos abertos. Seus membros buscam a essência crua da realidade. Se você acredita que o progresso vem da aceitação do que é real e do respeito às leis fundamentais da natureza e da história, seu lugar é aqui.</p>
         </div>
+    </div>
     </section>
 
     <section class="justify-end px-4 sm:px-10 md:px-20">
