@@ -199,6 +199,60 @@
         .loader-content.fade-out { opacity: 0; pointer-events: none; }
         @keyframes animationFrames { 0% { transform: rotate(0deg); } 100% { transform: rotate(-720deg); } }
         #loader-svg { width: 300px; animation: animationFrames ease-in-out 1.2s infinite; }
+
+        @media (max-width: 768px) {
+    html {
+        scroll-snap-type: none !important;
+        scroll-behavior: smooth;
+    }
+
+    section,
+    footer {
+        height: auto !important;
+        min-height: 100vh;
+        scroll-snap-align: none !important;
+        scroll-snap-stop: normal !important;
+    }
+}
+
+@media (max-width: 768px) {
+    html {
+        scroll-snap-type: none !important;
+    }
+    section, footer {
+        height: auto !important;
+        min-height: 100vh;
+        scroll-snap-align: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .section-solid-white {
+        height: auto !important;
+        min-height: 100vh;
+        padding-top: 100px !important;
+        padding-bottom: 80px !important;
+    }
+    .card-pokemon {
+        padding: 24px 20px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .split-box {
+        height: auto !important;
+        min-height: 85vh;
+        flex: none !important;
+        padding: 60px 30px !important;
+    }
+    .zekrom-img, .reshiram-img {
+        height: 45% !important;
+    }
+    .split-box p {
+        font-size: 17px !important;
+        line-height: 1.55 !important;
+    }
+}
     </style>
 </head>
 <body>
@@ -298,7 +352,7 @@
             <div class="relative z-10">
                 <h2 class="orbitron text-5xl sm:text-7xl font-black text-white opacity-90 tracking-tighter">TEAM BLACK</h2>
                 <p class="text-white/60 orbitron text-[10px] sm:text-xs tracking-[0.6em] my-6 sm:my-8 uppercase font-bold">O Herói dos Ideais // Zekrom</p>
-                <p class="max-w-lg text-gray-400 italic text-lg sm:text-xl leading-relaxed font-light">Para aqueles que não aceitam o mundo como ele é; eles o moldam como ele deveria ser. Este time é movido pela centelha da inovação e pelo desejo de alcançar o impossível. Se você possui uma visão inabalável para o futuro e a coragem para quebrar o status quo em nome de um objetivo maior, você pertence aos Ideais.</p>
+                <p class="max-w-lg text-gray-400 italic text-lg sm:text-xl leading-relaxed font-light">Para aqueles que não aceitam o mundo como ele é, mas sonham em como ele deveria ser. Este time é movido pela centelha da inovação e pelo desejo de alcançar o impossível. Se você possui uma visão inabalável para o futuro e a coragem para quebrar o status quo em nome de um objetivo maior, você pertence aos Ideais.</p>
             </div>
         </div>
         <div class="split-box bg-[#fff] text-black group-white">
