@@ -41,55 +41,55 @@ body { background: var(--bg-dark); color: white; font-family: 'Teko', sans-serif
 .btn-decrypt:hover .revealed { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; height: 100%; background: #fff; color: #000; position: absolute; top: 0; left: 0; font-weight: bold; }
 .counter-display { font-family: 'Press Start 2P'; font-size: 8px; color: rgba(255,255,255,0.4); margin-bottom: 15px; text-align: center; width: 100%; }
 #scroll-nav { position: fixed; bottom: 15px; right: 15px; width: 35px; height: 35px; background: #000; border: 2px solid #fff; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10001; font-family: 'Orbitron'; clip-path: polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%); transition: 0.3s; font-size: 12px; }
-#pokedex { display: grid; grid-template-columns: 1fr; gap: 6px; width: 100%; max-width: 100vw; margin: 10px 0; padding: 0 6px 50px; }
-.pokemon-card { background: var(--card-white); border: 2px solid var(--unova-black); position: relative; color: var(--unova-black); display: flex; flex-direction: column; height: auto; transition: 0.4s; box-shadow: 3px 3px 0px rgba(255, 255, 255, 0.05); overflow: hidden; width: 100%; }
+#pokedex { display: grid; grid-template-columns: 1fr; gap: 20px; width: 100%; max-width: 100vw; margin: 10px 0; padding: 0 10px 50px; }
+.pokemon-card { background: var(--card-white); border: 3px solid var(--unova-black); position: relative; color: var(--unova-black); display: flex; flex-direction: column; height: auto; transition: 0.4s; box-shadow: 3px 3px 0px rgba(255, 255, 255, 0.05); overflow: hidden; width: 100%; }
 .pokemon-card.captured { border-color: var(--unova-black); }
-.capture-zone { position: absolute; top: 3px; right: 3px; z-index: 10; border: 1px solid #000; width: 16px; height: 16px; background: white; }
+.capture-zone { position: absolute; top: 10px; right: 10px; z-index: 10; border: 2px solid #000; width: 24px; height: 24px; background: white; }
 .capture-checkbox { appearance: none; width: 100%; height: 100%; cursor: pointer; margin: 0; }
 .capture-checkbox:checked { background: var(--unova-black); }
-.img-container { height: 90px; display: flex; align-items: center; justify-content: center; background: white; width: 100%; }
-.pkmn-img { width: 95%; height: 95%; object-fit: contain; filter: brightness(0); transition: 0.6s; }
+.img-container { height: 220px; display: flex; align-items: center; justify-content: center; background: white; width: 100%; }
+.pkmn-img { width: 90%; height: 90%; object-fit: contain; filter: brightness(0); transition: 0.6s; }
 .pokemon-card:hover .pkmn-img, .pokemon-card.captured .pkmn-img { filter: brightness(1); }
-.film-strip { height: 18px; background: var(--unova-black); display: flex; justify-content: space-around; align-items: center; }
-.film-strip span { width: 10px; height: 18px; background: white; }
-.card-body { background: var(--unova-black); color: white; flex-grow: 1; padding: 6px; display: flex; flex-direction: column; width: 100%; }
-.id-num { font-family: 'Orbitron'; color: white; opacity: 0.5; font-size: 0.5rem; }
-.name { font-size: 0.85rem; text-transform: uppercase; line-height: 1; margin: 3px 0; font-weight: 700; color: white; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.description { font-size: 8px; font-family: 'Press Start 2P'; color: #aaa; line-height: 1.2; margin-bottom: 5px; min-height: 25px; }
-.type-tag { display: inline-block; padding: 1px 3px; font-size: 0.4rem; text-transform: uppercase; margin-right: 2px; font-family: 'Press Start 2P'; color: white; }
-.level-header { display: flex; justify-content: space-between; align-items: center; font-family: 'Orbitron'; color: white; margin: 4px 0; font-size: 0.6rem; }
-.lvl-input { background: white; color: black; border: none; width: 25px; font-family: 'Orbitron'; font-weight: bold; text-align: center; font-size: 0.6rem; }
-.lvl-slider { width: 100%; accent-color: white; height: 10px; }
-.stat-line { display: flex; justify-content: space-between; font-family: 'Press Start 2P'; font-size: 4px; margin-bottom: 3px; }
-.moves-list { overflow-y: auto; height: 80px; border: 1px solid #222; background: rgba(255,255,255,0.03); margin-top: 5px; }
-.move-item { display: flex; justify-content: space-between; padding: 4px; border-bottom: 1px solid #111; font-size: 4px; font-family: 'Press Start 2P'; cursor: crosshair; border-left: 2px solid #444; }
-.rank-selector { margin-top: auto; display: flex; align-items: center; justify-content: space-between; padding-top: 6px; border-top: 1px solid #333; }
-.rank-label { font-family: 'Orbitron'; color: white; opacity: 0.6; font-size: 0.45rem; }
-.rank-icons { display: flex; gap: 3px; }
-.rank-btn { width: 12px; height: 6px; background: #222; border: 1px solid #444; cursor: pointer; clip-path: polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%); }
+.film-strip { height: 35px; background: var(--unova-black); display: flex; justify-content: space-around; align-items: center; }
+.film-strip span { width: 25px; height: 35px; background: white; }
+.card-body { background: var(--unova-black); color: white; flex-grow: 1; padding: 15px; display: flex; flex-direction: column; width: 100%; }
+.id-num { font-family: 'Orbitron'; color: white; opacity: 0.5; font-size: 0.7rem; }
+.name { font-size: 2.2rem; text-transform: uppercase; line-height: 1; margin: 10px 0; font-weight: 700; color: white; }
+.description { font-size: 10px; font-family: 'Press Start 2P'; color: #aaa; line-height: 1.4; margin-bottom: 12px; min-height: 45px; }
+.type-tag { display: inline-block; padding: 5px 12px; font-size: 0.7rem; text-transform: uppercase; margin-right: 5px; font-family: 'Press Start 2P'; color: white; border: 1px solid white; }
+.level-header { display: flex; justify-content: space-between; align-items: center; font-family: 'Orbitron'; color: white; margin: 10px 0; font-size: 0.9rem; }
+.lvl-input { background: white; color: black; border: none; width: 40px; font-family: 'Orbitron'; font-weight: bold; text-align: center; font-size: 0.9rem; }
+.lvl-slider { width: 100%; accent-color: white; height: 15px; }
+.stat-line { display: flex; justify-content: space-between; font-family: 'Press Start 2P'; font-size: 8px; margin-bottom: 6px; }
+.moves-list { overflow-y: auto; height: 150px; border: 1px solid #333; background: rgba(255,255,255,0.03); margin-top: 10px; }
+.move-item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #222; font-size: 8px; font-family: 'Press Start 2P'; cursor: crosshair; border-left: 3px solid #444; }
+.rank-selector { margin-top: auto; display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid #333; }
+.rank-label { font-family: 'Orbitron'; color: white; opacity: 0.6; font-size: 0.7rem; }
+.rank-icons { display: flex; gap: 5px; }
+.rank-btn { width: 30px; height: 15px; background: #222; border: 1px solid #444; cursor: pointer; clip-path: polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%); }
 .rank-btn.active { background: white; box-shadow: 0 0 5px white; border-color: white; }
 #region-selector { display: flex; justify-content: center; gap: 6px; padding: 20px 0; background: rgba(0,0,0,0.95); border-top: 1px solid rgba(255,255,255,0.1); margin-top: 20px; flex-wrap: wrap; }
 .region-btn { width: 40px; height: 40px; background: #000; border: 1px solid #333; color: #555; font-family: 'Orbitron'; font-size: 14px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; clip-path: polygon(15% 0, 100% 0, 85% 100%, 0 100%); }
 .region-btn.active { border-color: white; color: white; box-shadow: 0 0 15px rgba(255,255,255,0.2); transform: scale(1.1); }
 #move-hud { position: fixed; display: none; z-index: 10000; background: #ffffff; border: 2px solid #000; padding: 15px; width: 260px; pointer-events: none; font-family: 'Orbitron'; box-shadow: 0 0 30px rgba(0,0,0,0.5); clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%); color: #000000; }
 @media (min-width: 768px) {
-    .nav-container { padding: 15px 40px; flex-direction: row; }
-    .header-line { display: block; flex-grow: 1; height: 1px; margin: 0 30px; background: linear-gradient(to right, transparent, rgba(0, 242, 255, 0.4), transparent); }
-    .search-input { width: 220px !important; font-size: 10px; }
-    #pokedex { grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 50px; padding: 0 40px 50px; margin: 40px auto; width: auto; max-width: 1400px; }
-    .pokemon-card { min-height: 1000px; border-width: 6px; box-shadow: 12px 12px 0px rgba(255, 255, 255, 0.05); }
-    .img-container { height: 260px; }
-    .name { font-size: 2.8rem; margin: 8px 0; white-space: normal; }
-    .description { font-size: 8px; min-height: 45px; }
-    .stat-line { font-size: 8px; margin-bottom: 6px; }
-    .type-tag { font-size: 0.8rem; padding: 4px 12px; }
-    .moves-list { height: 180px; }
-    .move-item { font-size: 8px; padding: 10px; }
-    .rank-label { font-size: 0.7rem; }
-    .rank-btn { width: 25px; height: 12px; }
-    .capture-zone { width: 30px; height: 30px; top: 15px; right: 15px; border-width: 3px; }
-    .film-strip { height: 45px; }
-    .film-strip span { width: 30px; height: 45px; }
+.nav-container { padding: 15px 40px; }
+.header-line { display: block; flex-grow: 1; height: 1px; margin: 0 30px; background: linear-gradient(to right, transparent, rgba(0, 242, 255, 0.4), transparent); }
+.search-input { width: 220px !important; font-size: 10px; }
+#pokedex { grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 50px; padding: 0 40px 50px; margin: 40px auto; width: auto; max-width: 1400px; }
+.pokemon-card { min-height: 1000px; border-width: 6px; box-shadow: 12px 12px 0px rgba(255, 255, 255, 0.05); }
+.img-container { height: 260px; }
+.name { font-size: 2.8rem; margin: 8px 0; white-space: normal; }
+.description { font-size: 8px; min-height: 45px; }
+.stat-line { font-size: 8px; margin-bottom: 6px; }
+.type-tag { font-size: 0.8rem; padding: 4px 12px; }
+.moves-list { height: 180px; }
+.move-item { font-size: 8px; padding: 10px; }
+.rank-label { font-size: 0.7rem; }
+.rank-btn { width: 25px; height: 12px; }
+.capture-zone { width: 30px; height: 30px; top: 15px; right: 15px; border-width: 3px; }
+.film-strip { height: 45px; }
+.film-strip span { width: 30px; height: 45px; }
 }
 </style>
 </head>
