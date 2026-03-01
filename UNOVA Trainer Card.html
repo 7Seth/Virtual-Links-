@@ -57,6 +57,27 @@
             .stat-input { width: 50%; font-size: 10px; }
             .name-input { font-size: 10px; }
             .name-field { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+            .photo-area { width: 120px; height: 120px; }
+            .name-field, .message-area { width: 120px; }
+            .message-area { min-height: 80px; max-height: 80px; padding: 4px 6px; }
+            .header-icon { width: 25px; height: 25px; }
+            .card-header { padding: 6px 10px; font-size: 14px; }
+            .content { padding: 5px; gap: 5px; overflow-x: hidden; }
+            .top-section { gap: 5px; }
+            .stats { gap: 2px; }
+            .stat-box { padding: 4px 2px; min-height: 30px; }
+            .stat-label { font-size: 6px; top: -6px; left: 4px; padding: 0 2px; letter-spacing: 0.4px; }
+            .stat-input, .gender-select { font-size: 10px; }
+            .stat-unit { font-size: 6px; margin-left: 2px; }
+            .select-input { font-size: 8px; padding-right: 10px; }
+            .badges-grid { grid-template-columns: repeat(4, 25px); gap: 5px; }
+            .photo-overlay { font-size: 8px; }
+            .color-row input[type="color"] { width: 30px; height: 18px; }
+            .badge-select { font-size: 8px; }
+            .action-btn { font-size: 8px; padding: 4px 12px; }
+            .trainer-card { max-width: 100vw; border-width: 8px; }
+            .left, .right { flex-shrink: 1; }
+            .stat-box, .gender-box, .origin-box { border-width: 2px; }
         }
 
         @media (min-width: 768px) {
@@ -139,7 +160,7 @@
             .panels { max-width: 1200px; flex-direction: row; gap: 20px; }
             .color-panel, .badges-panel { min-width: auto; flex: 1; }
         }
-    </style>>
+    </style>
 </head>
 <body>
     <div class="container">
