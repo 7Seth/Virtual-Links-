@@ -49,7 +49,7 @@
         .down-arrow {display: flex;justify-content: center;margin-bottom: 1px;}
         .down-arrow img {max-width: 3rem;height: auto;}
 
-        #whiteboard { margin:0; padding:0; box-sizing:border-box; user-select:none; -webkit-user-select:none; -moz-user-select:none;}
+        #whiteboard { margin:0; padding:0; box-sizing:border-box; user-select:none; -webkit-user-select:none; -moz-user-select:none; }
         .pages-section, #pages-section { display: none!important; }
         .content { background:#000000; color:#ffffff; font-family:'Press Start 2P', cursive; overflow:hidden; display:flex; touch-action: manipulation; } 
         #sidebar { width:60px; overflow-x:hidden; background:#000000; border:4px solid black; display:flex; flex-direction:column; align-items:flex-start; padding:10px; height:100%; transition:width 0.4s cubic-bezier(0.25,0.8,0.25,1); overflow-y:auto; position:absolute; left:0; top:0; z-index:100; }
@@ -68,8 +68,8 @@
         #sidebar button:hover { transform:scale(1.1); background:#aaaaaa; box-shadow:0 0 15px rgba(255,255,255,0.5); }
         #sidebar button.active { background:#aaaaaa; }
         #sidebar .button-label { font-size:9px; margin-top:2px; color:#ffffff; text-align:center; white-space:nowrap; }
-        #canvas-container { flex:1; margin-left:60px; background: rgba(255,255,255, 0.7); position:relative; transition:margin-left 0.4s cubic-bezier(0.25,0.8,0.25,1); overflow-y: hidden; overflow-x: auto; }
-        #canvas { width:100%; height:100%; background: rgba(255,255,255, 0.7); overflow-y: hidden; overflow-x: auto; }
+        #canvas-container { flex:1; margin-left:70px; background: rgba(255,255,255, 0.7); position:absolute; transition:margin-left 0.4s cubic-bezier(0.25,0.8,0.25,1); overflow-y: hidden; overflow-x: auto; }
+        #canvas { width:100vw; height:100vh; background: rgba(255,255,255, 0.7); overflow-y: hidden; overflow-x: auto; }
         #sidebar select, #sidebar input[type="range"] { background: rgba(255,255,255, 0.7); color:#000000; border:none; padding:12px; margin:12px; width:95%; }
         .section-label { font-size:12px; color:#ffffff; margin-top:1.5rem; text-align:left; -webkit-text-stroke:1px #000000; text-shadow:2px 2px 0 #000000, -2px -2px 0 #000000, 2px -2px 0 #000000, -2px 2px 0 #000000; }
         #color-palette { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; padding:10px; width:100%; }
