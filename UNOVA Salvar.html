@@ -68,8 +68,8 @@
         #sidebar button:hover { transform:scale(1.1); background:#aaaaaa; box-shadow:0 0 15px rgba(255,255,255,0.5); }
         #sidebar button.active { background:#aaaaaa; }
         #sidebar .button-label { font-size:9px; margin-top:2px; color:#ffffff; text-align:center; white-space:nowrap; }
-        #canvas-container { flex:1; margin-left:70px; background: rgba(255,255,255, 0.7); position:absolute; transition:margin-left 0.4s cubic-bezier(0.25,0.8,0.25,1); overflow-y: hidden; overflow-x: auto; }
-        #canvas { width:100vw; height:100vh; background: rgba(255,255,255, 0.7); overflow-y: hidden; overflow-x: auto; }
+        #canvas-container { flex:1; margin-left:60px; background: rgba(255,255,255, 0.7); position:relative; transition:margin-left 0.4s cubic-bezier(0.25,0.8,0.25,1); overflow-y: hidden; overflow-x: auto; }
+        #canvas { width:100%; height:100%; background: rgba(255,255,255, 0.7); overflow-y: hidden; overflow-x: auto; }
         #sidebar select, #sidebar input[type="range"] { background: rgba(255,255,255, 0.7); color:#000000; border:none; padding:12px; margin:12px; width:95%; }
         .section-label { font-size:12px; color:#ffffff; margin-top:1.5rem; text-align:left; -webkit-text-stroke:1px #000000; text-shadow:2px 2px 0 #000000, -2px -2px 0 #000000, 2px -2px 0 #000000, -2px 2px 0 #000000; }
         #color-palette { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; padding:10px; width:100%; }
@@ -790,7 +790,42 @@
             canvas.renderAll();
         }
 
+        function getContentBounds() {
+            const objects = canvas.getObjects();
+            if (objects.length === 0) {
+                return { width: 800, height: 600 };  
+            }
+            let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+            objects.forEach(obj => {
+                const bounds = obj.getBoundingRect();
+                minX = Math.min(minX, bounds.left);
+                minY = Math.min(minY, bounds.top);
+                maxX = Math.max(maxX, bounds.left + bounds.width);
+                maxY = Math.max(maxY, bounds.top + bounds.height);
+            });
+            const contentWidth = maxX - minX + 20;  
+            const contentHeight = maxY - minY + 20;
+            const scale = Math.min(800 / contentWidth, 1);
+            return { width: contentWidth * scale, height: contentHeight * scale };
+        }
+
         document.getElementById('save-btn').addEventListener('click', () => {
+            const originalWidth = canvas.width;
+            const originalHeight = canvas.height;
+
+            const { width: newWidth, height: newHeight } = getContentBounds();  
+
+            const scaleX = newWidth / originalWidth;
+            const scaleY = newHeight / originalHeight;
+            canvas.getObjects().forEach(obj => {
+                obj.scaleX *= scaleX;
+                obj.scaleY *= scaleY;
+                obj.left *= scaleX;
+                obj.top *= scaleY;
+            });
+            canvas.setDimensions({ width: newWidth, height: newHeight });
+            canvas.renderAll();
+
             const restoreData = prepareForSave();
 
             const link = document.createElement('a');
@@ -799,6 +834,16 @@
             link.click();
 
             restoreAfterSave(restoreData);
+
+            canvas.getObjects().forEach(obj => {
+                obj.scaleX /= scaleX;
+                obj.scaleY /= scaleY;
+                obj.left /= scaleX;
+                obj.top /= scaleY;
+            });
+            canvas.setDimensions({ width: originalWidth, height: originalHeight });
+            canvas.renderAll();
+
             updateState();
         });
 
