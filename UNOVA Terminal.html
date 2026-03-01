@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>C-GEAR // REGISTROS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://www.dropbox.com/scl/fi/jgdo8lc1q6772yakqem59/46105.png?rlkey=mnd1n4tvuf9ttkhf84g4bberz&st=37k26jrb&raw=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <style>
+        :root {
+            --cyan: #00e5ff;
+            --dark-bg: #0a0e12;
+            --panel-bg: rgba(15, 25, 35, 0.95);
+            --plasma-red: #ff4b4b;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+        body, html { 
+            margin: 0; padding: 0; height: 100%; width: 100%;
+            background: var(--dark-bg); color: var(--cyan);
+            font-family: 'Rajdhani', sans-serif; overflow: hidden;
+        }
+
+        .c-gear-bg {
+            position: fixed; inset: 0; z-index: -1;
+            background: radial-gradient(circle at center, #1a2a35 0%, #0a0e12 100%);
+        }
+
+        .grid-overlay {
+            position: fixed; inset: 0; z-index: -1; opacity: 0.15;
+            background-image: linear-gradient(var(--cyan) 1px, transparent 1px), 
+                              linear-gradient(90deg, var(--cyan) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .app-shell { display: flex; flex-direction: column; height: 100vh; }
+
+        header {
+            height: 60px; border-bottom: 3px solid var(--cyan); border-radius: 18%; background: transparent!important;
+            display: flex; align-items: center; justify-content: space-between; padding: 0 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .header-icon { width: 30px; height: 30px; object-fit: contain; border-radius: 0; box-shadow: none; }
+
+        .logo { font-family: 'Orbitron'; font-size: 0.8rem; letter-spacing: 3px; font-weight: bold; }
+
+        .btn-save {
+            background: var(--cyan); color: #000; padding: 8px 20px; border: none;
+            font-family: 'Orbitron'; font-size: 0.7rem; font-weight: 900;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%); cursor: pointer;
+        }
+
+        main { flex: 1; position: relative; display: flex; flex-direction: column; align-items: center; padding: 10px; }
+
+        #canvas-wrapper {
+            width: 100%; flex: 1; position: relative;
+            background: rgba(0,0,0,0.4); border: 2px solid rgba(0, 229, 255, 0.2);
+            border-radius: 5px; overflow: hidden;
+        }
+
+        canvas { touch-action: none; }
+
+        .mouse-glow {
+            position: absolute; width: 120px; height: 120px;
+            background: radial-gradient(circle, rgba(0, 229, 255, 0.2) 0%, transparent 70%);
+            border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); z-index: 2;
+        }
+
+        .side-bar {
+            position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 12px; z-index: 10;
+        }
+
+        .tool-btn {
+            width: 50px; height: 50px; background: var(--panel-bg); border: 2px solid var(--cyan);
+            color: var(--cyan); display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; cursor: pointer; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            clip-path: polygon(0 15%, 15% 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
+        }
+
+        .tool-btn.active { background: var(--cyan); color: #000; box-shadow: 0 0 15px var(--cyan); }
+        .tool-btn.eraser-btn { border-color: var(--plasma-red); color: var(--plasma-red); }
+        .tool-btn.eraser-btn.active { background: var(--plasma-red); color: #fff; border-color: #fff; }
+
+        .bottom-panel {
+            position: absolute; left: 0; right: 0; bottom: 0; background: var(--panel-bg);
+            border-top: 3px solid var(--cyan); padding: 20px; z-index: 25;
+            transform: translateY(100%); transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            border-radius: 25px 25px 0 0;
+        }
+
+        .bottom-panel.open { transform: translateY(0); }
+
+        .menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+
+        .menu-item {
+            background: rgba(0, 229, 255, 0.05); border: 1px solid var(--cyan);
+            color: var(--cyan); padding: 15px 5px; text-align: center; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            border-radius: 10px; font-size: 0.65rem; font-weight: bold; text-transform: uppercase;
+        }
+
+        .menu-item i { font-size: 1.2rem; }
+        .menu-item:active { background: var(--cyan); color: #000; }
+
+        .config-row { display: flex; flex-direction: column; gap: 10px; margin-top: 5px; }
+        input[type="range"] { appearance: none; width: 100%; height: 6px; background: #000; border: 1px solid var(--cyan); border-radius: 3px; }
+        input[type="range"]::-webkit-slider-thumb { appearance: none; width: 18px; height: 18px; background: var(--cyan); cursor: pointer; border-radius: 50%; }
+        input[type="color"] { width: 100%; height: 40px; background: none; border: 1px solid var(--cyan); cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="c-gear-bg"></div>
+    <div class="grid-overlay"></div>
+
+    <div class="app-shell">
+        <header>
+            <img id="header-icon" src="BADGES/centerpkmbw (1).png" class="header-icon" alt="Unova Logo">
+            <div class="logo">C-GEAR // TERMINAL</div>
+            <button class="btn-save" onclick="salvarRegistros()">SALVAR</button>
+        </header>
+
+        <main id="interaction-area">
+            <div id="canvas-wrapper">
+                <canvas id="main-c"></canvas>
+            </div>
+            <div class="mouse-glow" id="cursor-glow"></div>
+
+            <div class="side-bar">
+                <button class="tool-btn active" id="mode-select" onclick="setMode('select')"><i class="fas fa-mouse-pointer"></i></button>
+                <button class="tool-btn" id="mode-draw" onclick="setMode('draw')"><i class="fas fa-pencil-alt"></i></button>
+                <button class="tool-btn eraser-btn" id="mode-erase" onclick="setMode('erase')"><i class="fas fa-eraser"></i></button>
+                <button class="tool-btn" onclick="openPanel('panel-shapes')"><i class="fas fa-shapes"></i></button>
+                <button class="tool-btn" onclick="openPanel('panel-text')"><i class="fas fa-font"></i></button>
+                <button class="tool-btn" onclick="openPanel('panel-config')"><i class="fas fa-sliders-h"></i></button>
+            </div>
+        </main>
+
+        <div id="panel-shapes" class="bottom-panel">
+            <div class="menu-grid">
+                <div class="menu-item" onclick="addShape('rect')"><i class="far fa-square"></i>QUADRADO</div>
+                <div class="menu-item" onclick="addShape('circle')"><i class="far fa-circle"></i>CÍRCULO</div>
+                <div class="menu-item" onclick="addShape('tri')"><i class="fas fa-vector-square"></i>TRIÂNGULO</div>
+                <div class="menu-item" onclick="addShape('line')"><i class="fas fa-slash"></i>LINHA</div>
+            </div>
+        </div>
+
+        <div id="panel-text" class="bottom-panel">
+            <div class="menu-grid">
+                <div class="menu-item" onclick="addText('titulo')"><i class="fas fa-heading"></i>TÍTULO</div>
+                <div class="menu-item" onclick="addText('corpo')"><i class="fas fa-align-left"></i>CORPO</div>
+                <div class="menu-item" onclick="addText('citacao')"><i class="fas fa-quote-right"></i>CITAÇÃO</div>
+                <div class="menu-item" style="color:var(--plasma-red); border-color: var(--plasma-red);" onclick="clearAll()">
+                    <i class="fas fa-trash-alt"></i>LIMPAR
+                </div>
+            </div>
+        </div>
+
+        <div id="panel-config" class="bottom-panel">
+            <div class="config-row">
+                <label style="font-size:0.7rem; font-weight: bold;">COR DO SISTEMA</label>
+                <input type="color" id="input-color" value="#00e5ff" onchange="applyBrushSettings()">
+                <label style="font-size:0.7rem; font-weight: bold; margin-top: 10px;">ESPESSURA DO TRAÇO</label>
+                <input type="range" id="input-size" min="2" max="50" value="5" onchange="applyBrushSettings()">
+            </div>
+        </div>
+    </div>
+
+    <script>
+    const wrapper = document.getElementById('canvas-wrapper');
+    const canvas = new fabric.Canvas('main-c', {
+        width: wrapper.clientWidth,
+        height: wrapper.clientHeight,
+        isDrawingMode: false,
+        preserveObjectStacking: true
+    });
+
+    let currentY = 40;
+    let clipboard = null;
+
+    function setMode(mode) {
+        canvas.isDrawingMode = (mode === 'draw' || mode === 'erase');
+        document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+        
+        if(mode === 'draw') {
+            canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
+            applyBrushSettings();
+            document.getElementById('mode-draw').classList.add('active');
+        } else if(mode === 'erase') {
+            canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
+            canvas.freeDrawingBrush.width = 30;
+            canvas.freeDrawingBrush.color = 'rgba(0,0,0,1)';
+            canvas.freeDrawingBrush.shadow = null;
+            document.getElementById('mode-erase').classList.add('active');
+        } else {
+            document.getElementById('mode-select').classList.add('active');
+        }
+        closePanels();
+    }
+
+    function applyBrushSettings() {
+        if(canvas.isDrawingMode && !document.getElementById('mode-erase').classList.contains('active')) {
+            canvas.freeDrawingBrush.color = document.getElementById('input-color').value;
+            canvas.freeDrawingBrush.width = parseInt(document.getElementById('input-size').value);
+        }
+    }
+
+    canvas.on('path:created', function(opt) {
+        const isErase = document.getElementById('mode-erase').classList.contains('active');
+        
+        opt.path.set({ 
+            selectable: false, 
+            evented: false, 
+            hasControls: false,
+            hasBorders: false
+        });
+
+        if(isErase) {
+            opt.path.set({ globalCompositeOperation: 'destination-out' });
+        }
+        
+        canvas.renderAll();
+    });
+
+    function openPanel(id) {
+        const p = document.getElementById(id);
+        const isOpen = p.classList.contains('open');
+        closePanels();
+        if(!isOpen) p.classList.add('open');
+    }
+
+    function closePanels() {
+        document.querySelectorAll('.bottom-panel').forEach(p => p.classList.remove('open'));
+    }
+
+    function addShape(type) {
+        const color = document.getElementById('input-color').value;
+        const stroke = parseInt(document.getElementById('input-size').value);
+        const center = canvas.getVpCenter();
+        let obj;
+        const props = { 
+            left: center.x, 
+            top: center.y, 
+            fill: 'transparent', 
+            stroke: color, 
+            strokeWidth: stroke,
+            originX: 'center',
+            originY: 'center'
+        };
+
+        if(type === 'rect') obj = new fabric.Rect({...props, width: 80, height: 80});
+        if(type === 'circle') obj = new fabric.Circle({...props, radius: 40});
+        if(type === 'tri') obj = new fabric.Triangle({...props, width: 90, height: 80});
+        if(type === 'line') obj = new fabric.Line([0, 0, 100, 0], props);
+
+        canvas.add(obj);
+        canvas.setActiveObject(obj);
+        setMode('select');
+    }
+
+    function addText(type) {
+        const color = document.getElementById('input-color').value;
+        let conf = { left: 40, top: currentY, fill: color, fontFamily: 'Rajdhani', fontSize: 22 };
+        let val = "> Inserir Texto";
+
+        if(type === 'titulo') { 
+            val = ">> TITULO_"; 
+            conf.fontFamily = 'Orbitron'; 
+            conf.fontWeight = 'bold'; 
+            conf.fontSize = 32; 
+        } else if(type === 'citacao') { 
+            val = "“Citação."; 
+            conf.fontStyle = 'italic'; 
+        }
+
+        const txt = new fabric.IText(val, conf);
+        canvas.add(txt);
+        currentY += txt.height + 15;
+        if(currentY > canvas.height - 60) currentY = 40;
+        setMode('select');
+    }
+
+    function clearAll() {
+        if(confirm("Deseja apagar todos os registros?")) {
+            canvas.clear();
+            currentY = 40;
+            closePanels();
+        }
+    }
+
+    window.addEventListener('keydown', (e) => {
+        const isCtrl = e.ctrlKey || e.metaKey;
+        const active = canvas.getActiveObject();
+
+        if((e.key === "Delete" || e.key === "Backspace") && active && !active.isEditing) {
+            const activeObjects = canvas.getActiveObjects();
+            canvas.discardActiveObject();
+            activeObjects.forEach(obj => canvas.remove(obj));
+        }
+
+        if(isCtrl && e.key === 'c' && active) {
+            active.clone(cloned => clipboard = cloned);
+        }
+
+        if(isCtrl && e.key === 'v' && clipboard) {
+            clipboard.clone(cloned => {
+                canvas.discardActiveObject();
+                cloned.set({ left: cloned.left + 20, top: cloned.top + 20, evented: true });
+                if (cloned.type === 'activeSelection') {
+                    cloned.canvas = canvas;
+                    cloned.forEachObject(obj => canvas.add(obj));
+                    cloned.setCoords();
+                } else {
+                    canvas.add(cloned);
+                }
+                canvas.setActiveObject(cloned);
+                canvas.requestRenderAll();
+            });
+        }
+
+        if(isCtrl && e.key === 'x' && active) {
+            active.clone(cloned => {
+                clipboard = cloned;
+                const activeObjects = canvas.getActiveObjects();
+                canvas.discardActiveObject();
+                activeObjects.forEach(obj => canvas.remove(obj));
+            });
+        }
+    });
+
+    document.getElementById('interaction-area').onmousemove = (e) => {
+        const glow = document.getElementById('cursor-glow');
+        const rect = document.getElementById('interaction-area').getBoundingClientRect();
+        glow.style.left = (e.clientX - rect.left) + 'px';
+        glow.style.top = (e.clientY - rect.top) + 'px';
+    };
+
+    function salvarRegistros() {
+        const exportCanvas = document.createElement('canvas');
+        exportCanvas.width = canvas.width;
+        exportCanvas.height = canvas.height;
+        const ctx = exportCanvas.getContext('2d');
+
+        ctx.fillStyle = '#0a0e12';
+        ctx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
+        
+        ctx.strokeStyle = 'rgba(0, 229, 255, 0.1)';
+        for(let i=0; i<exportCanvas.width; i+=40) { ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i,exportCanvas.height); ctx.stroke(); }
+        for(let i=0; i<exportCanvas.height; i+=40) { ctx.beginPath(); ctx.moveTo(0,i); ctx.lineTo(exportCanvas.width,i); ctx.stroke(); }
+
+        const img = new Image();
+        img.onload = function() {
+            ctx.drawImage(img, 0, 0);
+            const link = document.createElement('a');
+            link.download = 'C-GEAR-DATA-REGISTRO.png';
+            link.href = exportCanvas.toDataURL('image/png');
+            link.click();
+        };
+        img.src = canvas.toDataURL();
+    }
+
+    window.onresize = () => {
+        canvas.setDimensions({ width: wrapper.clientWidth, height: wrapper.clientHeight });
+    };
+
+    window.onload = () => {
+        setMode('select');
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+            var titleElement = document.title;
+            var intervalId;
+            var repetitions = 3;
+            var currentRepetition = 0;
+
+            function startTitleAnimation() {
+                var title = ": Terminal";
+                var index = 0;
+
+                intervalId = setInterval(function () {
+                    document.title = "POKÉMON" + title.substring(0, index);
+                    index++;
+
+                    if (index > title.length) {
+                        clearInterval(intervalId);
+                        setTimeout(function () {
+                            currentRepetition++;
+
+                            if (currentRepetition < repetitions) {
+                                startTitleAnimation();
+                            } else {
+                                currentRepetition = 0;
+                                setTimeout(function () {
+                                    startTitleAnimation();
+                                }, 1000);
+                            }
+                        }, 1000);
+                    }
+                }, 150); 
+            }
+
+            startTitleAnimation();
+        });
+</script>
+</body>
+</html>
