@@ -16,7 +16,7 @@
         body::before {content: '';position: fixed;top: 0;left: 0;width: 50%;height: 100%;background-color: #111;background-image: linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%), linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%);background-size: 66px 66px;background-position: 0 0, 30px 30px;z-index: -2;}
         body::after {content: '';position: fixed;top: 0;right: 0;width: 50%;height: 100%;background-color: #f0f0f0;background-image: linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%), linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%);background-size: 66px 66px;background-position: 0 0, 30px 30px;z-index: -2;}
         .left-container {width: 49.5%;height: 100vh;display: flex;flex-direction: column;overflow: hidden;}
-        .right-container {width: 50.5%;height: 80vh;overflow-y: auto;overflow-x: hidden;padding: 0;box-sizing: border-box;}
+        .right-container {width: 50.5%;height: 80vh;overflow-y: scroll!important;overflow-x: hidden;padding: 0;box-sizing: border-box;}
         .content {display: flex;flex-direction: column;justify-content: center;align-items: center;height: 100%;overflow: hidden;text-align: center;user-select: none;transition: background-color 1s ease, color 1s ease;font-size: 16px;position: relative;margin: 0;padding: 0;}
         .right-container::-webkit-scrollbar {width: 7px;background: white;}
         .right-container::-webkit-scrollbar-thumb {background: gray;}
@@ -40,7 +40,7 @@
         #date {font-size: 0.7rem;user-select: none;font-family: 'Share Tech', sans-serif;}
         #clock {font-size: 0.9rem;user-select: none;font-family: 'Share Tech', sans-serif;}
         .indicador {display: none;position: fixed;top: 0;right: 0;background-color: #222;padding: 0.7rem 0.5rem 0.5rem 0.7rem;width: 30%;text-align: center;color: white;font-family: 'Share Tech' !important;font-size: 1.1rem;z-index: 999999;border-radius: 0.5rem 0 0 0.5rem;}
-        @media (max-width: 768px) {body {flex-direction: column;height: 100vh;overflow: hidden;}.left-container {display: none;}.right-container {width: 100%;height: 100%;padding: 0;margin: 0;box-sizing: border-box;overflow-y: auto;overflow-x: hidden;}.button-frame {position: sticky;top: 0;z-index: 10;background-color: rgba(0, 0, 0, 0.95);width: 100%;box-sizing: border-box;padding: 0.6rem 1rem;justify-content: space-between;}header {margin-top: 0;padding: 1rem;}header img {margin-top: 0;}.cape {padding: 2rem 0;}.cape img {max-width: 4rem;}footer {padding: 1.5rem;border-bottom-width: 1rem;margin-bottom: 0;}.main-buttons {font-size: 0.6rem;padding: 0.5rem 0.75rem;border-width: 0.3rem;}.pokebutton {width: 2.5rem;height: 2.5rem;margin: 0 0.5rem;border-width: 0.3rem;}.content {font-size: clamp(12px, 4.5vw, 14px);padding: 0;margin: 0;height: 100%;min-height: 100%;}.content-bottom {position: static;margin-top: auto;margin-bottom: 1rem;}.content-bottom img {max-width: 4rem;}.indicador {width: 50%;left: auto;right: 0;}.main-menu {width: 68%;}}
+        @media (max-width: 768px) {body {flex-direction: column;height: 100vh;overflow: hidden;}.left-container {display: none;}.right-container {width: 100%;height: 100%;padding: 0;margin: 0;box-sizing: border-box;overflow-y: scroll!important;overflow-x: hidden;}.button-frame {position: sticky;top: 0;z-index: 10;background-color: rgba(0, 0, 0, 0.95);width: 100%;box-sizing: border-box;padding: 0.6rem 1rem;justify-content: space-between;}header {margin-top: 0;padding: 1rem;}header img {margin-top: 0;}.cape {padding: 2rem 0;}.cape img {max-width: 4rem;}footer {padding: 1.5rem;border-bottom-width: 1rem;margin-bottom: 0;}.main-buttons {font-size: 0.6rem;padding: 0.5rem 0.75rem;border-width: 0.3rem;}.pokebutton {width: 2.5rem;height: 2.5rem;margin: 0 0.5rem;border-width: 0.3rem;}.content {font-size: clamp(12px, 4.5vw, 14px);padding: 0;margin: 0;height: 100%;min-height: 100%;}.content-bottom {position: static;margin-top: auto;margin-bottom: 1rem;}.content-bottom img {max-width: 4rem;}.indicador {width: 50%;left: auto;right: 0;}.main-menu {width: 68%;}}
         @media (max-width: 480px) {.pokebutton {width: 2rem;height: 2rem;margin: 0 0.25rem;}.button-container {margin-top: 0.5rem;}.content {padding: 0;}}
         .down-arrow {display: flex;justify-content: center;margin-bottom: 1px;}
         .down-arrow img {max-width: 3rem;height: auto;}
@@ -51,7 +51,7 @@
             font-family: 'Press Start 2P', cursive;
             color: white;
             overflow-x: hidden;
-            overflow-y: auto;
+            overflow-y: scroll!important;
         }
 
         .content.light {
