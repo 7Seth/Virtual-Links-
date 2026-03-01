@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --plasma-cyan: #00f2ff;
+            --grid-color: rgba(0, 242, 255, 0.1);
+        }
+
+        * {
+            font-family: 'Press Start 2P', cursive;
+            box-sizing: border-box;
+        }
+
+        body { 
+            background: #000; 
+            margin: 0; 
+            overflow: hidden; 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center;
+            color: #fff;
+        }
+
+        .grid-bg {
+            position: fixed;
+            inset: -50%;
+            width: 200%; height: 200%;
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 60px 60px;
+            transform: perspective(500px) rotateX(60deg);
+            animation: grid-move 20s linear infinite;
+            z-index: 0;
+        }
+
+        .grid-trails {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(var(--plasma-cyan) 0%, transparent 1px);
+            background-size: 100% 100px;
+            animation: trail-flow 4s ease-in-out infinite;
+            opacity: 0.05;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particles {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--plasma-cyan);
+            width: 2px; height: 10px;
+            opacity: 0.3;
+            animation: rise 5s linear infinite;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 150;
+            color: var(--plasma-cyan);
+            text-decoration: none;
+            font-size: 10px;
+            border: 1px solid var(--plasma-cyan);
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: var(--plasma-cyan);
+            color: #000;
+            box-shadow: 0 0 20px var(--plasma-cyan);
+        }
+
+        .interaction-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+            width: 100%;
+        }
+
+        .portal-core {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            min-height: 300px;
+            width: 100%;
+            background: radial-gradient(circle, rgba(0, 242, 255, 0.15) 0%, transparent 70%);
+            transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+            pointer-events: none; 
+        }
+
+        .portal-core::before {
+            content: '';
+            position: absolute;
+            width: 220px; height: 220px;
+            border: 2px dashed var(--plasma-cyan);
+            border-radius: 50%;
+            animation: rotate 15s linear infinite;
+            opacity: 0.5;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
+        }
+
+        .portal-core img {
+            max-width: 120px;
+            z-index: 2;
+            filter: drop-shadow(0 0 15px var(--plasma-cyan));
+            transition: transform 0.4s ease;
+        }
+
+        .interaction-group:hover .portal-core img { transform: scale(1.1); }
+
+        #btn-label {
+            color: var(--plasma-cyan);
+            margin-top: 40px;
+            font-size: 12px;
+            animation: blink 1.5s infinite;
+            z-index: 5;
+            text-align: center;
+        }
+
+        #story {
+            width: 85%;
+            max-width: 800px;
+            font-size: 11px;
+            line-height: 2.2;
+            text-align: justify;
+            margin-top: 20px;
+            z-index: 5;
+            display: none;
+            text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+        }
+
+        .celebi-float { 
+            position: absolute; 
+            width: 150px; 
+            z-index: 100; 
+            opacity: 0; 
+            filter: drop-shadow(0 0 12px #4ade80); 
+            transition: all 4s ease-in-out, opacity 1s ease; 
+        }
+
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes blink { 50% { opacity: 0.2; } }
+        @keyframes grid-move { from { background-position: 0 0; } to { background-position: 0 600px; } }
+        @keyframes rise { from { transform: translateY(110vh); opacity: 0; } to { transform: translateY(-10vh); opacity: 0.5; } }
+        @keyframes trail-flow { 0% { background-position: 0 -100px; opacity: 0; } 50% { opacity: 0.15; } 100% { background-position: 0 100vh; opacity: 0; } }
+        @keyframes clock-spin { 0% { transform: rotate(0deg) scale(1); opacity: 0; } 50% { opacity: 1; } 100% { transform: rotate(1080deg) scale(5); opacity: 0; } }
+
+        .active-scene { justify-content: flex-start !important; padding-top: 30px; }
+        .active-core { transform: scale(0.6); min-height: 180px !important; margin-bottom: 20px; }
+        
+        #vortex {
+            position: fixed; inset: 0; z-index: 99; pointer-events: none;
+            background: conic-gradient(from 0deg, var(--plasma-cyan), transparent, var(--plasma-cyan), transparent);
+            opacity: 0; mix-blend-mode: screen;
+        }
+
+        #scanner {
+            position: fixed; width: 100%; height: 2px; 
+            background: var(--plasma-cyan); z-index: 100; 
+            display: none; box-shadow: 0 0 15px var(--plasma-cyan);
+        }
+    </style>
+</head>
+<body>
+
+    <a href="UNOVA Controles.html" class="back-btn">< //VOLTAR</a>
+    <div class="grid-bg"></div>
+    <div class="grid-trails"></div>
+    <div class="particles" id="particleContainer"></div>
+    <div id="vortex"></div>
+    <div id="scanner"></div>
+
+    <div class="interaction-group" id="mainButton">
+        <div class="portal-core">
+            <img src="https://www.dropbox.com/scl/fi/480cflc155lmxpkmlwr4j/centerpkmbw.png?rlkey=leovgwbvok4anolgjdjx92dui&st=y2wu3x1a&raw=1" alt="Botão Core">
+        </div>
+        <div id="btn-label">◤ PRESSIONAR ◥</div>
+    </div>
+    
+    <div id="story"></div>
+
+    <img src="https://www.dropbox.com/scl/fi/ep6ini3azdv1u4kgdarro/1740649_b9e37.gif?rlkey=1qma9fkqa52o8qw0xxz2zzlxz&st=v4zm63to&raw=1" class="celebi-float" id="celebi">
+
+    <script>
+        const pContainer = document.getElementById('particleContainer');
+        for (let i = 0; i < 35; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDelay = Math.random() * 5 + 's';
+            p.style.height = (Math.random() * 15 + 5) + 'px';
+            pContainer.appendChild(p);
+        }
+
+        const storyContent = `O Mundo Pokémon está prestes presenciar um grande pesadelo: o fim dos tempos é um evento iminente.\n\nEm Unova, uma sombra do século passado ressurge, o legado que trouxe à tona resquícios do afamado Team Plasma. Seus mais novos membros são hegemonicamente hackers e políticos.\n\nAgora, sob o domínio econômico do Neo Team Plasma, o mundo está em perigo novamente. Com registros apagados, eles maqueiam a História com filosofias transhumanistas e o futurismo através de um novo discurso pacifista sustentado pela IA e a rede Virtual Links.\n\nPorém, através de um chamado místico, você foi alertado. Celebi, guardião da floresta e viajante do tempo, dá a você a missão de impedir a ascensão do Neo Team Plasma e evitar o fim do Mundo Pokémon.`;
+
+        const group = document.getElementById('mainButton');
+        const core = document.querySelector('.portal-core');
+        const label = document.getElementById('btn-label');
+        const storyDiv = document.getElementById('story');
+        const vortex = document.getElementById('vortex');
+        const scanner = document.getElementById('scanner');
+        const celebi = document.getElementById('celebi');
+        
+        let isOpen = false;
+        let typingTimeout;
+
+        group.onclick = function() {
+            if (!isOpen) {
+                isOpen = true;
+                vortex.style.animation = 'clock-spin 1.5s forwards';
+                document.body.classList.add('active-scene');
+                core.classList.add('active-core');
+                label.style.display = 'none';
+
+                setTimeout(() => {
+                    vortex.style.animation = 'none';
+                    scanner.style.display = 'block';
+                    storyDiv.style.display = 'block';
+                    typeWriter(0);
+                    celebi.style.opacity = '0.7';
+                    moveCelebi();
+                    startScanner();
+                }, 1000);
+            } else {
+                isOpen = false;
+                clearTimeout(typingTimeout);
+                storyDiv.innerHTML = "";
+                storyDiv.style.display = 'none';
+                scanner.style.display = 'none';
+                celebi.style.opacity = '0';
+                document.body.classList.remove('active-scene');
+                core.classList.remove('active-core');
+                label.style.display = 'block';
+            }
+        };
+
+        function typeWriter(i) {
+            if (i < storyContent.length && isOpen) {
+                const char = storyContent.charAt(i);
+                storyDiv.innerHTML += char === '\n' ? '<br>' : char;
+                typingTimeout = setTimeout(() => typeWriter(i + 1), 15);
+            }
+        }
+
+        let scannerY = 0;
+        function startScanner() {
+            if (!isOpen) return;
+            scannerY += 5;
+            if (scannerY > window.innerHeight) scannerY = 0;
+            scanner.style.top = scannerY + 'px';
+            requestAnimationFrame(startScanner);
+        }
+
+        function moveCelebi() {
+            if (!isOpen) return;
+            const x = Math.random() * (window.innerWidth - 180);
+            const y = Math.random() * (window.innerHeight - 180);
+            const r = Math.floor(Math.random() * 30) - 15;
+            celebi.style.left = x + 'px';
+            celebi.style.top = y + 'px';
+            celebi.style.transform = `rotate(${r}deg)`;
+            setTimeout(moveCelebi, 4000);
+        }
+    </script>
+</body>
+</html>
