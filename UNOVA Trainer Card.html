@@ -9,10 +9,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
         * { box-sizing: border-box; }
-        @media (max-width: 768px) {
-            .trainer-card { transform: rotate(-90deg); top: 0.1vh; }
-            .panels { max-width: 800px; flex-direction: row; }
-        }
         body { font-family: 'Press Start 2P', system-ui; background: #111; color: #111; margin: 0; padding: 20px 0; background-image: linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%), linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%); background-size: 66px 66px; background-position: 0 0, 30px 30px; }
         .trainer-card { width: 100%; max-width: 98vw; height: auto; background-color: #f0f0f0; background-image: linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%), linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%); background-size: cover; background-position: 50% 50%; border: 12px solid #111; border-radius: 8px; box-shadow: 0 40px 80px -20px rgb(0 0 0 / 0.8), inset 0 0 60px rgba(255,255,255,0.4); position: relative; overflow: hidden; color: #111; box-sizing: border-box; margin: 0 auto; }
         .trainer-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(transparent 50%, rgba(0,0,0,0.015) 50%), linear-gradient(90deg, transparent 50%, rgba(0,0,0,0.015) 50%); background-size: 60px 60px; pointer-events: none; opacity: 0.5; }
