@@ -33,7 +33,7 @@ body { background: var(--bg-dark); color: white; font-family: 'Teko', sans-serif
 .type-dropdown { position: relative; }
 .drop-content { display: none; position: absolute; background: #000; border: 1px solid white; width: 220px; padding: 8px; z-index: 2000; grid-template-columns: 1fr 1fr; gap: 4px; right: 0; box-shadow: 0 0 30px #000; }
 .type-dropdown:hover .drop-content { display: grid; }
-.type-pill { padding: 3px; font-family: 'Rajdhani'; font-weight: 600; cursor: pointer; border: 1px solid transparent; opacity: 0.4; text-align: center; text-transform: uppercase; color: white; transition: 0.2s; }
+.type-pill { font-family: 'Rajdhani'; font-weight: 600; cursor: pointer; border: 1px solid transparent; opacity: 0.4; text-align: center; text-transform: uppercase; color: white; transition: 0.2s; }
 .type-pill.active { opacity: 1; border-color: white; box-shadow: 0 0 8px currentColor; }
 .btn-decrypt { min-width: 120px; height: 30px; transition: 0.4s; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.1); font-size: 8px; letter-spacing: 1px; font-family: 'Orbitron'; background: transparent; color: white; cursor: pointer; }
 .btn-decrypt .revealed { display: none; }
@@ -56,7 +56,7 @@ body { background: var(--bg-dark); color: white; font-family: 'Teko', sans-serif
 .id-num { font-family: 'Orbitron'; color: white; opacity: 0.5; font-size: 0.7rem; }
 .name { font-size: 2.2rem; text-transform: uppercase; line-height: 1; margin: 10px 0; font-weight: 700; color: white; }
 .description { font-size: 10px; font-family: 'Press Start 2P'; color: #aaa; line-height: 1.4; margin-bottom: 12px; min-height: 45px; }
-.type-tag { display: inline-block; padding: 5px 12px; font-size: 0.7rem; text-transform: uppercase; margin-right: 5px; font-family: 'Press Start 2P'; color: white; border: 1px solid white; }
+.type-tag { display: inline-block; padding: 5px 12px; font-size: 0.7rem; text-transform: uppercase; margin-right: 5px; font-family: 'Press Start 2P'; color: white; border-radius: 3px; }
 .level-header { display: flex; justify-content: space-between; align-items: center; font-family: 'Orbitron'; color: white; margin: 10px 0; font-size: 0.9rem; }
 .lvl-input { background: white; color: black; border: none; width: 40px; font-family: 'Orbitron'; font-weight: bold; text-align: center; font-size: 0.9rem; }
 .lvl-slider { width: 100%; accent-color: white; height: 15px; }
@@ -99,6 +99,13 @@ body { background: var(--bg-dark); color: white; font-family: 'Teko', sans-serif
 <div class="dynamic-light light-1"></div>
 <div class="dynamic-light light-2"></div>
 </div>
+<div id="region-selector">
+<div class="region-btn" id="btn-5" onclick="changeRegion(5, 494, 649, this)">5</div>
+<div class="region-btn" id="btn-4" onclick="changeRegion(4, 387, 493, this)">4</div>
+<div class="region-btn" id="btn-3" onclick="changeRegion(3, 252, 386, this)">3</div>
+<div class="region-btn" id="btn-2" onclick="changeRegion(2, 152, 251, this)">2</div>
+<div class="region-btn" id="btn-1" onclick="changeRegion(1, 1, 151, this)">1</div>
+</div>
 <nav class="nav-container flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0">
 <div class="orbitron font-black text-xl tracking-tighter text-white flex items-center w-full md:w-auto justify-center md:justify-start"> POKÉDEX <span class="text-white opacity-50 ml-2">POKÉMON</span> </div>
 <div class="header-line"></div>
@@ -129,13 +136,7 @@ body { background: var(--bg-dark); color: white; font-family: 'Teko', sans-serif
 <div id="hud-desc" style="font-size:10px;margin-top:10px;color:#555;font-family:sans-serif;line-height:1.2"></div>
 </div>
 <div id="pokedex"></div>
-<div id="region-selector">
-<div class="region-btn" id="btn-5" onclick="changeRegion(5, 494, 649, this)">5</div>
-<div class="region-btn" id="btn-4" onclick="changeRegion(4, 387, 493, this)">4</div>
-<div class="region-btn" id="btn-3" onclick="changeRegion(3, 252, 386, this)">3</div>
-<div class="region-btn" id="btn-2" onclick="changeRegion(2, 152, 251, this)">2</div>
-<div class="region-btn" id="btn-1" onclick="changeRegion(1, 1, 151, this)">1</div>
-</div>
+
 <script>
 const TYPE_COLORS = { fire: '#F08030', water: '#6890F0', grass: '#78C850', electric: '#F8D030', ice: '#98D8D8', fighting: '#C03028', poison: '#A040A0', ground: '#E0C068', flying: '#A890F0', psychic: '#F85888', bug: '#A8B820', rock: '#B8A038', ghost: '#705898', dragon: '#7038F8', dark: '#705848', steel: '#B8B8D0', normal: '#A8A878', fairy: '#EE99AC' };
 let capturedList = JSON.parse(localStorage.getItem('unova_capture_list')) || [];
