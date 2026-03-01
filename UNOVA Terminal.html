@@ -131,10 +131,10 @@
 
             <div class="side-bar">
                 <button class="tool-btn active" id="mode-select" onclick="setMode('select')"><i class="fas fa-mouse-pointer"></i></button>
-                <button class="tool-btn" id="mode-draw" onclick="setMode('draw')"><i class="fas fa-pencil-alt"></i></button>
+                <button class="tool-btn" id="mode-draw" onclick="setMode('draw')"><i class="fas fa-edit"></i></button>
                 <button class="tool-btn eraser-btn" id="mode-erase" onclick="setMode('erase')"><i class="fas fa-eraser"></i></button>
                 <button class="tool-btn" onclick="openPanel('panel-shapes')"><i class="fas fa-shapes"></i></button>
-                <button class="tool-btn" onclick="openPanel('panel-text')"><i class="fas fa-font"></i></button>
+                <button class="tool-btn" onclick="openPanel('panel-text')"><i class="far fa-keyboard"></i></button>
                 <button class="tool-btn" onclick="openPanel('panel-config')"><i class="fas fa-sliders-h"></i></button>
             </div>
         </main>
@@ -143,14 +143,14 @@
             <div class="menu-grid">
                 <div class="menu-item" onclick="addShape('rect')"><i class="far fa-square"></i>QUADRADO</div>
                 <div class="menu-item" onclick="addShape('circle')"><i class="far fa-circle"></i>CÍRCULO</div>
-                <div class="menu-item" onclick="addShape('tri')"><i class="fas fa-vector-square"></i>TRIÂNGULO</div>
+                <div class="menu-item" onclick="addShape('tri')"><i class="fas fa-play"></i>TRIÂNGULO</div>
                 <div class="menu-item" onclick="addShape('line')"><i class="fas fa-slash"></i>LINHA</div>
             </div>
         </div>
 
         <div id="panel-text" class="bottom-panel">
             <div class="menu-grid">
-                <div class="menu-item" onclick="addText('titulo')"><i class="fas fa-heading"></i>TÍTULO</div>
+                <div class="menu-item" onclick="addText('titulo')"><i class="fas fa-font"></i>TÍTULO</div>
                 <div class="menu-item" onclick="addText('corpo')"><i class="fas fa-align-left"></i>CORPO</div>
                 <div class="menu-item" onclick="addText('citacao')"><i class="fas fa-quote-right"></i>CITAÇÃO</div>
                 <div class="menu-item" style="color:var(--plasma-red); border-color: var(--plasma-red);" onclick="clearAll()">
