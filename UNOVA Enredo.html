@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://www.dropbox.com/scl/fi/rda7ohwdqojn7q2goa66i/iconpkmbw.png?rlkey=w4amn3yc2nhewlzz2v136qfo4&st=63n5zpvx&raw=1">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <title>Enredo</title>
     <style>
         :root {
             --plasma-cyan: #00f2ff;
@@ -281,6 +283,41 @@
             celebi.style.transform = `rotate(${r}deg)`;
             setTimeout(moveCelebi, 4000);
         }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var titleElement = document.title;
+            var intervalId;
+            var repetitions = 3;
+            var currentRepetition = 0;
+
+            function startTitleAnimation() {
+                var title = "! ! !";
+                var index = 0;
+
+                intervalId = setInterval(function () {
+                    document.title = "AJUDE-NOS" + title.substring(0, index);
+                    index++;
+
+                    if (index > title.length) {
+                        clearInterval(intervalId);
+                        setTimeout(function () {
+                            currentRepetition++;
+
+                            if (currentRepetition < repetitions) {
+                                startTitleAnimation();
+                            } else {
+                                currentRepetition = 0;
+                                setTimeout(function () {
+                                    startTitleAnimation();
+                                }, 1000);
+                            }
+                        }, 1000);
+                    }
+                }, 150); 
+            }
+
+            startTitleAnimation();
+        });
     </script>
 </body>
 </html>
