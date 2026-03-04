@@ -644,7 +644,7 @@
                 };
                 renderTeam();
             } catch (e) {
-                alert('Pokémon não encontrado!\n\n');
+                alert('Pokémon não encontrado!\n\nUse nome em inglês ou número de 1 a 649');
             }
         }
 
@@ -707,7 +707,7 @@
         }
 
         function resetAll() {
-            if (!confirm('Reiniciar todos os dados?')) return;
+            if (!confirm('Resetar TODO o cartão (frente + equipe)?')) return;
             localStorage.removeItem('unovaTrainerCardBW37');
             currentID = Math.floor(100000 + Math.random() * 900000).toString().padStart(6, '0');
             currentPhotoURL = 'https://www.dropbox.com/scl/fi/480cflc155lmxpkmlwr4j/centerpkmbw.png?rlkey=leovgwbvok4anolgjdjx92dui&st=y2wu3x1a&raw=1';
@@ -774,8 +774,8 @@
                 btn.textContent = '✅ BAIXADO!';
                 setTimeout(() => btn.textContent = originalText, 2000);
             }).catch(err => {
-                console.error('Erro!:', err);
-                alert('Erro ao gerar a imagem.\n\n');
+                console.error('Erro no html2canvas:', err);
+                alert('Erro ao gerar a imagem.\n\nDica: Use Live Server (VS Code) ou hospede o arquivo.');
             });
         }
 
@@ -797,8 +797,8 @@
                 btn.textContent = '✅ BAIXADO!';
                 setTimeout(() => btn.textContent = originalText, 2000);
             }).catch(err => {
-                console.error('Erro!', err);
-                alert('Erro ao gerar a imagem.\n\n);
+                console.error('Erro no html2canvas:', err);
+                alert('Erro ao gerar a imagem.\n\nDica: Use Live Server (VS Code) ou hospede o arquivo.');
             });
         }
 
