@@ -361,7 +361,7 @@ function toggleCap(id) {
 function updateMainCounter() { 
     const curInRegion = capturedList.filter(id => id >= currentRange.start && id <= currentRange.end).length;
     const total = (currentRange.end - currentRange.start) + 1;
-    document.getElementById('main-counter').innerText = `${curInRegion} / ${total} DESCOBERTOS`; 
+    document.getElementById('main-counter').innerText = `${curInRegion} / ${total} discovered`; 
 }
 
 init();
