@@ -102,6 +102,8 @@ body { background: var(--bg-dark); color: white; font-family: 'Teko', sans-serif
 <div class="dynamic-light light-2"></div>
 </div>
 <div id="region-selector">
+<div class="region-btn" id="btn-7" onclick="changeRegion(7, 722, 809, this)">7</div>
+<div class="region-btn" id="btn-6" onclick="changeRegion(6, 650, 721, this)">6</div>
 <div class="region-btn" id="btn-5" onclick="changeRegion(5, 494, 649, this)">5</div>
 <div class="region-btn" id="btn-4" onclick="changeRegion(4, 387, 493, this)">4</div>
 <div class="region-btn" id="btn-3" onclick="changeRegion(3, 252, 386, this)">3</div>
@@ -229,8 +231,12 @@ function createCardElement(p, s) {
         <div class="card-body">
             <div class="id-num" style="font-size: 1.25rem; font-weight: bold; opacity: 0.7;">#${p.id}</div>
             <div class="name">${p.name}</div>
-            <div class="description">${desc}</div>
             <div style="margin-bottom:15px">${p.types.map(t => `<span class="type-tag" style="background:${TYPE_COLORS[t.type.name]}">${t.type.name}</span>`).join('')}</div>
+            <div class="description">${desc}</div><br>
+            <div style="font-size: 10px; font-family: 'Press Start 2P'; color: #aaa; line-height: 1.4; margin-bottom: 12px; display: flex; justify-content: space-between;">
+                <span><i class="fas fa-ruler"></i> ${p.height / 10} m</span>
+                <span><i class="fas fa-dumbbell"></i> ${p.weight / 10} kg</span>
+            </div>
             
             <div class="level-control">
                 <div class="level-header">
