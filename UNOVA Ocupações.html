@@ -6,6 +6,7 @@
     <link rel="icon" href="https://www.dropbox.com/scl/fi/rda7ohwdqojn7q2goa66i/iconpkmbw.png?rlkey=w4amn3yc2nhewlzz2v136qfo4&st=63n5zpvx&raw=1">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Share+Tech&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <title>POKÉMON: Virtual Links!</title>
     <style>
@@ -148,7 +149,7 @@
                     display: grid;
                     grid-template-columns: 140px 1fr;
                     position: relative;
-                    overflow: visible;
+                    overflow: hidden;
                     box-shadow: 10px 10px 0px rgba(0,0,0,0.5);
                     transition: all 0.3s ease;
                     font-family: 'Press Start 2P', cursive;
@@ -209,12 +210,12 @@
                 
                 .tag {
                     background: var(--current-color); color: #000;
-                    font-size: 8px; font-weight: 900; padding: 3px 8px;
+                    font-size: 8px; font-weight: 900; padding: 5px 5px;
                     width: fit-content; text-transform: uppercase; margin-bottom: 10px;
                 }
 
                 .title { font-size: 0.75rem; margin: 0 0 10px 0; text-transform: uppercase; color: #fff; line-height: 1.2; }
-                .desc { font-size: 0.6rem; color: #888; line-height: 1.6; margin-bottom: 15px; text-align: justify; }
+                .desc { font-size: 0.6rem; color: #888; line-height: 1.6; text-align: justify; }
 
                 .divider { 
                     border: none; 
@@ -441,13 +442,13 @@ finalOccupations.forEach(data => {
         skillsHTML = `
             <div class="skills-container">
                 <div class="skill-item">
-                    <span class="skill-level">I.</span>
+                    <span class="skill-level" style="font-size: 1rem;"><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></span>
                     <div class="skill-box">
                         <p class="txt">${data.skills[0]}</p>
                     </div>
                 </div>
                 <div class="skill-item">
-                    <span class="skill-level">II.</span>
+                    <span class="skill-level" style="font-size: 1rem;"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></span>
                     <div class="skill-box">
                         <p class="txt">${data.skills[1]}</p>
                     </div>
