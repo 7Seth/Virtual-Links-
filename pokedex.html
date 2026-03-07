@@ -97,7 +97,7 @@ body { background: var(--bg-dark); color: white; font-family: 'Teko', sans-serif
 .film-strip span { width: 30px; height: 45px; }
 }
 body.loading { overflow: hidden; }
-.pokemon-transition-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; display: flex; flex-direction: column; z-index: 9998; pointer-events: none; }
+.pokemon-transition-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; display: flex; flex-direction: column; z-index: 10002; pointer-events: none; }
 .strip { flex: 1; background: black; width: 100%; transform: scaleX(1); transition: transform 0.6s cubic-bezier(0.8, 0, 0.2, 1); }
 .strip:nth-child(odd) { transform-origin: left; }
 .strip:nth-child(even) { transform-origin: right; }
@@ -178,7 +178,7 @@ let abortController = null;
 let isHudLocked = false;
 let currentLockedElement = null;
 
-function showRegionLoading() {
+function showLoading() {
     const overlay = document.querySelector('.pokemon-transition-overlay');
     const loaderContainer = document.querySelector('.loader-content');
     if (overlay) overlay.classList.remove('hidden');
@@ -186,7 +186,7 @@ function showRegionLoading() {
     document.body.classList.add('loading');
 }
 
-function hideRegionLoading() {
+function hideLoading() {
     const loaderContainer = document.querySelector('.loader-content');
     if (loaderContainer) loaderContainer.classList.add('fade-out');
     setTimeout(() => {
@@ -220,6 +220,67 @@ function findEvolutionLevel(node, targetName, currentLevel = 6) {
     return null;
 }
 
+async function fetchPokemonAndSpecies(i) {
+    try {
+        const [pRes, sRes] = await Promise.all([
+            fetch(`https://pokeapi.co/api/v2/pokemon/${i}`),
+            fetch(`https://pokeapi.co/api/v2/pokemon-species/${i}`)
+        ]);
+        const p = await pRes.json();
+        const s = await sRes.json();
+        return [p, s];
+    } catch(e) {
+        return [null, null];
+    }
+}
+
+async function loadUnovaFirst() {
+    showLoading();
+    const grid = document.getElementById('pokedex');
+    grid.innerHTML = '';
+    const promises = [];
+    for (let i = 494; i <= 649; i++) {
+        promises.push(fetchPokemonAndSpecies(i));
+    }
+    const results = await Promise.all(promises);
+    for (let [p, s] of results) {
+        if (p && s) {
+            const card = await createCardElement(p, s);
+            grid.appendChild(card);
+        }
+    }
+    currentRange = {start: 494, end: 649};
+    updateMainCounter();
+    hideLoading();
+    document.getElementById('btn-5').classList.add('active');
+}
+
+async function loadBackgroundRegions() {
+    const order = [
+        {start:1, end:151},
+        {start:152, end:251},
+        {start:252, end:386},
+        {start:387, end:493},
+        {start:650, end:721},
+        {start:722, end:809},
+        {start:810, end:905},
+        {start:906, end:1025}
+    ];
+    for (let range of order) {
+        const promises = [];
+        for (let i = range.start; i <= range.end; i++) {
+            promises.push(fetchPokemonAndSpecies(i));
+        }
+        const results = await Promise.all(promises);
+        for (let [p, s] of results) {
+            if (p && s) {
+                const card = await createCardElement(p, s);
+                document.getElementById('pokedex').appendChild(card);
+            }
+        }
+    }
+}
+
 async function init() {
     const tf = document.getElementById('type-filters');
     Object.keys(TYPE_COLORS).forEach(t => {
@@ -234,9 +295,9 @@ async function init() {
         };
         tf.appendChild(p);
     });
-    changeRegion(5, 494, 649, document.getElementById('btn-5'));
+    await loadUnovaFirst();
+    loadBackgroundRegions();
     document.addEventListener('click', handleGlobalClick);
-    
     const scrollBtn = document.getElementById('scroll-nav');
     if(scrollBtn) {
         scrollBtn.onclick = () => {
@@ -257,30 +318,12 @@ window.onscroll = function() {
     }
 };
 
-async function changeRegion(gen, start, end, btn) {
-    if (abortController) abortController.abort();
-    abortController = new AbortController();
+function changeRegion(gen, start, end, btn) {
     document.querySelectorAll('.region-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    showRegionLoading();
-    const grid = document.getElementById('pokedex');
-    grid.innerHTML = '<div style="font-family:Orbitron; color:white; opacity:0.3; grid-column: 1/-1; text-align:center; padding: 100px; letter-spacing:5px">SINCRONIZANDO...</div>';
     currentRange = {start, end};
+    applyFilters();
     updateMainCounter();
-    let first = true;
-    for (let i = start; i <= end; i++) {
-        try {
-            const p = await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`, { signal: abortController.signal }).then(r => r.json());
-            const s = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${i}`, { signal: abortController.signal }).then(r => r.json());
-            const cardElement = await createCardElement(p, s);
-            if (first) {
-                grid.innerHTML = '';
-                first = false;
-            }
-            grid.appendChild(cardElement);
-        } catch (e) { if (e.name !== 'AbortError') console.log(e); }
-    }
-    hideRegionLoading();
 }
 
 async function createCardElement(p, s) {
@@ -346,7 +389,7 @@ async function createCardElement(p, s) {
 }
 
 async function loadMovesSerial(p) {
-    const container = document.getElementById(`m-${p.species.url.split('/').slice(-2, -1)[0]}`);
+    const container = document.getElementById(`m-${p.id}`);
     if (!container) return;
     const mvs = p.moves.filter(m => {
         const method = m.version_group_details[0].move_learn_method.name;
@@ -367,7 +410,7 @@ async function loadMovesSerial(p) {
         html += `<div class="move-item" data-lvl="${lvlReq}" style="border-left-color:${TYPE_COLORS[d.type.name]}" onmousemove="shHUD(event,'${d.name.toUpperCase()}','${d.power}','${d.accuracy}','${d.pp}','${d.type.name}','${effect.replace(/'/g, "\\'")}')" onmouseleave="hiHUD()" onclick="lockHUD(event, this)"><span>${mName.replace(/-/g,' ').toUpperCase()}</span><span class="move-lvl">LVL ${lvlReq === 0 ? '--' : lvlReq}</span></div>`;
     }
     container.innerHTML = html;
-    updSt(p.species.url.split('/').slice(-2, -1)[0]);
+    updSt(p.id);
 }
 
 function shHUD(e, n, pw, ac, pp, t, d) {
@@ -440,12 +483,14 @@ function updSt(id) {
 }
 
 function applyFilters() {
-    const s = document.getElementById('name-search').value.toLowerCase();
+    const s = document.getElementById('name-search').value.toLowerCase().trim();
     document.querySelectorAll('.pokemon-card').forEach(c => {
+        const id = parseInt(c.dataset.id);
+        const inRegion = (id >= currentRange.start && id <= currentRange.end);
         const t = c.dataset.types.split(',');
-        const mN = c.dataset.name.includes(s) || c.dataset.id.includes(s);
-        const mT = selectedTypes.length === 0 || selectedTypes.some(type => t.includes(type));
-        c.style.display = mN && mT ? 'flex' : 'none';
+        const nameMatch = c.dataset.name.toLowerCase().includes(s) || c.dataset.id.includes(s);
+        const typeMatch = selectedTypes.length === 0 || selectedTypes.some(type => t.includes(type));
+        c.style.display = inRegion && nameMatch && typeMatch ? 'flex' : 'none';
     });
 }
 
@@ -536,7 +581,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
         .pokemon-transition-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            display: flex; flex-direction: column; z-index: 9998;
+            display: flex; flex-direction: column; z-index: 10002;
             pointer-events: none;
         }
 
@@ -619,14 +664,6 @@ document.addEventListener("DOMContentLoaded", function () {
     document.body.appendChild(overlay);
     document.body.appendChild(loaderContainer);
     document.body.classList.add('loading');
-
-    window.addEventListener('load', function() {
-        loaderContainer.classList.add('fade-out');
-        setTimeout(() => {
-            overlay.classList.add('hidden');
-            document.body.classList.remove('loading');
-        }, 300);
-    });
 })();
 </script>
 </body>
