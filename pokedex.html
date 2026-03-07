@@ -167,7 +167,6 @@ body.loading { overflow: hidden; }
 <div id="hud-desc" style="font-size:10px;margin-top:10px;color:#555;font-family:sans-serif;line-height:1.2"></div>
 </div>
 <div id="pokedex"></div>
-
 <script>
 const TYPE_COLORS = { fire: '#F08030', water: '#6890F0', grass: '#78C850', electric: '#F8D030', ice: '#98D8D8', fighting: '#C03028', poison: '#A040A0', ground: '#E0C068', flying: '#A890F0', psychic: '#F85888', bug: '#A8B820', rock: '#B8A038', ghost: '#705898', dragon: '#7038F8', dark: '#705848', steel: '#B8B8D0', normal: '#A8A878', fairy: '#EE99AC' };
 let capturedList = JSON.parse(localStorage.getItem('unova_capture_list')) || [];
@@ -177,7 +176,7 @@ let moveCache = {};
 let abortController = null;
 let isHudLocked = false;
 let currentLockedElement = null;
-
+let loadedRegions = new Set();
 function showLoading() {
     const overlay = document.querySelector('.pokemon-transition-overlay');
     const loaderContainer = document.querySelector('.loader-content');
@@ -185,7 +184,6 @@ function showLoading() {
     if (loaderContainer) loaderContainer.classList.remove('fade-out');
     document.body.classList.add('loading');
 }
-
 function hideLoading() {
     const loaderContainer = document.querySelector('.loader-content');
     if (loaderContainer) loaderContainer.classList.add('fade-out');
@@ -195,7 +193,6 @@ function hideLoading() {
         document.body.classList.remove('loading');
     }, 300);
 }
-
 async function getInitialLevel(species) {
     try {
         const res = await fetch(species.evolution_chain.url);
@@ -206,7 +203,6 @@ async function getInitialLevel(species) {
         return 6;
     }
 }
-
 function findEvolutionLevel(node, targetName, currentLevel = 6) {
     if (node.species.name.toLowerCase() === targetName.toLowerCase()) {
         return currentLevel;
@@ -219,7 +215,6 @@ function findEvolutionLevel(node, targetName, currentLevel = 6) {
     }
     return null;
 }
-
 async function fetchPokemonAndSpecies(i) {
     try {
         const [pRes, sRes] = await Promise.all([
@@ -233,7 +228,6 @@ async function fetchPokemonAndSpecies(i) {
         return [null, null];
     }
 }
-
 async function loadUnovaFirst() {
     showLoading();
     const grid = document.getElementById('pokedex');
@@ -250,37 +244,28 @@ async function loadUnovaFirst() {
         }
     }
     currentRange = {start: 494, end: 649};
+    loadedRegions.add('5');
     updateMainCounter();
     hideLoading();
     document.getElementById('btn-5').classList.add('active');
 }
-
-async function loadBackgroundRegions() {
-    const order = [
-        {start:1, end:151},
-        {start:152, end:251},
-        {start:252, end:386},
-        {start:387, end:493},
-        {start:650, end:721},
-        {start:722, end:809},
-        {start:810, end:905},
-        {start:906, end:1025}
-    ];
-    for (let range of order) {
-        const promises = [];
-        for (let i = range.start; i <= range.end; i++) {
-            promises.push(fetchPokemonAndSpecies(i));
-        }
-        const results = await Promise.all(promises);
-        for (let [p, s] of results) {
-            if (p && s) {
-                const card = await createCardElement(p, s);
-                document.getElementById('pokedex').appendChild(card);
-            }
+async function loadRegion(gen, start, end) {
+    showLoading();
+    const grid = document.getElementById('pokedex');
+    const promises = [];
+    for (let i = start; i <= end; i++) {
+        promises.push(fetchPokemonAndSpecies(i));
+    }
+    const results = await Promise.all(promises);
+    for (let [p, s] of results) {
+        if (p && s) {
+            const card = await createCardElement(p, s);
+            grid.appendChild(card);
         }
     }
+    loadedRegions.add(gen.toString());
+    hideLoading();
 }
-
 async function init() {
     const tf = document.getElementById('type-filters');
     Object.keys(TYPE_COLORS).forEach(t => {
@@ -296,7 +281,6 @@ async function init() {
         tf.appendChild(p);
     });
     await loadUnovaFirst();
-    loadBackgroundRegions();
     document.addEventListener('click', handleGlobalClick);
     const scrollBtn = document.getElementById('scroll-nav');
     if(scrollBtn) {
@@ -310,22 +294,27 @@ async function init() {
         };
     }
 }
-
 window.onscroll = function() {
     const btn = document.getElementById('scroll-nav');
     if(btn) {
         btn.innerText = window.scrollY > 500 ? '▲' : '▼';
     }
 };
-
 function changeRegion(gen, start, end, btn) {
     document.querySelectorAll('.region-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     currentRange = {start, end};
-    applyFilters();
-    updateMainCounter();
+    
+    if (!loadedRegions.has(gen.toString())) {
+        loadRegion(gen, start, end).then(() => {
+            applyFilters();
+            updateMainCounter();
+        });
+    } else {
+        applyFilters();
+        updateMainCounter();
+    }
 }
-
 async function createCardElement(p, s) {
     const desc = s.flavor_text_entries.find(e => e.language.name === 'en')?.flavor_text.replace(/\f/g, ' ') || "";
     const isCap = capturedList.includes(s.id);
@@ -336,7 +325,7 @@ async function createCardElement(p, s) {
     card.setAttribute('data-name', p.name);
     card.setAttribute('data-types', p.types.map(t => t.type.name).join(','));
     card.setAttribute('data-current-form', p.name);
-    
+   
     card.onmousemove = (e) => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -344,13 +333,11 @@ async function createCardElement(p, s) {
         card.style.setProperty('--x', `${x}px`);
         card.style.setProperty('--y', `${y}px`);
     };
-
     let formSelectors = '';
     if (s.varieties.some(v => v.pokemon.name.includes('-mega') || v.pokemon.name.includes('-gmax'))) {
         const forms = s.varieties.filter(v => v.is_default || v.pokemon.name.includes('-mega') || v.pokemon.name.includes('-gmax'));
         formSelectors = `<div class="form-selectors">${forms.map((v, idx) => `<div class="form-dot ${idx===0?'active':''}" data-form="${v.pokemon.name}" onclick="switchForm(${s.id}, '${v.pokemon.name}', this)"></div>`).join('')}</div>`;
     }
-
     card.innerHTML = `
         <div class="capture-zone"><input type="checkbox" class="capture-checkbox" ${isCap?'checked':''} onchange="toggleCap(${s.id})"></div>
         <div class="img-container">${formSelectors}<img src="${p.sprites.other['official-artwork'].front_default}" class="pkmn-img" loading="lazy"></div>
@@ -364,7 +351,7 @@ async function createCardElement(p, s) {
                 <span><i class="fas fa-ruler"></i> ${p.height / 10} m</span>
                 <span><i class="fas fa-dumbbell"></i> ${p.weight / 10} kg</span>
             </div>
-            
+           
             <div class="level-control">
                 <div class="level-header">
                     <span>STATUS</span>
@@ -373,21 +360,20 @@ async function createCardElement(p, s) {
                 <input type="range" class="lvl-slider" min="1" max="100" value="${initialLvl}" oninput="sync(${s.id},this.value)">
                 <div class="stats-box">${p.stats.map(st => `<div class="stat-line"><span>${st.stat.name.toUpperCase()}</span><span class="stat-val" data-base="${st.base_stat}">${st.base_stat}</span></div>`).join('')}</div>
             </div>
-            
+           
             <div class="moves-list" id="m-${s.id}" style="height: 250px; margin-top: 25px; overflow-y: auto;">
                 <div style="padding:20px; font-size:10px; color:white; opacity:0.3">SEQUENCIANDO...</div>
             </div>
-            
+           
             <div class="rank-selector">
                 <span class="rank-label">ELITE RANK</span>
                 <div class="rank-icons">${[1,2,3].map(i => `<div class="rank-btn" onclick="setR(${s.id},${i})"></div>`).join('')}</div>
             </div>
         </div>`;
-        
+       
     setTimeout(() => loadMovesSerial(p), 100);
     return card;
 }
-
 async function loadMovesSerial(p) {
     const container = document.getElementById(`m-${p.id}`);
     if (!container) return;
@@ -403,7 +389,7 @@ async function loadMovesSerial(p) {
     for (const m of mvs) {
         const mName = m.move.name;
         let d;
-        if (moveCache[mName]) { d = moveCache[mName]; } 
+        if (moveCache[mName]) { d = moveCache[mName]; }
         else { try { d = await fetch(m.move.url).then(r => r.json()); moveCache[mName] = d; } catch(e) { continue; } }
         const effect = d.effect_entries.find(e => e.language.name==='en')?.short_effect || "No details.";
         const lvlReq = m.version_group_details[0].level_learned_at;
@@ -412,7 +398,6 @@ async function loadMovesSerial(p) {
     container.innerHTML = html;
     updSt(p.id);
 }
-
 function shHUD(e, n, pw, ac, pp, t, d) {
     if (isHudLocked) return;
     const h = document.getElementById('move-hud');
@@ -426,11 +411,9 @@ function shHUD(e, n, pw, ac, pp, t, d) {
     document.getElementById('hud-type').innerText = t.toUpperCase();
     document.getElementById('hud-desc').innerText = d.replace(/\$effect_chance/g, '');
 }
-
 function hiHUD() { if (!isHudLocked) document.getElementById('move-hud').style.display = 'none'; }
-
-function lockHUD(e, el) { 
-    e.stopPropagation(); 
+function lockHUD(e, el) {
+    e.stopPropagation();
     if (isHudLocked && currentLockedElement === el) {
         isHudLocked = false;
         currentLockedElement = null;
@@ -442,24 +425,21 @@ function lockHUD(e, el) {
         isHudLocked = true;
     }
 }
-
-function handleGlobalClick(e) { 
-    if (isHudLocked && !e.target.closest('.move-item')) { 
-        isHudLocked = false; 
+function handleGlobalClick(e) {
+    if (isHudLocked && !e.target.closest('.move-item')) {
+        isHudLocked = false;
         currentLockedElement = null;
-        document.getElementById('move-hud').style.display = 'none'; 
-    } 
+        document.getElementById('move-hud').style.display = 'none';
+    }
 }
-
-function sync(id, v) { 
-    const c = document.querySelector(`[data-id="${id}"]`); 
-    if (c) { 
-        c.querySelector('.lvl-input').value = v; 
+function sync(id, v) {
+    const c = document.querySelector(`[data-id="${id}"]`);
+    if (c) {
+        c.querySelector('.lvl-input').value = v;
         c.querySelector('.lvl-slider').value = v;
-        updSt(id); 
-    } 
+        updSt(id);
+    }
 }
-
 function updSt(id) {
     const c = document.querySelector(`[data-id="${id}"]`); if (!c) return;
     const l = parseInt(c.querySelector('.lvl-input').value) || 1;
@@ -481,7 +461,6 @@ function updSt(id) {
         }
     });
 }
-
 function applyFilters() {
     const s = document.getElementById('name-search').value.toLowerCase().trim();
     document.querySelectorAll('.pokemon-card').forEach(c => {
@@ -493,19 +472,17 @@ function applyFilters() {
         c.style.display = inRegion && nameMatch && typeMatch ? 'flex' : 'none';
     });
 }
-
 function setR(id, v) { const b = document.querySelectorAll(`[data-id="${id}"] .rank-btn`); b.forEach((x, i) => x.classList.toggle('active', i < v)); updSt(id); }
-function toggleCap(id) { 
-    const i = capturedList.indexOf(id); i > -1 ? capturedList.splice(i, 1) : capturedList.push(id); 
-    localStorage.setItem('unova_capture_list', JSON.stringify(capturedList)); 
-    updateMainCounter(); 
+function toggleCap(id) {
+    const i = capturedList.indexOf(id); i > -1 ? capturedList.splice(i, 1) : capturedList.push(id);
+    localStorage.setItem('unova_capture_list', JSON.stringify(capturedList));
+    updateMainCounter();
 }
-function updateMainCounter() { 
+function updateMainCounter() {
     const curInRegion = capturedList.filter(id => id >= currentRange.start && id <= currentRange.end).length;
     const total = (currentRange.end - currentRange.start) + 1;
-    document.getElementById('main-counter').innerText = `${curInRegion} / ${total} discovered`; 
+    document.getElementById('main-counter').innerText = `${curInRegion} / ${total} discovered`;
 }
-
 async function switchForm(sid, formName, dot) {
     const card = document.querySelector(`[data-id="${sid}"]`);
     if (!card || card.dataset.currentForm === formName) return;
@@ -517,7 +494,6 @@ async function switchForm(sid, formName, dot) {
     card.dataset.types = new_p.types.map(t => t.type.name).join(',');
     card.dataset.name = new_p.name;
 }
-
 function updateCard(card, p) {
     card.querySelector('.pkmn-img').src = p.sprites.other['official-artwork'].front_default;
     card.querySelector('.name').innerText = p.name;
@@ -533,28 +509,22 @@ function updateCard(card, p) {
     loadMovesSerial(p);
     updSt(card.dataset.id);
 }
-
 init();
-
 document.addEventListener("DOMContentLoaded", function () {
             var titleElement = document.title;
             var intervalId;
             var repetitions = 3;
             var currentRepetition = 0;
-
             function startTitleAnimation() {
                 var title = ": Pokédex";
                 var index = 0;
-
                 intervalId = setInterval(function () {
                     document.title = "POKÉMON" + title.substring(0, index);
                     index++;
-
                     if (index > title.length) {
                         clearInterval(intervalId);
                         setTimeout(function () {
                             currentRepetition++;
-
                             if (currentRepetition < repetitions) {
                                 startTitleAnimation();
                             } else {
@@ -565,12 +535,10 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
                         }, 1000);
                     }
-                }, 150); 
+                }, 150);
             }
-
             startTitleAnimation();
         });
-
 </script>
 <script>
 (function() {
@@ -578,13 +546,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const style = document.createElement('style');
     style.textContent = `
         body.loading { margin: 0; padding: 0; overflow: hidden; }
-        
+       
         .pokemon-transition-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            display: flex; flex-direction: column; z-index: 10002;
+            display: flex; flex-direction: column;
             pointer-events: none;
         }
-
         .strip {
             flex: 1;
             background: black;
@@ -592,48 +559,43 @@ document.addEventListener("DOMContentLoaded", function () {
             transform: scaleX(1);
             transition: transform 0.6s cubic-bezier(0.8, 0, 0.2, 1);
         }
-
         .strip:nth-child(odd) { transform-origin: left; }
         .strip:nth-child(even) { transform-origin: right; }
-
         .pokemon-transition-overlay.hidden .strip {
             transform: scaleX(0);
         }
-
         ${Array.from({ length: STRIP_COUNT }).map((_, i) => `
             .strip:nth-child(${i + 1}) { transition-delay: ${i * 0.04}s; }
         `).join('')}
-
         .loader-content {
             position: fixed; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            z-index: 9999; transition: opacity 0.3s ease;
+            transition: opacity 0.3s ease;
+            z-index: 10003;
         }
         .loader-content.fade-out { opacity: 0; pointer-events: none; }
-
         @keyframes animationFrames { 0% { transform: rotate(0deg); } 100% { transform: rotate(-720deg); } }
         #loader-svg { width: 300px; animation: animationFrames ease-in-out 1.2s infinite; }
-        
+       
         #top1 { transform-origin: bottom center; animation: move_top1 ease-out 1.2s infinite; }
         @keyframes move_top1 { 50% { transform: translate(-1.5%, -25%) scale(1.3) rotate(-0.5deg); } }
-        
+       
         #top2 { transform-origin: bottom left; animation: move_top2 ease-out 1.2s infinite; }
         @keyframes move_top2 { 50% { transform: translate(-10%, 1%) scale(1.1) rotate(-2.1deg); } }
-        
+       
         #bottom1 { transform-origin: top center; animation: move_bottom1 ease-out 1.2s infinite; }
         @keyframes move_bottom1 { 50% { transform: translate(0%, 45%) scale(1.3) rotate(0deg); } }
-        
+       
         #bottom2 { transform-origin: top left; animation: move_bottom2 ease-out 1.2s infinite; }
         @keyframes move_bottom2 { 50% { transform: translate(38%, 1%) scale(1.3) rotate(-3.5deg); } }
-        
+       
         #bottom3 { transform-origin: top right; animation: move_bottom3 ease-out 1.2s infinite; }
         @keyframes move_bottom3 { 50% { transform: translate(12%, 5%) scale(1.1) rotate(-1deg); } }
-        
+       
         #bottom4 { transform-origin: top left; animation: move_bottom4 ease-out 1.2s infinite; }
         @keyframes move_bottom4 { 50% { transform: translate(-12%, 5%) scale(1.1) rotate(0deg); } }
     `;
     document.head.appendChild(style);
-
     const overlay = document.createElement('div');
     overlay.className = 'pokemon-transition-overlay';
     for (let i = 0; i < STRIP_COUNT; i++) {
@@ -641,7 +603,6 @@ document.addEventListener("DOMContentLoaded", function () {
         strip.className = 'strip';
         overlay.appendChild(strip);
     }
-
     const loaderContainer = document.createElement('div');
     loaderContainer.className = 'loader-content';
     loaderContainer.innerHTML = `
@@ -660,7 +621,6 @@ document.addEventListener("DOMContentLoaded", function () {
             </g>
         </svg>
     `;
-
     document.body.appendChild(overlay);
     document.body.appendChild(loaderContainer);
     document.body.classList.add('loading');
