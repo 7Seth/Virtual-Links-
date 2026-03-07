@@ -102,6 +102,8 @@ body { background: var(--bg-dark); color: white; font-family: 'Teko', sans-serif
 <div class="dynamic-light light-2"></div>
 </div>
 <div id="region-selector">
+<div class="region-btn" id="btn-9" onclick="changeRegion(9, 906, 1025, this)">9</div>
+<div class="region-btn" id="btn-8" onclick="changeRegion(8, 810, 905, this)">8</div>
 <div class="region-btn" id="btn-7" onclick="changeRegion(7, 722, 809, this)">7</div>
 <div class="region-btn" id="btn-6" onclick="changeRegion(6, 650, 721, this)">6</div>
 <div class="region-btn" id="btn-5" onclick="changeRegion(5, 494, 649, this)">5</div>
@@ -264,7 +266,14 @@ function createCardElement(p, s) {
 async function loadMovesSerial(p) {
     const container = document.getElementById(`m-${p.id}`);
     if (!container) return;
-    const mvs = p.moves.filter(m => m.version_group_details[0].move_learn_method.name === "level-up").sort((a,b) => a.version_group_details[0].level_learned_at - b.version_group_details[0].level_learned_at);
+    const mvs = p.moves.filter(m => {
+        const method = m.version_group_details[0].move_learn_method.name;
+        return method === "level-up" || method === "machine";
+    }).sort((a,b) => {
+        const aLvl = a.version_group_details[0].level_learned_at;
+        const bLvl = b.version_group_details[0].level_learned_at;
+        return aLvl - bLvl;
+    });
     let html = '';
     for (const m of mvs) {
         const mName = m.move.name;
@@ -273,7 +282,7 @@ async function loadMovesSerial(p) {
         else { try { d = await fetch(m.move.url).then(r => r.json()); moveCache[mName] = d; } catch(e) { continue; } }
         const effect = d.effect_entries.find(e => e.language.name==='en')?.short_effect || "No details.";
         const lvlReq = m.version_group_details[0].level_learned_at;
-        html += `<div class="move-item" data-lvl="${lvlReq}" style="border-left-color:${TYPE_COLORS[d.type.name]}" onmousemove="shHUD(event,'${d.name.toUpperCase()}','${d.power}','${d.accuracy}','${d.pp}','${d.type.name}','${effect.replace(/'/g, "\\'")}')" onmouseleave="hiHUD()" onclick="lockHUD(event, this)"><span>${mName.replace(/-/g,' ').toUpperCase()}</span><span class="move-lvl">LVL ${lvlReq}</span></div>`;
+        html += `<div class="move-item" data-lvl="${lvlReq}" style="border-left-color:${TYPE_COLORS[d.type.name]}" onmousemove="shHUD(event,'${d.name.toUpperCase()}','${d.power}','${d.accuracy}','${d.pp}','${d.type.name}','${effect.replace(/'/g, "\\'")}')" onmouseleave="hiHUD()" onclick="lockHUD(event, this)"><span>${mName.replace(/-/g,' ').toUpperCase()}</span><span class="move-lvl">LVL ${lvlReq === 0 ? '--' : lvlReq}</span></div>`;
     }
     container.innerHTML = html;
     updSt(p.id);
