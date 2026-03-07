@@ -178,6 +178,48 @@ let abortController = null;
 let isHudLocked = false;
 let currentLockedElement = null;
 
+function showRegionLoading() {
+    const overlay = document.querySelector('.pokemon-transition-overlay');
+    const loaderContainer = document.querySelector('.loader-content');
+    if (overlay) overlay.classList.remove('hidden');
+    if (loaderContainer) loaderContainer.classList.remove('fade-out');
+    document.body.classList.add('loading');
+}
+
+function hideRegionLoading() {
+    const loaderContainer = document.querySelector('.loader-content');
+    if (loaderContainer) loaderContainer.classList.add('fade-out');
+    setTimeout(() => {
+        const overlay = document.querySelector('.pokemon-transition-overlay');
+        if (overlay) overlay.classList.add('hidden');
+        document.body.classList.remove('loading');
+    }, 300);
+}
+
+async function getInitialLevel(species) {
+    try {
+        const res = await fetch(species.evolution_chain.url);
+        const data = await res.json();
+        const level = findEvolutionLevel(data.chain, species.name);
+        return level || 6;
+    } catch(e) {
+        return 6;
+    }
+}
+
+function findEvolutionLevel(node, targetName, currentLevel = 6) {
+    if (node.species.name.toLowerCase() === targetName.toLowerCase()) {
+        return currentLevel;
+    }
+    for (let evo of node.evolves_to) {
+        const details = evo.evolution_details[0] || {};
+        const nextLevel = details.min_level || currentLevel;
+        const found = findEvolutionLevel(evo, targetName, nextLevel);
+        if (found !== null) return found;
+    }
+    return null;
+}
+
 async function init() {
     const tf = document.getElementById('type-filters');
     Object.keys(TYPE_COLORS).forEach(t => {
@@ -220,23 +262,31 @@ async function changeRegion(gen, start, end, btn) {
     abortController = new AbortController();
     document.querySelectorAll('.region-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
+    showRegionLoading();
     const grid = document.getElementById('pokedex');
     grid.innerHTML = '<div style="font-family:Orbitron; color:white; opacity:0.3; grid-column: 1/-1; text-align:center; padding: 100px; letter-spacing:5px">SINCRONIZANDO...</div>';
     currentRange = {start, end};
     updateMainCounter();
+    let first = true;
     for (let i = start; i <= end; i++) {
         try {
             const p = await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`, { signal: abortController.signal }).then(r => r.json());
             const s = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${i}`, { signal: abortController.signal }).then(r => r.json());
-            if (i === start) grid.innerHTML = '';
-            grid.appendChild(createCardElement(p, s));
+            const cardElement = await createCardElement(p, s);
+            if (first) {
+                grid.innerHTML = '';
+                first = false;
+            }
+            grid.appendChild(cardElement);
         } catch (e) { if (e.name !== 'AbortError') console.log(e); }
     }
+    hideRegionLoading();
 }
 
-function createCardElement(p, s) {
+async function createCardElement(p, s) {
     const desc = s.flavor_text_entries.find(e => e.language.name === 'en')?.flavor_text.replace(/\f/g, ' ') || "";
     const isCap = capturedList.includes(s.id);
+    const initialLvl = await getInitialLevel(s);
     const card = document.createElement('div');
     card.className = `pokemon-card ${isCap?'captured':''}`;
     card.setAttribute('data-id', s.id);
@@ -275,9 +325,9 @@ function createCardElement(p, s) {
             <div class="level-control">
                 <div class="level-header">
                     <span>STATUS</span>
-                    <input type="number" class="lvl-input" value="1" min="1" max="100" oninput="sync(${s.id},this.value)" style="width: 60px; height: 30px; font-size: 1.2rem; text-align: center;">
+                    <input type="number" class="lvl-input" value="${initialLvl}" min="1" max="100" oninput="sync(${s.id},this.value)" style="width: 60px; height: 30px; font-size: 1.2rem; text-align: center;">
                 </div>
-                <input type="range" class="lvl-slider" min="1" max="100" value="1" oninput="sync(${s.id},this.value)">
+                <input type="range" class="lvl-slider" min="1" max="100" value="${initialLvl}" oninput="sync(${s.id},this.value)">
                 <div class="stats-box">${p.stats.map(st => `<div class="stat-line"><span>${st.stat.name.toUpperCase()}</span><span class="stat-val" data-base="${st.base_stat}">${st.base_stat}</span></div>`).join('')}</div>
             </div>
             
@@ -576,10 +626,6 @@ document.addEventListener("DOMContentLoaded", function () {
             overlay.classList.add('hidden');
             document.body.classList.remove('loading');
         }, 300);
-        setTimeout(() => {
-            overlay.remove();
-            loaderContainer.remove();
-        }, 2000);
     });
 })();
 </script>
