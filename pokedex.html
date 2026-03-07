@@ -49,7 +49,7 @@ body { background: var(--bg-dark); color: white; font-family: 'Teko', sans-serif
 .capture-checkbox:checked { background: var(--unova-black); filter: brightness(100%); }
 .pokemon-card:has(.capture-checkbox:checked) .pkmn-img { filter: brightness(1) !important;}
 .pokemon-card:has(.capture-checkbox:checked) { box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); border-color: #fff; }
-.img-container { height: 220px; display: flex; align-items: center; justify-content: center; background: white; width: 100%; }
+.img-container { height: 220px; display: flex; align-items: center; justify-content: center; background: white; width: 100%; position: relative; }
 .pkmn-img { width: 90%; height: 90%; object-fit: contain; filter: brightness(0); transition: 0.6s; }
 .pokemon-card:hover .pkmn-img, .pokemon-card.captured .pkmn-img { filter: brightness(1); }
 .film-strip { height: 35px; background: var(--unova-black); display: flex; justify-content: space-around; align-items: center; }
@@ -74,6 +74,9 @@ body { background: var(--bg-dark); color: white; font-family: 'Teko', sans-serif
 .region-btn { width: 40px; height: 40px; background: #000; border: 1px solid #333; color: #555; font-family: 'Orbitron'; font-size: 14px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; clip-path: polygon(15% 0, 100% 0, 85% 100%, 0 100%); }
 .region-btn.active { border-color: white; color: white; box-shadow: 0 0 15px rgba(255,255,255,0.2); transform: scale(1.1); }
 #move-hud { position: fixed; display: none; z-index: 10000; background: #ffffff; border: 2px solid #000; padding: 15px; width: 260px; pointer-events: none; font-family: 'Orbitron'; box-shadow: 0 0 30px rgba(0,0,0,0.5); clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%); color: #000000; }
+.form-selectors { position: absolute; top: 10px; left: 10px; display: flex; flex-direction: column; gap: 5px; z-index: 10; }
+.form-dot { width: 12px; height: 12px; border-radius: 50%; background: white; border: 1px solid black; cursor: pointer; transition: 0.3s; position: relative; }
+.form-dot.active::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 7px; height: 7px; border-radius: 50%; background: black; }
 @media (min-width: 768px) {
 .nav-container { padding: 15px 40px; }
 .header-line { display: block; flex-grow: 1; height: 1px; margin: 0 30px; background: linear-gradient(to right, transparent, rgba(0, 242, 255, 0.4), transparent); }
@@ -93,6 +96,28 @@ body { background: var(--bg-dark); color: white; font-family: 'Teko', sans-serif
 .film-strip { height: 45px; }
 .film-strip span { width: 30px; height: 45px; }
 }
+body.loading { overflow: hidden; }
+.pokemon-transition-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; display: flex; flex-direction: column; z-index: 9998; pointer-events: none; }
+.strip { flex: 1; background: black; width: 100%; transform: scaleX(1); transition: transform 0.6s cubic-bezier(0.8, 0, 0.2, 1); }
+.strip:nth-child(odd) { transform-origin: left; }
+.strip:nth-child(even) { transform-origin: right; }
+.pokemon-transition-overlay.hidden .strip { transform: scaleX(0); }
+.loader-content { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; transition: opacity 0.3s ease; }
+.loader-content.fade-out { opacity: 0; pointer-events: none; }
+@keyframes animationFrames { 0% { transform: rotate(0deg); } 100% { transform: rotate(-720deg); } }
+#loader-svg { width: 300px; animation: animationFrames ease-in-out 1.2s infinite; }
+#top1 { transform-origin: bottom center; animation: move_top1 ease-out 1.2s infinite; }
+@keyframes move_top1 { 50% { transform: translate(-1.5%, -25%) scale(1.3) rotate(-0.5deg); } }
+#top2 { transform-origin: bottom left; animation: move_top2 ease-out 1.2s infinite; }
+@keyframes move_top2 { 50% { transform: translate(-10%, 1%) scale(1.1) rotate(-2.1deg); } }
+#bottom1 { transform-origin: top center; animation: move_bottom1 ease-out 1.2s infinite; }
+@keyframes move_bottom1 { 50% { transform: translate(0%, 45%) scale(1.3) rotate(0deg); } }
+#bottom2 { transform-origin: top left; animation: move_bottom2 ease-out 1.2s infinite; }
+@keyframes move_bottom2 { 50% { transform: translate(38%, 1%) scale(1.3) rotate(-3.5deg); } }
+#bottom3 { transform-origin: top right; animation: move_bottom3 ease-out 1.2s infinite; }
+@keyframes move_bottom3 { 50% { transform: translate(12%, 5%) scale(1.1) rotate(-1deg); } }
+#bottom4 { transform-origin: top left; animation: move_bottom4 ease-out 1.2s infinite; }
+@keyframes move_bottom4 { 50% { transform: translate(-12%, 5%) scale(1.1) rotate(0deg); } }
 </style>
 </head>
 <body onkeydown="return handleKeys(event)" onclick="handleGlobalClick(event)">
@@ -211,12 +236,13 @@ async function changeRegion(gen, start, end, btn) {
 
 function createCardElement(p, s) {
     const desc = s.flavor_text_entries.find(e => e.language.name === 'en')?.flavor_text.replace(/\f/g, ' ') || "";
-    const isCap = capturedList.includes(p.id);
+    const isCap = capturedList.includes(s.id);
     const card = document.createElement('div');
     card.className = `pokemon-card ${isCap?'captured':''}`;
-    card.setAttribute('data-id', p.id);
+    card.setAttribute('data-id', s.id);
     card.setAttribute('data-name', p.name);
     card.setAttribute('data-types', p.types.map(t => t.type.name).join(','));
+    card.setAttribute('data-current-form', p.name);
     
     card.onmousemove = (e) => {
         const rect = card.getBoundingClientRect();
@@ -226,12 +252,18 @@ function createCardElement(p, s) {
         card.style.setProperty('--y', `${y}px`);
     };
 
+    let formSelectors = '';
+    if (s.varieties.some(v => v.pokemon.name.includes('-mega') || v.pokemon.name.includes('-gmax'))) {
+        const forms = s.varieties.filter(v => v.is_default || v.pokemon.name.includes('-mega') || v.pokemon.name.includes('-gmax'));
+        formSelectors = `<div class="form-selectors">${forms.map((v, idx) => `<div class="form-dot ${idx===0?'active':''}" data-form="${v.pokemon.name}" onclick="switchForm(${s.id}, '${v.pokemon.name}', this)"></div>`).join('')}</div>`;
+    }
+
     card.innerHTML = `
-        <div class="capture-zone"><input type="checkbox" class="capture-checkbox" ${isCap?'checked':''} onchange="toggleCap(${p.id})"></div>
-        <div class="img-container"><img src="${p.sprites.other['official-artwork'].front_default}" class="pkmn-img" loading="lazy"></div>
+        <div class="capture-zone"><input type="checkbox" class="capture-checkbox" ${isCap?'checked':''} onchange="toggleCap(${s.id})"></div>
+        <div class="img-container">${formSelectors}<img src="${p.sprites.other['official-artwork'].front_default}" class="pkmn-img" loading="lazy"></div>
         <div class="film-strip"><span></span><span></span><span></span><span></span><span></span></div>
         <div class="card-body">
-            <div class="id-num" style="font-size: 1.25rem; font-weight: bold; opacity: 0.7;">#${p.id}</div>
+            <div class="id-num" style="font-size: 1.25rem; font-weight: bold; opacity: 0.7;">#${s.id}</div>
             <div class="name">${p.name}</div>
             <div style="margin-bottom:15px">${p.types.map(t => `<span class="type-tag" style="background:${TYPE_COLORS[t.type.name]}">${t.type.name}</span>`).join('')}</div>
             <div class="description">${desc}</div><br>
@@ -243,19 +275,19 @@ function createCardElement(p, s) {
             <div class="level-control">
                 <div class="level-header">
                     <span>STATUS</span>
-                    <input type="number" class="lvl-input" value="1" min="1" max="100" oninput="sync(${p.id},this.value)" style="width: 60px; height: 30px; font-size: 1.2rem; text-align: center;">
+                    <input type="number" class="lvl-input" value="1" min="1" max="100" oninput="sync(${s.id},this.value)" style="width: 60px; height: 30px; font-size: 1.2rem; text-align: center;">
                 </div>
-                <input type="range" class="lvl-slider" min="1" max="100" value="1" oninput="sync(${p.id},this.value)">
+                <input type="range" class="lvl-slider" min="1" max="100" value="1" oninput="sync(${s.id},this.value)">
                 <div class="stats-box">${p.stats.map(st => `<div class="stat-line"><span>${st.stat.name.toUpperCase()}</span><span class="stat-val" data-base="${st.base_stat}">${st.base_stat}</span></div>`).join('')}</div>
             </div>
             
-            <div class="moves-list" id="m-${p.id}" style="height: 250px; margin-top: 25px; overflow-y: auto;">
+            <div class="moves-list" id="m-${s.id}" style="height: 250px; margin-top: 25px; overflow-y: auto;">
                 <div style="padding:20px; font-size:10px; color:white; opacity:0.3">SEQUENCIANDO...</div>
             </div>
             
             <div class="rank-selector">
                 <span class="rank-label">ELITE RANK</span>
-                <div class="rank-icons">${[1,2,3].map(i => `<div class="rank-btn" onclick="setR(${p.id},${i})"></div>`).join('')}</div>
+                <div class="rank-icons">${[1,2,3].map(i => `<div class="rank-btn" onclick="setR(${s.id},${i})"></div>`).join('')}</div>
             </div>
         </div>`;
         
@@ -264,7 +296,7 @@ function createCardElement(p, s) {
 }
 
 async function loadMovesSerial(p) {
-    const container = document.getElementById(`m-${p.id}`);
+    const container = document.getElementById(`m-${p.species.url.split('/').slice(-2, -1)[0]}`);
     if (!container) return;
     const mvs = p.moves.filter(m => {
         const method = m.version_group_details[0].move_learn_method.name;
@@ -285,7 +317,7 @@ async function loadMovesSerial(p) {
         html += `<div class="move-item" data-lvl="${lvlReq}" style="border-left-color:${TYPE_COLORS[d.type.name]}" onmousemove="shHUD(event,'${d.name.toUpperCase()}','${d.power}','${d.accuracy}','${d.pp}','${d.type.name}','${effect.replace(/'/g, "\\'")}')" onmouseleave="hiHUD()" onclick="lockHUD(event, this)"><span>${mName.replace(/-/g,' ').toUpperCase()}</span><span class="move-lvl">LVL ${lvlReq === 0 ? '--' : lvlReq}</span></div>`;
     }
     container.innerHTML = html;
-    updSt(p.id);
+    updSt(p.species.url.split('/').slice(-2, -1)[0]);
 }
 
 function shHUD(e, n, pw, ac, pp, t, d) {
@@ -379,6 +411,34 @@ function updateMainCounter() {
     document.getElementById('main-counter').innerText = `${curInRegion} / ${total} discovered`; 
 }
 
+async function switchForm(sid, formName, dot) {
+    const card = document.querySelector(`[data-id="${sid}"]`);
+    if (!card || card.dataset.currentForm === formName) return;
+    card.querySelectorAll('.form-dot').forEach(d => d.classList.remove('active'));
+    dot.classList.add('active');
+    const new_p = await fetch(`https://pokeapi.co/api/v2/pokemon/${formName}`).then(r => r.json());
+    updateCard(card, new_p);
+    card.dataset.currentForm = formName;
+    card.dataset.types = new_p.types.map(t => t.type.name).join(',');
+    card.dataset.name = new_p.name;
+}
+
+function updateCard(card, p) {
+    card.querySelector('.pkmn-img').src = p.sprites.other['official-artwork'].front_default;
+    card.querySelector('.name').innerText = p.name;
+    const typesDiv = card.querySelector('.card-body > div[style="margin-bottom:15px"]');
+    typesDiv.innerHTML = p.types.map(t => `<span class="type-tag" style="background:${TYPE_COLORS[t.type.name]}">${t.type.name}</span>`).join('');
+    const hwDiv = card.querySelector('.card-body > div[style*="display: flex; justify-content: space-between;"]');
+    hwDiv.innerHTML = `<span><i class="fas fa-ruler"></i> ${p.height / 10} m</span><span><i class="fas fa-dumbbell"></i> ${p.weight / 10} kg</span>`;
+    p.stats.forEach((st, idx) => {
+        const val = card.querySelectorAll('.stat-val')[idx];
+        val.dataset.base = st.base_stat;
+        val.innerText = st.base_stat;
+    });
+    loadMovesSerial(p);
+    updSt(card.dataset.id);
+}
+
 init();
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -416,6 +476,112 @@ document.addEventListener("DOMContentLoaded", function () {
             startTitleAnimation();
         });
 
+</script>
+<script>
+(function() {
+    const STRIP_COUNT = 12;
+    const style = document.createElement('style');
+    style.textContent = `
+        body.loading { margin: 0; padding: 0; overflow: hidden; }
+        
+        .pokemon-transition-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            display: flex; flex-direction: column; z-index: 9998;
+            pointer-events: none;
+        }
+
+        .strip {
+            flex: 1;
+            background: black;
+            width: 100%;
+            transform: scaleX(1);
+            transition: transform 0.6s cubic-bezier(0.8, 0, 0.2, 1);
+        }
+
+        .strip:nth-child(odd) { transform-origin: left; }
+        .strip:nth-child(even) { transform-origin: right; }
+
+        .pokemon-transition-overlay.hidden .strip {
+            transform: scaleX(0);
+        }
+
+        ${Array.from({ length: STRIP_COUNT }).map((_, i) => `
+            .strip:nth-child(${i + 1}) { transition-delay: ${i * 0.04}s; }
+        `).join('')}
+
+        .loader-content {
+            position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999; transition: opacity 0.3s ease;
+        }
+        .loader-content.fade-out { opacity: 0; pointer-events: none; }
+
+        @keyframes animationFrames { 0% { transform: rotate(0deg); } 100% { transform: rotate(-720deg); } }
+        #loader-svg { width: 300px; animation: animationFrames ease-in-out 1.2s infinite; }
+        
+        #top1 { transform-origin: bottom center; animation: move_top1 ease-out 1.2s infinite; }
+        @keyframes move_top1 { 50% { transform: translate(-1.5%, -25%) scale(1.3) rotate(-0.5deg); } }
+        
+        #top2 { transform-origin: bottom left; animation: move_top2 ease-out 1.2s infinite; }
+        @keyframes move_top2 { 50% { transform: translate(-10%, 1%) scale(1.1) rotate(-2.1deg); } }
+        
+        #bottom1 { transform-origin: top center; animation: move_bottom1 ease-out 1.2s infinite; }
+        @keyframes move_bottom1 { 50% { transform: translate(0%, 45%) scale(1.3) rotate(0deg); } }
+        
+        #bottom2 { transform-origin: top left; animation: move_bottom2 ease-out 1.2s infinite; }
+        @keyframes move_bottom2 { 50% { transform: translate(38%, 1%) scale(1.3) rotate(-3.5deg); } }
+        
+        #bottom3 { transform-origin: top right; animation: move_bottom3 ease-out 1.2s infinite; }
+        @keyframes move_bottom3 { 50% { transform: translate(12%, 5%) scale(1.1) rotate(-1deg); } }
+        
+        #bottom4 { transform-origin: top left; animation: move_bottom4 ease-out 1.2s infinite; }
+        @keyframes move_bottom4 { 50% { transform: translate(-12%, 5%) scale(1.1) rotate(0deg); } }
+    `;
+    document.head.appendChild(style);
+
+    const overlay = document.createElement('div');
+    overlay.className = 'pokemon-transition-overlay';
+    for (let i = 0; i < STRIP_COUNT; i++) {
+        const strip = document.createElement('div');
+        strip.className = 'strip';
+        overlay.appendChild(strip);
+    }
+
+    const loaderContainer = document.createElement('div');
+    loaderContainer.className = 'loader-content';
+    loaderContainer.innerHTML = `
+        <svg id="loader-svg" viewBox="0 0 330 331.7">
+            <circle id="center" fill="#FFFFFF" cx="165" cy="165.9" r="36.5"/>
+            <g id="bottom">
+                <path id="bottom1" fill="#FFFFFF" d="M165,267.6c-28.7,0-54.6-11.9-73.1-31L76.2,252c22.5,23.2,53.9,37.6,88.8,37.6c30.5,0,58.4-11,80-29.3l-14.6-16.5C212.7,258.6,189.9,267.6,165,267.6z"/>
+                <path id="bottom2" fill="#FFFFFF" d="M288.1,178.4l-22.1,0c-3.2,26.1-16.4,49.2-35.6,65.3l14.6,16.5C268.7,240.1,284.8,211.2,288.1,178.4z"/>
+                <path id="bottom3" fill="#FFFFFF" d="M244.8,178.4C244.8,178.4,244.8,178.4,244.8,178.4l-21.8,0c-3.8,18.8-16.6,33.7-33.7,41.4l0,0l8.8,19.6c-9.4,4.3-19.8,6.8-30.8,7.1l0.5,21c50.6-1.4,92-39.8,98.1-89.1L244.8,178.4z"/>
+                <path id="bottom4" fill="#FFFFFF" d="M198.2,239.5l-8.8-19.6c-7.4,3.4-15.7,5.2-24.4,5.2c-28.4,0-52.1-20-57.9-46.6l-21.8,0l-0.1,0l-21.1,0c0,0.1,0,0.1,0,0.2l-0.1-0.2l-22.1,0.1c2.9,28.5,15.4,54.1,34.3,73.5l15.7-15.4l-0.1-0.2c18.5,19.2,44.5,31.1,73.2,31.1c0.9,0,1.9,0,2.8,0l-0.5-21C178.4,246.2,188.8,243.7,198.2,239.5z"/>
+            </g>
+            <g id="top">
+                <path id="top3" fill="#FFFFFF" d="M288.1,153.2c-2.2-22.1-10.3-42.5-22.7-59.7l-17.9,12.9l-17,12.3c0.1,0.2,0.2,0.3,0.3,0.5c-14.6-20.6-38.7-34-65.8-34c-40.3,0-73.7,29.5-79.8,68.1l21.9,0c5.8-26.7,29.5-46.6,57.9-46.6c28.4,0,52.1,20,57.9,46.6L288.1,153.2z"/>
+                <path id="top2" fill="#FFFFFF" d="M165,64.1c-39.2,0-73.3,22.2-90.2,54.7l-19.5-10.2c-7.1,13.6-11.7,28.6-13.3,44.6l22.1,0l21.2,0c6-38.6,39.5-68.1,79.8-68.1c7.9,0,15.6,1.2,22.8,3.3l5.9-20.2C184.6,65.6,175,64.1,165,64.1z"/>
+                <path id="top1" fill="#FFFFFF" d="M193.7,68.2l-5.9,20.2c17.4,5.1,32.4,15.9,42.7,30.3l17-12.3l17.9-12.9c-15.9-22-38.8-38.6-65.5-46.4c-11.1-3.3-22.8-5-34.9-5c-47.7,0-89.1,27-109.7,66.6l19.5,10.2c17-32.5,51-54.7,90.2-54.7C175,64.1,184.6,65.6,193.7,68.2"/>
+            </g>
+        </svg>
+    `;
+
+    document.body.appendChild(overlay);
+    document.body.appendChild(loaderContainer);
+    document.body.classList.add('loading');
+
+    window.addEventListener('load', function() {
+        loaderContainer.classList.add('fade-out');
+        setTimeout(() => {
+            overlay.classList.add('hidden');
+            document.body.classList.remove('loading');
+        }, 300);
+        setTimeout(() => {
+            overlay.remove();
+            loaderContainer.remove();
+        }, 2000);
+    });
+})();
 </script>
 </body>
 </html>
