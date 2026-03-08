@@ -193,17 +193,31 @@ function hideLoading() {
         document.body.classList.remove('loading');
     }, 300);
 }
-async function getInitialLevel(species) {
+async function getInitialLevel(p, s) {
+    const starters = [1,4,7,152,155,158,252,255,258,387,390,393,495,498,501,650,653,656,722,725,728,810,813,816,906,909,912];
+    const pseudos = [147,246,371,374,443,633,704,782,885,996];
+    const divine = [483,484,493];
+    const specialHigh = [151,646];
+    if (s.is_legendary || s.is_mythical) {
+        const bst = p.stats.reduce((acc, stat) => acc + stat.base_stat, 0);
+        if (divine.includes(s.id)) return 75;
+        if (bst >= 670 || specialHigh.includes(s.id)) return 70;
+        return 50;
+    }
     try {
-        const res = await fetch(species.evolution_chain.url);
+        const res = await fetch(s.evolution_chain.url);
         const data = await res.json();
-        const level = findEvolutionLevel(data.chain, species.name);
-        return level || 6;
+        const base_id = parseInt(data.chain.species.url.split('/').slice(-2,-1)[0]);
+        let baseLevel = 5;
+        if (starters.includes(base_id)) baseLevel = 6;
+        else if (pseudos.includes(base_id)) baseLevel = 10;
+        const level = findEvolutionLevel(data.chain, s.name, baseLevel);
+        return level !== null ? level : baseLevel;
     } catch(e) {
-        return 6;
+        return 5;
     }
 }
-function findEvolutionLevel(node, targetName, currentLevel = 6) {
+function findEvolutionLevel(node, targetName, currentLevel) {
     if (node.species.name.toLowerCase() === targetName.toLowerCase()) {
         return currentLevel;
     }
@@ -318,7 +332,7 @@ function changeRegion(gen, start, end, btn) {
 async function createCardElement(p, s) {
     const desc = s.flavor_text_entries.find(e => e.language.name === 'en')?.flavor_text.replace(/\f/g, ' ') || "";
     const isCap = capturedList.includes(s.id);
-    const initialLvl = await getInitialLevel(s);
+    const initialLvl = await getInitialLevel(p, s);
     const card = document.createElement('div');
     card.className = `pokemon-card ${isCap?'captured':''}`;
     card.setAttribute('data-id', s.id);
