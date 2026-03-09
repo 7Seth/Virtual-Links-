@@ -12,7 +12,7 @@
     <style>
         :root {font-size: 16px;}
         img {user-select: none;}
-        body {background-color: #111;background-image: linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%), linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%);background-size: 66px 66px;background-position: 0 0, 30px 30px;margin: 0;padding: 0;font-family: 'Bungee', cursive;display: flex;flex-direction: row;height: 100vh;overflow: hidden;}
+        body {background-color: #111;background-image: linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%), linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%);background-size: 66px 66px;background-position: 0 0, 30px 30px;margin: 0;padding: 0;font-family: 'Share Tech', sans-serif;display: flex;flex-direction: row;height: 100vh;overflow: hidden;}
         
         .left-container {width: 49.5%;height: 100vh;display: flex;flex-direction: column;overflow: hidden;}
         .right-container {width: 50.5%;height: 100vh;overflow-y: auto;overflow-x: hidden;padding: 1rem;box-sizing: border-box;}
@@ -45,7 +45,6 @@
             margin-top: 4px;
         }
         
-        /* Ícones grandes dentro das listas */
         .icon-lista {
             font-size: 2.8rem;
             color: #000000;
@@ -54,7 +53,6 @@
             margin-top: -4px;
         }
         
-        /* Ícones nos títulos (mantidos porque você gostou) */
         h2, h3 {
             display: flex;
             align-items: center;
@@ -66,7 +64,6 @@
             flex-shrink: 0;
         }
         
-        /* Ilustrações */
         .illustration {
             border: 6px solid #000;
             box-shadow: 8px 8px 0 #000;
@@ -82,7 +79,6 @@
         h2 { color: #444; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 30px; margin-bottom: 15px; }
         h3 { color: #555; margin-top: 20px; margin-bottom: 10px; }
         
-        /* ARROW DO FOOTER – corrigida para o tamanho original que eu te enviei antes */
         .down-arrow {
             display: flex;
             justify-content: center;
@@ -116,10 +112,144 @@
         #clock {font-size: 0.9rem;user-select: none;font-family: 'Share Tech', sans-serif;}
         .indicador {display: none;position: fixed;top: 0;right: 0;background-color: #222;padding: 0.7rem 0.5rem 0.5rem 0.7rem;width: 30%;text-align: center;color: white;font-family: 'Share Tech' !important;font-size: 1.1rem;z-index: 999999;border-radius: 0.5rem 0 0 0.5rem;}
         
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: rgba(255,255,255,0.9);
+        }
+        th, td {
+            border: 3px solid #000;
+            padding: 12px;
+            text-align: center;
+            font-family: 'Press Start 2P', sans-serif;
+            font-size: 0.95rem;
+        }
+        th { background: #333; color: white; }
+
+        .table-wrapper {
+            overflow-x: auto;
+            max-width: 100%;
+            margin: 1.5rem 0;
+        }
+
+        .mobile-hidden {
+            display: block;
+        }
+
+        /* === RESPONSIVIDADE COMPLETA DO CONTAINER ESQUERDO (copiada e adaptada do código original) === */
         @media (max-width: 768px) {
-            .pdf-layout {column-count: 1;}
-            .left-container {width: 100%;height: auto;order: 1;}
-            .right-container {width: 100%;height: auto;order: 2;}
+            body {
+                flex-direction: column;
+                height: auto;
+                overflow-y: auto;
+            }
+            .left-container {
+                width: 100%;
+                height: auto;
+                order: 1;
+                margin-bottom: 0;
+            }
+            .right-container {
+                width: 100%;
+                height: auto;
+                flex-grow: 1;
+                order: 2;
+                padding: 1rem;
+                margin-top: 0;
+                border: 10px solid black;
+                border-radius: 3px;
+                box-sizing: border-box;
+                position: relative;
+            }
+            .button-frame {
+                position: sticky;
+                top: 0;
+                z-index: 10;
+                background-color: rgba(0, 0, 0, 0.95);
+                width: 100%;
+                box-sizing: border-box;
+                padding: 0.6rem 1rem;
+                justify-content: space-between;
+            }
+            header {
+                margin-top: 0;
+                padding: 1rem;
+            }
+            header img {
+                margin-top: 0;
+            }
+            .cape {
+                padding: 2rem 0;
+            }
+            .cape img {
+                max-width: 4rem;
+            }
+            footer {
+                padding: 1.5rem;
+                border-bottom-width: 1rem;
+                margin-bottom: 0;
+            }
+            .main-buttons {
+                font-size: 0.6rem;
+                padding: 0.5rem 0.75rem;
+                border-width: 0.3rem;
+            }
+            .pokebutton {
+                width: 2.5rem;
+                height: 2.5rem;
+                margin: 0 0.5rem;
+                border-width: 0.3rem;
+            }
+            .content {
+                font-size: 1rem;
+                padding: 1rem;
+                min-height: auto;
+                height: auto;
+                display: flex;
+                flex-direction: column;
+                padding-bottom: 6rem;
+            }
+            .content-bottom {
+                position: static;
+                margin-top: auto;
+                margin-bottom: 1rem;
+            }
+            .content-bottom img {
+                max-width: 4rem;
+            }
+            .indicador {
+                width: 50%;
+                left: auto;
+                right: 0;
+            }
+            .main-menu {
+                width: 68%;
+            }
+
+            /* estilos exclusivos da sua página (mantidos) */
+            .pdf-layout { column-count: 1; }
+            .mobile-hidden { display: none; }
+            .table-wrapper { overflow-x: auto; }
+            th, td {
+                padding: 8px 6px;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .pokebutton {
+                width: 2rem;
+                height: 2rem;
+                margin: 0 0.25rem;
+            }
+            .button-container {
+                margin-top: 0.5rem;
+            }
+            .content {
+                padding: 0.5rem;
+                padding-bottom: 4rem;
+            }
         }
     </style>
 </head>
@@ -188,16 +318,16 @@
                 <h2><i class="fas fa-play"></i>Como jogar?</h2>
                 <p>Em um jogo de RPG cada jogador assume o papel de um personagem criado por ele mesmo, que possui suas próprias características, manias, objetivos e dificuldades, e o interpreta ao longo de todo o jogo. Diferente de outros tipos de jogos, um RPG normalmente se desenrola em equipe, não individualmente. No grupo, um dos jogadores assume a figura do Mestre e prepara o mundo os desafios que os jogadores, devem superar. Um RPG funciona como uma conversa estruturada. Para que a jornada funcione, dividiremos as responsabilidades em dois grandes pilares: os Jogadores e o Narrador.</p>
                
-                <h3><i class="fa-solid fa-eye"></i></i>Narrador</h3>
+                <h3><i class="fa-solid fa-eye"></i> Narrador</h3>
                 <p>Nesse cenário, o Mestre de RPG assume a responsabilidade pela criação do mundo fictício, suas tramas e aventuras no ambiente jogável, atuando não contra ou a favor dos participantes, mas como o próprio cenário, as criaturas, o clima e os personagens não-jogáveis. Ele é o responsável por introduzir o jogo, seus recursos e o contexto inicial, auxiliando diretamente na construção e no desenvolvimento dos protagonistas para garantir que suas histórias possuam conexões lógicas e façam sentido quando forem vinculadas ao universo proposto pelo jogo.</p>
-                <p>Ao narrar, ele é o cenário, as criaturas selvagens, os personagens não-jogáveis que fazem parte do mesmo mundo e até mesmo o tempo e clima do ambiente. Cabe a ele o equilíbrio entre a narração e o julgamento imparcial, arbitrando e criando regras de jogo, desafios e distribuindo recompensas, além de decidir como o mundo reage às ações dos jogadores e garantindo que a estrutura da história permita que o grupo a complete vivendo seus papéis principais através de uma trama, estrutura narrativa que organiza a jornada no RPG, servindo como o fio condutor que transforma uma sucessão de eventos em uma história. Elas funcionam como os episódios de uma série, onde cada arco possui uma progressão lógica composta por início, meio e fim. Essas aventuras atingem seu melhor desempenho em grupos pequenos, onde os intérpretes podem atuar e inventar suas falas sem precisar competir pela atenção do narrador do jogo, transformando o que seria uma recepção passiva em uma construção coletiva e funcional.</p>
+                <p>Ao narrar, ele é o cenário, as criaturas selvagens, os personagens não-jogáveis que fazem parte do mesmo mundo e até mesmo o tempo e clima do ambiente. Cabe a ele o equilíbrio entre a narração e o julgamento imparcial, arbitrando e criando regras de jogo, desafios e distribuindo recompensas, além de decidir como o mundo reage às ações dos jogadores e garantindo que a estrutura da história permita que o grupo a completa vivendo seus papéis principais através de uma trama, estrutura narrativa que organiza a jornada no RPG, servindo como o fio condutor que transforma uma sucessão de eventos em uma história. Elas funcionam como os episódios de uma série, onde cada arco possui uma progressão lógica composta por início, meio e fim. Essas aventuras atingem seu melhor desempenho em grupos pequenos, onde os intérpretes podem atuar e inventar suas falas sem precisar competir pela atenção do narrador do jogo, transformando o que seria uma recepção passiva em uma construção coletiva e funcional.</p>
                
                 <h3><i class="fas fa-user"></i>Jogador</h3>
                 <p>Enquanto o mestre projeta o palco, os jogadores entregam o espetáculo, utilizando a imaginação para atuar como os protagonistas centrais da narrativa. Ser um jogador exige esforço e concentração, pois você assume a persona, a voz e a mente de um treinador, decidindo quais riscos aceitar ou declinar e como cada ação surtirá efeito no mundo ao seu redor.</p>
                 <p>Mais do que realizar cálculos ou rolar dados para testar competências, o foco está na interpretação das escolhas. O comportamento do seu personagem é o que dita o tom da jornada e o fortalecimento dos laços com seus Pokémon. Você é o responsável por dirigir o progresso da trama através das suas decisões; sem os personagens e suas motivações individuais, não existe história. Cada diálogo e cada movimento executado torna você parte integrante de uma construção coletiva, onde o sucesso depende da colaboração entre os treinadores nos momentos de crise.</p>
                 <p>Nessa dinâmica, o personagem é uma ferramenta para contar uma história maior. Embora seu comportamento tenha a capacidade de influenciar e alterar o curso do ambiente jogável, essa liberdade deve respeitar a integridade do grupo. Nesse contexto, existe uma linha clara entre a interpretação e a narração do ambiente. Sobretudo, jogadores não podem criar uma narrativa que cause interferências diretas na história principal ou no histórico de outros jogadores sem seu devido consentimento, embora seu comportamento em jogo tenha capacidade de influenciar nas mudanças do ambiente jogável. Isso ocorre porque o poder de narrar e arbitrar o mundo pertence ao mestre; o papel do jogador é o de intérprete, utilizando seu personagem como uma ferramenta para reagir ao que lhe é apresentado. Suas características e escolhas ditam o grau de competência com que você lida com os desafios, mas é a interação entre as suas decisões e a estrutura do Narrador que energiza o progresso da trama.</p>
                
-                <h2><i class="fa-solid fa-pen-to-square"></i>Ferramentas para jogar</h2>
+                <h2><i class="fas fa-pen-to-square"></i>Ferramentas para jogar</h2>
                 <p>Para dar vida à sua jornada, você precisará de alguns recursos fundamentais para gerenciar informações e determinar o sucesso de suas ações. Embora o RPG possa ser jogado de forma tradicional em torno de uma mesa presencial, com auxílio de papel, lápis e borracha, este sistema foi projetado para ser totalmente funcional também em ambientes virtuais, bastando ter acesso a arquivos digitais, programas de computador, páginas de suporte e canais de comunicação como bate-papo online de texto ou voz.</p>
                
                 <h3><i class="fas fa-dice-d20"></i>Mecanismos de Probabilidade</h3>
@@ -268,7 +398,47 @@
                     <br>
                 </ul>
                 
-                <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png" class="illustration-large" alt="Pikachu - pronto para a jornada!">
+                <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png" class="illustration-large mobile-hidden" alt="Pikachu - pronto para a jornada!">
+            </div>
+           
+            <div class="content-bottom">
+                <img src="https://www.dropbox.com/scl/fi/rda7ohwdqojn7q2goa66i/iconpkmbw.png?rlkey=w4amn3yc2nhewlzz2v136qfo4&st=63n5zpvx&raw=1" alt="Ícone Pokémon">
+            </div>
+        </div>
+<br>
+        <div class="content">
+            <h1>Guia Completo do Treinador</h1>
+   
+            <div class="pdf-layout">
+                <h2><i class="fas fa-chart-bar"></i>ATRIBUTOS</h2>
+                <p>Conteúdo sobre atributos do treinador será inserido aqui...</p>
+                
+                <h2><i class="fas fa-table"></i>ESTATÍSTICAS DE BASE DO TREINADOR COMUM</h2>
+               
+                
+                <h2><i class="fas fa-user-tie"></i>OCUPAÇÕES</h2>
+                <p>Conteúdo sobre ocupações será inserido aqui...</p>
+                
+                <h2><i class="fa-solid fa-briefcase"></i>MOCHILA</h2>
+                <p>Conteúdo sobre sistema de mochila será inserido aqui...</p>
+                
+                <h2><i class="fas fa-map"></i>REGIÕES</h2>
+                <p>Conteúdo sobre as regiões de Unova e outras será inserido aqui...</p>
+                
+                <h2><i class="fas fa-dragon"></i>POKÉMON</h2>
+                <p>Conteúdo sobre mecânicas de Pokémon será inserido aqui...</p>
+                
+                <h2><i class="fas fa-heartbeat"></i>CONDIÇÕES</h2>
+                <p>Conteúdo sobre condições de status será inserido aqui...</p>
+                
+                <h2><i class="fas fa-trophy"></i>AVENTURAS</h2>
+                <p>Conteúdo sobre estrutura de aventuras será inserido aqui...</p>
+                
+                <h2><i class="fas fa-egg"></i>OVOS</h2>
+                <p>Conteúdo sobre sistema de ovos será inserido aqui...</p>
+                
+                <h2><i class="fa-solid fa-hill-rockslide"></i>FÓSSEIS</h2>
+                <p>Conteúdo sobre fósseis e restauração será inserido aqui...</p>
             </div>
            
             <div class="content-bottom">
@@ -281,7 +451,6 @@
         <p id="indicadorText"></p>
     </div>
    
-    <!-- SCRIPTS ORIGINAIS (mantidos 100%) -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var titleElement = document.title;
