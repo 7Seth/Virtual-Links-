@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://www.dropbox.com/scl/fi/rda7ohwdqojn7q2goa66i/iconpkmbw.png?rlkey=w4amn3yc2nhewlzz2v136qfo4&st=63n5zpvx&raw=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Share+Tech&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+   
+    <title>POKÉMON: Virtual Links!</title>
+    <style>
+        :root {font-size: 16px;}
+        img {user-select: none;}
+        body {background-color: #111;background-image: linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%), linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%);background-size: 66px 66px;background-position: 0 0, 30px 30px;margin: 0;padding: 0;font-family: 'Bungee', cursive;display: flex;flex-direction: row;height: 100vh;overflow: hidden;}
+        
+        .left-container {width: 49.5%;height: 100vh;display: flex;flex-direction: column;overflow: hidden;}
+        .right-container {width: 50.5%;height: 100vh;overflow-y: auto;overflow-x: hidden;padding: 1rem;box-sizing: border-box;}
+        .content {font-family: 'Share Tech', sans-serif;line-height: 1.6;font-size: 1.1rem;border: 10px solid black;border-right: 7px dashed black;border-left: 7px dashed black;border-radius: 7px;padding: 70px;background: rgba(255,255,255, 0.75);display: flex;flex-direction: column;min-height: 100%;}
+        .content p {margin-bottom: 1rem;text-align: justify;}
+        .content-bottom {margin-top: auto;text-align: center;padding: 1rem;margin-bottom: 1rem;}
+        .content-bottom img {max-width: 5rem;height: auto;display: block;margin: 0 auto;}
+        
+        .pdf-layout {column-count: 2; column-gap: 40px; column-rule: 1px solid #ccc;}
+        
+        /* ESTRELAS pequenas nos tópicos */
+        ul {
+            list-style: none;
+            padding-left: 1.6rem;
+        }
+        ul li {
+            position: relative;
+            padding-left: 2.3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+        }
+        ul li::before {
+            content: "★";
+            position: absolute;
+            left: 0;
+            color: #000000;
+            font-size: 1.25rem;
+            line-height: 1.1;
+            font-weight: bold;
+            margin-top: 4px;
+        }
+        
+        /* Ícones grandes dentro das listas */
+        .icon-lista {
+            font-size: 2.8rem;
+            color: #000000;
+            margin-right: 14px;
+            flex-shrink: 0;
+            margin-top: -4px;
+        }
+        
+        /* Ícones nos títulos (mantidos porque você gostou) */
+        h2, h3 {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        h2 i, h3 i {
+            color: #000000 !important;
+            font-size: 2.4rem;
+            flex-shrink: 0;
+        }
+        
+        /* Ilustrações */
+        .illustration {
+            border: 6px solid #000;
+            box-shadow: 8px 8px 0 #000;
+            image-rendering: pixelated;
+            transition: transform 0.3s;
+            display: block;
+            margin: 2.2rem auto;
+        }
+        .illustration:hover { transform: scale(1.03); }
+        .illustration-large { max-width: 68%; }
+        
+        h1 { color: #000000; font-size: 3rem; margin-bottom: 30px; }
+        h2 { color: #444; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 30px; margin-bottom: 15px; }
+        h3 { color: #555; margin-top: 20px; margin-bottom: 10px; }
+        
+        /* ARROW DO FOOTER – corrigida para o tamanho original que eu te enviei antes */
+        .down-arrow {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1px;
+        }
+        .down-arrow img {
+            max-width: 3rem;
+            height: auto;
+        }
+        
+        .right-container::-webkit-scrollbar {width: 7px;background: white;}
+        .right-container::-webkit-scrollbar-thumb {background: gray;}
+        .right-container::-webkit-scrollbar-thumb:hover {background: black;}
+        header {background-color: rgba(0, 0, 0, 0.88);color: white;padding: 1.5rem;display: flex;align-items: center;justify-content: space-between;width: 100%;box-sizing: border-box;flex-shrink: 0;margin-top: 0.5%;}
+        header img {width: 2.25rem;height: auto;margin-top: -2vh;}
+        .cape {width: 99.5%;padding: 3.1rem 0;text-align: center;background: linear-gradient(135deg, #001F3F, #003366, #663399, #8A2BE2, #7FFFD4, #00CED1, #20B2AA, #3CB371, #2E8B57, #006400);display: flex;justify-content: center;align-items: center;background-size: 200% 200%;animation: gradientRepeat 7s linear infinite;flex-shrink: 0;}
+        .cape img {max-width: 5rem;height: auto;filter: contrast(40%) brightness(40%);animation: rotate 4s linear infinite;display: block;transition: filter 0.3s ease;}
+        .cape img:hover {filter: contrast(40%) brightness(100%);}
+        @keyframes gradientRepeat {0% {background-position: 0% 0%;}25% {background-position: 100% 0%;}50% {background-position: 100% 100%;}75% {background-position: 0% 100%;}100% {background-position: 0% 0%;}}
+        @keyframes rotate {0% {transform: rotate(0deg);}50% {transform: rotate(-200deg);}70% {transform: rotate(200deg);}100% {transform: rotate(0deg);}}
+        footer {background: linear-gradient(to bottom, #000000, #111111, #222222);color: white;padding: 3rem;text-align: center;border-bottom: 1.5rem double #222;width: 100%;flex-grow: 1;box-sizing: border-box;display: flex;flex-direction: column;justify-content: center;margin-bottom: 1px;}
+        .button-frame {display: flex;justify-content: space-between;align-items: flex-start;background: none;padding: 0.1rem 1.8rem 0.1rem 0.1rem;width: 100%;flex-shrink: 0;}
+        .main-menu {display: flex;flex-direction: column;align-items: start;user-select: none;width: 58%;}
+        .main-buttons {width: 100%;text-decoration: none;color: white;background-color: rgba(255,255,255, 0.4);border: 0.4rem groove white;border-right-style: ridge;border-bottom-style: ridge;font-family: 'Press Start 2P', sans-serif;font-size: 0.7rem;padding: 0.75rem 1rem;margin: 5px 0;cursor: pointer;box-sizing: border-box;}
+        .main-buttons:hover {border-color: cyan;border-right-style: ridge;border-bottom-style: ridge;border-radius: 0.25rem;}
+        .button-container {display: flex;justify-content: center;margin-top: 1rem;flex-wrap: wrap;}
+        .pokebutton {width: 3.1rem;height: 3.1rem;margin: 0 1rem;padding: 0;background-color: transparent;border-radius: 50%;border: 0.4rem groove white;border-right-style: ridge;border-bottom-style: ridge;overflow: hidden;cursor: pointer;}
+        .pokebutton img {width: 100%;height: 100%;border-radius: 50%;object-fit: cover;}
+        .pokebutton img:hover {filter: invert(100%);}
+        #date {font-size: 0.7rem;user-select: none;font-family: 'Share Tech', sans-serif;}
+        #clock {font-size: 0.9rem;user-select: none;font-family: 'Share Tech', sans-serif;}
+        .indicador {display: none;position: fixed;top: 0;right: 0;background-color: #222;padding: 0.7rem 0.5rem 0.5rem 0.7rem;width: 30%;text-align: center;color: white;font-family: 'Share Tech' !important;font-size: 1.1rem;z-index: 999999;border-radius: 0.5rem 0 0 0.5rem;}
+        
+        @media (max-width: 768px) {
+            .pdf-layout {column-count: 1;}
+            .left-container {width: 100%;height: auto;order: 1;}
+            .right-container {width: 100%;height: auto;order: 2;}
+        }
+    </style>
+</head>
+<body>
+    <div class="left-container">
+        <div class="button-frame">
+            <div class="main-menu">
+                <a href="PKMBW Intro.html" class="main-buttons">INTRO</a>
+                <a href="UNOVA Enredo.html" class="main-buttons">ENREDO</a>
+                <a href="" class="main-buttons">AVENTURAS</a>
+                <a href="" class="main-buttons">SISTEMAS</a>
+                <a href="UNOVA Controles.html" class="main-buttons">CONTROLES</a>
+            </div>
+        </div>
+        <header>
+            <img src="https://www.dropbox.com/scl/fi/ll6ch6ff83v8lfb4ov08m/signalpkmbw.gif?rlkey=kzpsssn8sdfyac7oyxe4ds208&st=0tet7vai&raw=1">
+            <div id="date"></div>
+            <div id="clock"></div>
+        </header>
+       
+        <div class="cape">
+            <a href="index.html"><img src="https://www.dropbox.com/scl/fi/480cflc155lmxpkmlwr4j/centerpkmbw.png?rlkey=leovgwbvok4anolgjdjx92dui&st=y2wu3x1a&raw=1"></a>
+        </div>
+       
+        <footer>
+            <div class="down-arrow">
+                <img src="https://www.dropbox.com/scl/fi/lg0rb2vflhy1tyrpr5y5s/arrow-down.gif?rlkey=pr6jtpp8y3u1qfcxglvro41vw&st=vzg7ydif&raw=1" alt="Down Arrow">
+            </div>
+            <div class="button-container">
+                <a href="pokedex.html" target="_blank"><div class="pokebutton" id="pokedex"><img title="Pokédex" src="https://www.dropbox.com/scl/fi/83u64f6125glsj2ds8vj9/pok-dexpkmbw.png?rlkey=1q2xwmp2h1t0ua96t3oluuk8j&st=epzb8imz&raw=1"></div></a>
+                <a href=""><div class="pokebutton" id="pokemon"><img title="Pokémon" src="https://www.dropbox.com/scl/fi/vqi3i8v1j8twlltrg54jo/pok-monpkmbw.png?rlkey=ifl8w0g436gvw5g16b60pammm&st=5gl0sp9l&raw=1"></div></a>
+                <a href=""><div class="pokebutton" id="mochila"><img title="Mochila" src="https://www.dropbox.com/scl/fi/30y4c4hvxy6rml9txwdz0/mochilapkmbw.png?rlkey=phjrfx6ityxyk80k0b3l6l5i8&st=eq22cuey&raw=1"></div></a>
+                <a href=""><div class="pokebutton" id="mercado"><img title="Mercado" src="https://www.dropbox.com/scl/fi/n4nu7knoh265cu6ogztra/pokemartpkmbw.png?rlkey=zx4q3wp1ddpnjo7vukvzohjqe&st=20hh53k8&raw=1"></div></a>
+                <a href="UNOVA Terminal.html" target="_blank"><div class="pokebutton" id="salvar"><img title="Salvar" src="https://www.dropbox.com/scl/fi/8a7fsjvrl080z7qihhsxz/salvarpkmbw.png?rlkey=h2chvobe6h0t0p6hsflvolfw5&st=egiimnn6&raw=1"></div></a>
+                <a href=""><div class="pokebutton" id="presentes"><img title="Presentes" src="https://www.dropbox.com/scl/fi/4stx69jj00x2oadq9khec/giftpkmbw.png?rlkey=9rrblgflbungunc1ymulatx53&st=lbxspee3&raw=1"></div></a>
+            </div>
+           
+            <div class="button-container">
+                <a href=""><div class="pokebutton" id="mapa"><img title="Mapa" src="https://www.dropbox.com/scl/fi/t1ka6hn45fv084ciev3zv/mapapkmbw.png?rlkey=tw6dyvf466kf6behkad683l4k&st=p72bdyb6&raw=1"></div></a>
+                <a href=""><div class="pokebutton" id="desafios"><img title="Conquistas" src="https://www.dropbox.com/scl/fi/mphot2jnzetll750y5afi/conquistaspkmbw.png?rlkey=iul0igrcxbdfyqs89w6bjhuom&st=ht6ql7av&raw=1"></div></a>
+                <a href=""><div class="pokebutton" id="alertas"><img title="Notificações" src="https://www.dropbox.com/scl/fi/fuu2e7xqaml2hiy29cq60/notifica-espkmbw.png?rlkey=m0624n6x8rebi69egigfy10is&st=zj68h2rv&raw=1"></div></a>
+                <a href=""><div class="pokebutton" id="treinador"><img title="Treinador" src="https://www.dropbox.com/scl/fi/uq4iufoikjb62145ov0h6/treinadorpkmbw.png?rlkey=8qvvsk0u03ll0hodtc40vb6j5&st=ocgaa4bs&raw=1"></div></a>
+                <a href=""><div class="pokebutton" id="classificacao"><img title="Classificação" src="https://www.dropbox.com/scl/fi/4ljlfdglhmshse0kkffpb/classifica-opkmbw.png?rlkey=z4p57kupz6a9pp5a4kcx0c8na&st=rouspxrm&raw=1"></div></a>
+                <a href=""><div class="pokebutton" id="ovos"><img title="Ovos" src="https://www.dropbox.com/scl/fi/n1mqd7qx4bek23rgkxacm/ieggpkmbw.png?rlkey=41mw3vjhcmjipjxke1d1jfyb6&st=bez2ch7l&raw=1"></div></a>
+            </div>
+        </footer>
+    </div>
+    
+    <div class="right-container">
+        <div class="content">
+            <h1>Boas-Vindas ao RPG!</h1>
+   
+            <div class="pdf-layout">
+                <h2><i class="fas fa-book-open"></i>O Que É Um RPG?</h2>
+                <p>RPG, sigla de Role-playing Game, é um Jogo de Interpretação de Papéis, no qual os jogadores criam suas próprias histórias, dando a cada personagem uma característica própria, pensamentos, ações e uma vida única. É como se pessoas se reunissem num ambiente, seja ele físico ou virtual, podendo ser jogado de forma presencial ou à distância.</p>
+                <p>Um RPG costuma ser apelidado como um jogo de "faz de conta", de mentirinhas, de contar histórias. Embora seja um jogo, seu objetivo está mais em contar e desenrolar histórias que em vencer. Se você nunca jogou este tipo de coisa antes, deve estar confuso com o próprio conceito de um jogo de contar histórias. Entretanto, depois de compreender os conceitos de um jogo de contar histórias, poderá descobrir que a coisa não é tão estranha quanto parece ser, mas é curiosamente familiar.</p>
+                <p>Há muito tempo atrás, antes dos filmes, da televisão, dos rádios e até mesmo dos livros, pessoas costumavam contar histórias umas para as outras. Eram histórias sobre caçadas, lendas sobre divindades e de grandes heróis, ou fofocas sobre os vizinhos. Narravam essas histórias em voz alta, como parte de uma tradição oral que, lamentavelmente, foi posta de lado.</p>
+                <p>Atualmente, não mais contamos histórias com frequências, mas nós as ouvimos. Atualmente, costumamos nos sentar passivamente diante de aparelhos que descrevem vidas e mundos prontos e permitir que a visão de outros narradores defina nossa realidade. Mas aqui, o controle retorna às suas mãos. No RPG, você deixa de ser um espectador da jornada alheia para se tornar o arquiteto da sua própria história. Você não apenas assiste ao Mundo Pokémon; você o molda através de suas escolhas, seus ideais e suas ações.</p>
+                <p>Jogar um RPG não é apenas fazer de conta e contar histórias aleatoriamente; é um jogo de personificação de papéis. Você não apenas observa a história, você atua nela, assumindo o papel dos personagens centrais e inventando suas próprias falas e ações. Em vez de simplesmente fingir que acreditamos no que outros jogadores dizem, existem regras que definem a interpretação do mundo. Elas são usadas, principalmente, para evitar discussões sobre quem venceu um combate imaginário sem as ferramentas que facilitem sua arbitragem. Para entender isso, basta lembrar da infância: o ato espontâneo de fantasiar-se ou representar papéis era uma forma natural de aprender sobre a vida e sobre quem pretendíamos ser. Só porque crescemos, não significa que precisamos parar de criar.</p>
+                <p>Em um jogo de RPG cada jogador assume o papel de um personagem criado por ele mesmo, que possui suas próprias características, manias, objetivos e dificuldades, e o interpreta ao longo de todo o jogo. Diferente de outros tipos de jogos, um RPG normalmente se desenrola em equipe, não individualmente, para criar um mundo fictício com histórias e personagens próprios. Um RPG é como uma história contada em conjunto, com vários pontos de vista, porém com regras para tornar tudo mais equilibrado e divertido. No grupo, um dos jogadores assume a figura do Mestre e prepara o mundo os desafios que os jogadores, devem superar.</p>
+               
+                <h2><i class="fas fa-globe"></i>O Mundo Pokémon</h2>
+                <p>Em "POKÉMON: Virtual Links!", você tem em mãos um RPG de exploração no Mundo Pokémon, com o qual você irá reviver a história pelo seu ponto de vista. Para jogá-lo, você deve ser um treinador ou treinadora nesse amplamente habitado por criaturas conhecidas como Pokémon. Nós, humanos, vivemos ao lado dos Pokémon, como amigos. Em alguns momentos, nós nos divertimos juntos, e às vezes também trabalhamos. Algumas pessoas utilizam Pokémon em eventos de batalhas e desenvolvem laços com eles.</p>
+                <p>O Mundo Pokémon é um mundo fantástico, cercado por criaturas e lugares magníficos, repleto de desafios. Aqui, diferente dos jogos, revistas e programas de televisão mundialmente famosos, seu objetivo nesse mundo vai muito além de capturar, desafiar os líderes de ginásios, obter as insígnias e vencer a Elite 4 para se tornar o maior campeão já visto da região. Trata-se de um jogo de exploração em um mundo vasto e cheio de atividades interessantes para praticar, e nele você vai viver aventuras espetaculares. Nesse jogo você não segue um caminho ou um objetivo predefinido, mas vive uma vida própria no Mundo Pokémon, com diversos desafios e objetivos que podem ser alcançados.</p>
+               
+                <h2><i class="fas fa-play"></i>Como Jogar?</h2>
+                <p>Em um jogo de RPG cada jogador assume o papel de um personagem criado por ele mesmo, que possui suas próprias características, manias, objetivos e dificuldades, e o interpreta ao longo de todo o jogo. Diferente de outros tipos de jogos, um RPG normalmente se desenrola em equipe, não individualmente. No grupo, um dos jogadores assume a figura do Mestre e prepara o mundo os desafios que os jogadores, devem superar. Um RPG funciona como uma conversa estruturada. Para que a jornada funcione, dividiremos as responsabilidades em dois grandes pilares: os Jogadores e o Narrador.</p>
+               
+                <h3><i class="fa-solid fa-eye"></i></i>Mestre</h3>
+                <p>Nesse cenário, o Mestre de RPG assume a responsabilidade pela criação do mundo fictício, suas tramas e aventuras no ambiente jogável, atuando não contra ou a favor dos participantes, mas como o próprio cenário, as criaturas, o clima e os personagens não-jogáveis. Ele é o responsável por introduzir o jogo, seus recursos e o contexto inicial, auxiliando diretamente na construção e no desenvolvimento dos protagonistas para garantir que suas histórias possuam conexões lógicas e façam sentido quando forem vinculadas ao universo proposto pelo jogo.</p>
+                <p>Ao narrar, ele é o cenário, as criaturas selvagens, os personagens não-jogáveis que fazem parte do mesmo mundo e até mesmo o tempo e clima do ambiente. Cabe a ele o equilíbrio entre a narração e o julgamento imparcial, arbitrando e criando regras de jogo, desafios e distribuindo recompensas, além de decidir como o mundo reage às ações dos jogadores e garantindo que a estrutura da história permita que o grupo a complete vivendo seus papéis principais através de uma trama, estrutura narrativa que organiza a jornada no RPG, servindo como o fio condutor que transforma uma sucessão de eventos em uma história. Elas funcionam como os episódios de uma série, onde cada arco possui uma progressão lógica composta por início, meio e fim. Essas aventuras atingem seu melhor desempenho em grupos pequenos, onde os intérpretes podem atuar e inventar suas falas sem precisar competir pela atenção do narrador do jogo, transformando o que seria uma recepção passiva em uma construção coletiva e funcional.</p>
+               
+                <h3><i class="fas fa-user"></i>Jogador</h3>
+                <p>Enquanto o mestre projeta o palco, os jogadores entregam o espetáculo, utilizando a imaginação para atuar como os protagonistas centrais da narrativa. Ser um jogador exige esforço e concentração, pois você assume a persona, a voz e a mente de um treinador, decidindo quais riscos aceitar ou declinar e como cada ação surtirá efeito no mundo ao seu redor.</p>
+                <p>Mais do que realizar cálculos ou rolar dados para testar competências, o foco está na interpretação das escolhas. O comportamento do seu personagem é o que dita o tom da jornada e o fortalecimento dos laços com seus Pokémon. Você é o responsável por dirigir o progresso da trama através das suas decisões; sem os personagens e suas motivações individuais, não existe história. Cada diálogo e cada movimento executado torna você parte integrante de uma construção coletiva, onde o sucesso depende da colaboração entre os treinadores nos momentos de crise.</p>
+                <p>Nessa dinâmica, o personagem é uma ferramenta para contar uma história maior. Embora seu comportamento tenha a capacidade de influenciar e alterar o curso do ambiente jogável, essa liberdade deve respeitar a integridade do grupo. Nesse contexto, existe uma linha clara entre a interpretação e a narração do ambiente. Sobretudo, jogadores não podem criar uma narrativa que cause interferências diretas na história principal ou no histórico de outros jogadores sem seu devido consentimento, embora seu comportamento em jogo tenha capacidade de influenciar nas mudanças do ambiente jogável. Isso ocorre porque o poder de narrar e arbitrar o mundo pertence ao mestre; o papel do jogador é o de intérprete, utilizando seu personagem como uma ferramenta para reagir ao que lhe é apresentado. Suas características e escolhas ditam o grau de competência com que você lida com os desafios, mas é a interação entre as suas decisões e a estrutura do Narrador que energiza o progresso da trama.</p>
+               
+                <h2><i class="fas fa-tools"></i>Ferramentas de Jogo</h2>
+                <p>Para dar vida à sua jornada, você precisará de alguns recursos fundamentais para gerenciar informações e determinar o sucesso de suas ações. Embora o RPG possa ser jogado de forma tradicional em torno de uma mesa presencial, com auxílio de papel, lápis e borracha, este sistema foi projetado para ser totalmente funcional também em ambientes virtuais, bastando ter acesso a arquivos digitais, programas de computador, páginas de suporte e canais de comunicação como bate-papo online de texto ou voz.</p>
+               
+                <h3><i class="fas fa-dice-d20"></i>Mecanismos de Probabilidade</h3>
+                <p>A sorte e a competência técnica são medidas através de geradores de números aleatórios, sejam eles objetos físicos ou ferramentas digitais:</p>
+                <ul>
+                    <li>Dados de 6 faces (D 6): Utilizados para a maioria das ações comuns e cálculos de dano. Em plataformas virtuais, qualquer rolador de dados comum cumpre essa função.</li>
+                    <li>Dados de 20 faces (D 20): essencial para testes de perícia, ataques críticos ou situações onde a variabilidade é maior.</li>
+                    <li>Dados de 100 faces (D 100): usado para determinar probabilidades raras, como a chance de encontrar um item específico ou a captura de Pokémon difíceis.</li>
+                    <li>Moedas de Cara ou Coroa: três moedas comuns, ou um simulador de "Cara ou Coroa", podem ser utilizadas para mecânicas rápidas de "sim ou não", tentativas combinadas ou efeitos específicos de habilidades.</li>
+                </ul>
+               
+                <h3><i class="fas fa-clipboard-list"></i>Organização Registros</h3>
+                <p>Manter as informações organizadas é o que permite que a história tenha continuidade e lógica:</p>
+                <ul>
+                    <li>Anotações: essenciais para registrar pistas, nomes de NPCs e eventos da trama. Você pode utilizar cadernos físicos, blocos de papel ou ferramentas em nuvem e planilhas compartilhadas para acesso rápido do grupo.</li>
+                    <li>Calculadora: uma ferramenta de suporte vital para agilizar o processamento de modificadores de status, fraquezas elementares e ganhos. Isso garante que o foco permaneça na narrativa, e não na aritmética.</li>
+                    <li>Interface de Referência: ter em mãos uma base de dados física ou digital para consultas rápidas de regras, durante batalhas ou encontros selvagens. Possuir as estatísticas dos Pokémon é indispensável.</li>
+                </ul>
+                <p>Para que a interpretação seja validada, as informações e resultados devem ser sempre compartilhados com o mestre e os demais jogadores.</p>
+                <p>Além dessas ferramentas, você precisará de uma boa imaginação e um bom personagem para o jogo.</p>
+               
+                <h2><i class="fas fa-user-plus"></i>Criação de Personagem</h2>
+                <p>Antes de mais nada é necessário definir o seu personagem.</p>
+                <p>Para criá-lo, você pode começar tentando responder algumas dessas perguntas norteadoras:</p>
+                <ol>
+                    <li>Como costuma ser a sua aparência?</li>
+                    <li>Qual é a sua idade?</li>
+                    <li>Como é a sua fala? É tímido? É introvertido ou extrovertido?</li>
+                    <li>Qual seu objetivo de vida?</li>
+                    <li>Qual é o seu objetivo como treinador?</li>
+                    <li>O que você quer se tornar no Mundo Pokémon?</li>
+                    <li>Você tem algum Pokémon favorito?</li>
+                    <li>O que você faria para realizar seus objetivos?</li>
+                    <li>Como é o seu relacionamento com os Pokémon?</li>
+                    <li>Como é o seu relacionamento com seus amigos e familiares?</li>
+                    <li>Como é o seu comportamento com pessoas que não conhece?</li>
+                    <li>Quais são seus maiores desafios?</li>
+                    <li>Quem é o seu rival ou inspiração?</li>
+                    <li>Quais são seus medos?</li>
+                    <li>Quais são suas manias?</li>
+                    <li>Quais são seus ideais?</li>
+                    <li>Do que você mais gosta?</li>
+                    <li>Do que você não gosta?</li>
+                    <li>Você tem algum bordão ou frase inspiradora?</li>
+                    <li>Qual é sua região de origem no Mundo Pokémon?</li>
+                    <li>Se você pudesse mudar uma coisa no Mundo Pokémon, o que seria?</li>
+                </ol>
+                <p>Essas e outras perguntas são algo que você deve fazer para criar um bom personagem, o essencial é ter em mente quem ele é ou quem pretende se tornar.</p>
+                <p>Por fim, crie uma pequena história, pois todo bom personagem possui uma boa história.</p>
+                <p>Você é livre para viver da maneira que quiser, desde que sua história tenha coesão e coerência com as regras e a principal história proposta.</p>
+               
+                <h2><i class="fas fa-id-card"></i>Treinador</h2>
+                <p>O Treinador é a figura central da jornada, um indivíduo que dedica sua vida a compreender, treinar e conviver com os Pokémon. No entanto, ser um treinador vai além da simples posse de uma criatura; trata-se de um status social e legal garantido pela Licença de Treinador, representada fisicamente pelo seu Cartão de Identificação. Como portador de uma licença, você assume o compromisso de agir com ética e responsabilidade. Má conduta por parte do treinador poderá resultar no encerramento da licença.</p>
+                <p>Este cartão não é apenas um documento de identidade, mas uma credencial de prestígio que valida suas competências e garante acesso a recursos vitais oferecidos pela Liga Regional:</p>
+                
+                <ul>
+                    <li>
+                        Serviços de Saúde: a posse do cartão garante o uso gratuito e prioritário dos Pokémon Centers, permitindo que sua equipe receba cuidados médicos, descanso e restauração completa de energia.
+                    </li>
+                    <li>
+                        Autorização Legal: a licença concede o direito de transportar e circular com Pokémon de forma legal pelas rotas e cidades da região. Sem este registro, o porte de certas criaturas pode ser considerado irregular pelas autoridades locais.
+                    </li>
+                    <li>
+                        Acesso à Infraestrutura: o cartão permite o uso de sistemas de armazenamento de dados (PC), acesso a áreas restritas de treinamento e a participação em competições oficiais de ginásio.
+                    </li>
+                </ul>
+                
+                <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png" class="illustration-large" alt="Pikachu - pronto para a jornada!">
+            </div>
+           
+            <div class="content-bottom">
+                <img src="https://www.dropbox.com/scl/fi/rda7ohwdqojn7q2goa66i/iconpkmbw.png?rlkey=w4amn3yc2nhewlzz2v136qfo4&st=63n5zpvx&raw=1" alt="Ícone Pokémon">
+            </div>
+        </div>
+    </div>
+    
+    <div class="indicador">
+        <p id="indicadorText"></p>
+    </div>
+   
+    <!-- SCRIPTS ORIGINAIS (mantidos 100%) -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var titleElement = document.title;
+            var intervalId;
+            var repetitions = 3;
+            var currentRepetition = 0;
+            function startTitleAnimation() {
+                var title = ": Virtual Links!";
+                var index = 0;
+                intervalId = setInterval(function () {
+                    document.title = "POKÉMON" + title.substring(0, index);
+                    index++;
+                    if (index > title.length) {
+                        clearInterval(intervalId);
+                        setTimeout(function () {
+                            currentRepetition++;
+                            if (currentRepetition < repetitions) {
+                                startTitleAnimation();
+                            } else {
+                                currentRepetition = 0;
+                                setTimeout(function () {
+                                    startTitleAnimation();
+                                }, 1000);
+                            }
+                        }, 1000);
+                    }
+                }, 150);
+            }
+            startTitleAnimation();
+        });
+    </script>
+    <script>
+        function updateClockAndDate() {
+            var now = new Date();
+            var futureDate = new Date(now.getFullYear() + 100, now.getMonth(), now.getDate());
+            var optionsDate = { month: 'short', day: 'numeric', year: 'numeric' };
+            var dateString = futureDate.toLocaleDateString('en-US', optionsDate);
+            document.getElementById('date').innerText = dateString;
+            var tokyoTime = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Tokyo"}));
+            var hours = tokyoTime.getHours();
+            var minutes = tokyoTime.getMinutes();
+            var seconds = tokyoTime.getSeconds();
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            var timeString = hours + ':' + minutes + ':' + seconds;
+            document.getElementById('clock').innerText = timeString;
+        }
+        setInterval(updateClockAndDate, 1000);
+        updateClockAndDate();
+    </script>
+    <script>
+        function changeText(text) {
+            var indicadorText = document.getElementById('indicadorText');
+            indicadorText.innerHTML = text;
+            var indicador = document.querySelector('.indicador');
+            indicador.style.display = (text !== '') ? 'flex' : 'none';
+        }
+        function hideIndicador() {
+            var indicador = document.querySelector('.indicador');
+            indicador.style.display = 'none';
+        }
+        const buttonConfigs = [
+            { id: 'pokedex', text: 'POKÉDEX' },
+            { id: 'pokemon', text: 'POKÉMON' },
+            { id: 'mochila', text: 'MOCHILA' },
+            { id: 'mercado', text: 'MERCADO' },
+            { id: 'salvar', text: 'SALVAR' },
+            { id: 'presentes', text: 'PRESENTES' },
+            { id: 'mapa', text: 'MAPA' },
+            { id: 'desafios', text: 'CONQUISTAS' },
+            { id: 'alertas', text: 'NOTIFICAÇÕES' },
+            { id: 'treinador', text: 'TREINADOR' },
+            { id: 'classificacao', text: 'CLASSIFICAÇÃO' },
+            { id: 'ovos', text: 'OVOS' }
+        ];
+        buttonConfigs.forEach(config => {
+            const el = document.getElementById(config.id);
+            if (el) {
+                el.addEventListener('mouseover', () => changeText(config.text));
+                el.addEventListener('mouseout', hideIndicador);
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('contextmenu', event => {
+            event.preventDefault();
+            document.elementFromPoint(event.clientX, event.clientY).click();
+        });
+        document.onkeydown = function(e) {
+            if (e.ctrlKey || e.altKey || e.shiftKey) {
+                return false;
+            }
+        };
+        document.onselectstart = function() {
+            return false;
+        };
+        document.oncopy = function() {
+            return false;
+        };
+        document.oncut = function() {
+            return false;
+        };
+        document.ondragstart = function() {
+            return false;
+        };
+    </script>
+</body>
+</html>
