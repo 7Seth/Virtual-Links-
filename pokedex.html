@@ -68,8 +68,7 @@ body { background: var(--bg-dark); color: white; font-family: 'Teko', sans-serif
 .rank-selector { margin-top: auto; display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid #333; }
 .rank-label { font-family: 'Orbitron'; color: white; opacity: 0.6; font-size: 0.7rem; }
 .rank-icons { display: flex; gap: 5px; }
-.rank-btn { width: 30px; height: 15px; background: #222; border: 1px solid #444; cursor: pointer; clip-path: polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%); }
-.rank-btn.active { background: white; box-shadow: 0 0 5px white; border-color: white; }
+.rank-star { font-size: 22px; cursor: pointer; }
 #region-selector { display: flex; justify-content: center; gap: 6px; padding: 20px 0; background: rgba(0,0,0,0.95); border-top: 1px solid rgba(255,255,255,0.1); margin-top: 20px; flex-wrap: wrap; }
 .region-btn { width: 40px; height: 40px; background: #000; border: 1px solid #333; color: #555; font-family: 'Orbitron'; font-size: 14px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; clip-path: polygon(15% 0, 100% 0, 85% 100%, 0 100%); }
 .region-btn.active { border-color: white; color: white; box-shadow: 0 0 15px rgba(255,255,255,0.2); transform: scale(1.1); }
@@ -91,7 +90,6 @@ body { background: var(--bg-dark); color: white; font-family: 'Teko', sans-serif
 .moves-list { height: 180px; }
 .move-item { font-size: 8px; padding: 10px; }
 .rank-label { font-size: 0.7rem; }
-.rank-btn { width: 25px; height: 12px; }
 .capture-zone { width: 30px; height: 30px; top: 15px; right: 15px; border-width: 3px; }
 .film-strip { height: 45px; }
 .film-strip span { width: 30px; height: 45px; }
@@ -193,6 +191,18 @@ function hideLoading() {
         document.body.classList.remove('loading');
     }, 300);
 }
+function findEvolutionLevel(node, targetName, currentLevel) {
+    if (node.species.name.toLowerCase() === targetName.toLowerCase()) {
+        return currentLevel;
+    }
+    for (let evo of node.evolves_to) {
+        const details = evo.evolution_details[0] || {};
+        const nextLevel = details.min_level || currentLevel;
+        const found = findEvolutionLevel(evo, targetName, nextLevel);
+        if (found !== null) return found;
+    }
+    return null;
+}
 async function getInitialLevel(p, s) {
     const starters = [1,4,7,152,155,158,252,255,258,387,390,393,495,498,501,650,653,656,722,725,728,810,813,816,906,909,912];
     const pseudos = [147,246,371,374,443,633,704,782,885,996];
@@ -216,18 +226,6 @@ async function getInitialLevel(p, s) {
     } catch(e) {
         return 5;
     }
-}
-function findEvolutionLevel(node, targetName, currentLevel) {
-    if (node.species.name.toLowerCase() === targetName.toLowerCase()) {
-        return currentLevel;
-    }
-    for (let evo of node.evolves_to) {
-        const details = evo.evolution_details[0] || {};
-        const nextLevel = details.min_level || currentLevel;
-        const found = findEvolutionLevel(evo, targetName, nextLevel);
-        if (found !== null) return found;
-    }
-    return null;
 }
 async function fetchPokemonAndSpecies(i) {
     try {
@@ -380,8 +378,8 @@ async function createCardElement(p, s) {
             </div>
            
             <div class="rank-selector">
-                <span class="rank-label">ELITE RANK</span>
-                <div class="rank-icons">${[1,2,3].map(i => `<div class="rank-btn" onclick="setR(${s.id},${i})"></div>`).join('')}</div>
+                <span class="rank-label">STARS</span>
+                <div class="rank-icons">${[1,2,3].map(i => `<i onclick="setR(${s.id},${i})" class="far fa-star rank-star" style="color:#666"></i>`).join('')}</div>
             </div>
         </div>`;
        
@@ -457,7 +455,7 @@ function sync(id, v) {
 function updSt(id) {
     const c = document.querySelector(`[data-id="${id}"]`); if (!c) return;
     const l = parseInt(c.querySelector('.lvl-input').value) || 1;
-    const r = c.querySelectorAll('.rank-btn.active').length;
+    const r = c.querySelectorAll('.rank-star.fas').length;
     c.querySelectorAll('.stat-val').forEach(e => {
         const b = parseInt(e.dataset.base);
         e.innerText = Math.floor(b + (b*(l/50)) + (r*20));
@@ -486,7 +484,27 @@ function applyFilters() {
         c.style.display = inRegion && nameMatch && typeMatch ? 'flex' : 'none';
     });
 }
-function setR(id, v) { const b = document.querySelectorAll(`[data-id="${id}"] .rank-btn`); b.forEach((x, i) => x.classList.toggle('active', i < v)); updSt(id); }
+function setR(id, clickedRank) {
+    const stars = document.querySelectorAll(`[data-id="${id}"] .rank-star`);
+    let currentRank = 0;
+    for (let i = 0; i < stars.length; i++) {
+        if (stars[i].classList.contains('fas')) currentRank = i + 1;
+    }
+    let newRank = (currentRank === clickedRank) ? clickedRank - 1 : clickedRank;
+    if (newRank < 0) newRank = 0;
+    stars.forEach((star, i) => {
+        if (i < newRank) {
+            star.classList.remove('far');
+            star.classList.add('fas');
+            star.style.color = '#FFD700';
+        } else {
+            star.classList.add('far');
+            star.classList.remove('fas');
+            star.style.color = '#666';
+        }
+    });
+    updSt(id);
+}
 function toggleCap(id) {
     const i = capturedList.indexOf(id); i > -1 ? capturedList.splice(i, 1) : capturedList.push(id);
     localStorage.setItem('unova_capture_list', JSON.stringify(capturedList));
