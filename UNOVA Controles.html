@@ -11,19 +11,19 @@
     <style>
         :root {font-size: 16px;}
         img {user-select: none;}
-        body {background: #f8f8f8;margin: 0;padding: 0;font-family: 'Bungee', cursive;display: flex;flex-direction: row;height: 100vh;overflow: hidden;}
+        body {background-color: #111;background-image: linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%), linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%);background-size: 66px 66px;background-position: 0 0, 30px 30px;margin: 0;padding: 0;font-family: 'Bungee', cursive;display: flex;flex-direction: row;height: 100vh;overflow: hidden;}
         .title-font {font-family: 'Press Start 2P', cursive;}
         body::before {content: '';position: fixed;top: 0;left: 0;width: 50%;height: 100%;background-color: #111;background-image: linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%), linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%);background-size: 66px 66px;background-position: 0 0, 30px 30px;z-index: -2;}
-        body::after {content: '';position: fixed;top: 0;right: 0;width: 50%;height: 100%;background-color: #f0f0f0;background-image: linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%), linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%);background-size: 66px 66px;background-position: 0 0, 30px 30px;z-index: -2;}
+        body::after {content: '';position: fixed;top: 0;right: 0;width: 50.5%;height: 100%;background: #0a0a0c;z-index: -2;overflow: hidden;}
+        body::after { background-image:linear-gradient(var(--grid-color, rgba(0, 242, 255, 0.1)) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color, rgba(0, 242, 255, 0.1)) 1px, transparent 1px);background-size: 40px 40px;transform: perspective(500px) rotateX(60deg) scale(2.5);transform-origin: center center;animation: grid-move-right 15s linear infinite;} 
+        @keyframes grid-move-right { from { background-position: 0 0; } to { background-position: 0 400px; }}
         .left-container {width: 49.5%;height: 100vh;display: flex;flex-direction: column;overflow: hidden;}
         .right-container {width: 50.5%;height: 100vh;overflow-y: auto;overflow-x: hidden;padding: 1rem;box-sizing: border-box;}
         .content {font-family: 'Share Tech', sans-serif;line-height: 1.6;font-size: 1.1rem;border: 10px solid black;border-right: 7px dashed black;border-left: 7px dashed black;border-radius: 7px;padding: 70px;background: rgba(255,255,255, 0.75);display: flex;flex-direction: column;min-height: 100%;}
         .content p {margin-bottom: 1rem;text-align: justify;}
         .content-bottom {margin-top: auto;text-align: center;padding: 1rem;margin-bottom: 1rem;}
         .content-bottom img {max-width: 5rem;height: auto;display: block;margin: 0 auto;}
-        .right-container::-webkit-scrollbar {width: 7px;background: white;}
-        .right-container::-webkit-scrollbar-thumb {background: gray;}
-        .right-container::-webkit-scrollbar-thumb:hover {background: black;}
+
         header {background-color: rgba(0, 0, 0, 0.88);color: white;padding: 1.5rem;display: flex;align-items: center;justify-content: space-between;width: 100%;box-sizing: border-box;flex-shrink: 0;margin-top: 0.5%;}
         header img {width: 2.25rem;height: auto;margin-top: -2vh;}
         @keyframes gradientRepeat {0% {background-position: 0% 0%;}25% {background-position: 100% 0%;}50% {background-position: 100% 100%;}75% {background-position: 0% 100%;}100% {background-position: 0% 0%;}}
@@ -145,7 +145,7 @@
     
     <p>Ao superar esses momentos, você poderá ser recompensado de maneiras inesperadas! Durante as <a href="" class="link">aventuras</a>, você poderá ganhar e até mesmo encontrar itens e ferramentas úteis, nunca se sabe, não é mesmo? Por isso, sempre ande com uma <a href="" class="link">mochila</a>. A qualquer momento alguém pode surgir no seu caminho propondo <a href="" class="link">trocas ou vendas</a>. Quando tiver oportunidade, vá a um <a href="" class="link">Pokémart</a>, compartilhe ideias, sugestões e novidades com outros treinadores, um <a href="" class="link">Pokémon center</a> costuma ter um pouco de tudo isso e parece um ótimo ponto para descansar e restaurar a saúde da sua <a href="" class="link">Equipe Pokémon</a> antes de continuar a viagem.</p>
     
-    <p>Essa Jornada Pokémon vai muito além de só batalhar e coletar ou de se tornar poderoso. É sobre mergulhar na riqueza desse universo e viver esse mundo fascinante, conhecendo incontáveis pessoas, <a href="" class="link">histórias</a> épicas e tocantes, lugares e criaturas inesquecíveis. O Professor Pokémon está trabalhando em um projeto inovador e precisa catalogar dados sobre os Pokémon de Unova. Você poderia ajudá-lo com a mais nova <a href="" class="link">Pokédex</a>? Na semana passada sua equipe de pesquisa anunciou a descoberta de novos tipos de <a href="" class="link">Ovos Pokémon</a> na região. Isso significa que novas criaturas podem nascer e se tornar parte da nossa vivência. Seria incrível acompanhar esse desenvolvimento!</p>
+    <p>Essa Jornada Pokémon vai muito além de só batalhar e coletar ou de se tornar poderoso. É sobre mergulhar na riqueza desse universo e viver esse mundo fascinante, conhecendo incontáveis pessoas, <a href="" class="link">histórias</a> épicas e tocantes, lugares e criaturas inesquecíveis. O Professor de Pokémon está trabalhando em um projeto inovador e precisa catalogar dados sobre os Pokémon de Unova. Você poderia ajudá-lo com a mais nova <a href="" class="link">Pokédex</a>? Na semana passada sua equipe de pesquisa anunciou a descoberta de novos tipos de <a href="" class="link">Ovos Pokémon</a> na região. Isso significa que novas criaturas podem nascer e se tornar parte da nossa vivência. Seria incrível acompanhar esse desenvolvimento!</p>
     
     <p>Registre momentos especiais sempre que puder, para reviver memórias e compartilhar sua história com o mundo. Suba na <a href="" class="link">Classificação Regional</a> e seja um treinador destaque, reconhecido por sua grande fama, poder e conquistas únicas. Se você ainda não se sentiu recompensado pela oportunidade de vivenciar todos esses momentos incríveis, saiba que ao concluir desafios você também poderá receber <a href="" class="link">recompensas exclusivas</a> que vão enriquecer sua experiência!</p>
     
