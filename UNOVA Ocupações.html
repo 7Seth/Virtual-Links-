@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,26 +7,17 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Share+Tech&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
     <title>POKÉMON: Virtual Links!</title>
     <style>
         :root {font-size: 16px;}
         img {user-select: none;}
         body {background-color: #111;background-image: linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%), linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%);background-size: 66px 66px;background-position: 0 0, 30px 30px;margin: 0;padding: 0;font-family: 'Bungee', cursive;display: flex;flex-direction: row;height: 100vh;overflow: hidden;}
-        .title-font {font-family: 'Press Start 2P', cursive;}
         body::before {content: '';position: fixed;top: 0;left: 0;width: 50%;height: 100%;background-color: #111;background-image: linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%), linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%);background-size: 66px 66px;background-position: 0 0, 30px 30px;z-index: -2;}
         body::after {content: '';position: fixed;top: 0;right: 0;width: 50.5%;height: 100%;background: #0a0a0c;z-index: -2;overflow: hidden;}
-        body::after { background-image:linear-gradient(var(--grid-color, rgba(0, 242, 255, 0.1)) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color, rgba(0, 242, 255, 0.1)) 1px, transparent 1px);background-size: 40px 40px;transform: perspective(500px) rotateX(60deg) scale(2.5);transform-origin: center center;animation: grid-move-right 15s linear infinite;} 
+        body::after { background-image:linear-gradient(var(--grid-color, rgba(0, 242, 255, 0.1)) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color, rgba(0, 242, 255, 0.1)) 1px, transparent 1px);background-size: 40px 40px;transform: perspective(500px) rotateX(60deg) scale(2.5);transform-origin: center center;animation: grid-move-right 15s linear infinite;}
         @keyframes grid-move-right { from { background-position: 0 0; } to { background-position: 0 400px; }}
         .left-container {width: 49.5%;height: 100vh;display: flex;flex-direction: column;overflow: hidden;}
-        .right-container {width: 50.5%;height: 100vh;overflow-y: auto;overflow-x: hidden;padding: 1rem;box-sizing: border-box;}
-        .content {font-family: 'Share Tech', sans-serif;line-height: 1.6;font-size: 1.1rem;border: 10px solid black;border-right: 7px dashed black;border-left: 7px dashed black;border-radius: 7px;padding: 70px;background: rgba(255,255,255, 0.75);display: flex;flex-direction: column;min-height: 100%;}
-        .content p {margin-bottom: 1rem;text-align: justify;}
-        .content-bottom {margin-top: auto;text-align: center;padding: 1rem;margin-bottom: 1rem;}
-        .content-bottom img {max-width: 5rem;height: auto;display: block;margin: 0 auto;}
-        .right-container::-webkit-scrollbar {width: 7px;background: white;}
-        .right-container::-webkit-scrollbar-thumb {background: gray;}
-        .right-container::-webkit-scrollbar-thumb:hover {background: black;}
+        .right-container {width: 50.5%;height: 100vh;overflow-y: auto;overflow-x: hidden!important;padding: 1rem;box-sizing: border-box;}
         header {background-color: rgba(0, 0, 0, 0.88);color: white;padding: 1.5rem;display: flex;align-items: center;justify-content: space-between;width: 100%;box-sizing: border-box;flex-shrink: 0;margin-top: 0.5%;}
         header img {width: 2.25rem;height: auto;margin-top: -2vh;}
         @keyframes gradientRepeat {0% {background-position: 0% 0%;}25% {background-position: 100% 0%;}50% {background-position: 100% 100%;}75% {background-position: 0% 100%;}100% {background-position: 0% 0%;}}
@@ -46,14 +37,45 @@
         #date {font-size: 0.7rem;user-select: none;font-family: 'Share Tech', sans-serif;}
         #clock {font-size: 0.9rem;user-select: none;font-family: 'Share Tech', sans-serif;}
         .indicador {display: none;position: fixed;top: 0;right: 0;background-color: #222;padding: 0.7rem 0.5rem 0.5rem 0.7rem;width: 30%;text-align: center;color: white;font-family: 'Share Tech' !important;font-size: 1.1rem;z-index: 999999;border-radius: 0.5rem 0 0 0.5rem;}
-        @media (max-width: 768px) {body {flex-direction: column;height: auto;overflow-y: auto;}body::after {top: 0;height: 100%;}.left-container {width: 100%;height: auto;order: 1;margin-bottom: 0;}.right-container {width: 100%;height: auto;flex-grow: 1;order: 2;padding: 1rem;margin-top: 0;border: 10px solid black;border-radius: 3px;box-sizing: border-box;position: relative;}.button-frame {position: sticky;top: 0;z-index: 10;background-color: rgba(0, 0, 0, 0.95);width: 100%;box-sizing: border-box;padding: 0.6rem 1rem;justify-content: space-between;}header {margin-top: 0;padding: 1rem;}header img {margin-top: 0;}.cape {padding: 2rem 0;}.cape img {max-width: 4rem;}footer {padding: 1.5rem;border-bottom-width: 1rem;margin-bottom: 0;}.main-buttons {font-size: 0.6rem;padding: 0.5rem 0.75rem;border-width: 0.3rem;}.pokebutton {width: 2.5rem;height: 2.5rem;margin: 0 0.5rem;border-width: 0.3rem;}.content {font-size: 1rem;padding: 1rem;min-height: auto;height: auto;display: flex;flex-direction: column;padding-bottom: 6rem;}.content-bottom {position: static;margin-top: auto;margin-bottom: 1rem;}.content-bottom img {max-width: 4rem;}.indicador {width: 50%;left: auto;right: 0;}.main-menu {width: 68%;}}
-        @media (max-width: 480px) {.pokebutton {width: 2rem;height: 2rem;margin: 0 0.25rem;}.button-container {margin-top: 0.5rem;}.content {padding: 0.5rem;padding-bottom: 4rem;}}
+        @media (max-width: 768px) {body {flex-direction: column;height: auto;overflow-y: auto;}body::after {top: 0;height: 100%;}.left-container {width: 100%;height: auto;order: 1;margin-bottom: 0;}.right-container {width: 100%;height: auto;flex-grow: 1;order: 2;padding: 1rem;margin-top: 0;border: 10px solid black;border-radius: 3px;box-sizing: border-box;position: relative;}.button-frame {position: sticky;top: 0;z-index: 10;background-color: rgba(0, 0, 0, 0.95);width: 100%;box-sizing: border-box;padding: 0.6rem 1rem;justify-content: space-between;}header {margin-top: 0;padding: 1rem;}header img {margin-top: 0;}.cape {padding: 2rem 0;}.cape img {max-width: 4rem;}footer {padding: 1.5rem;border-bottom-width: 1rem;margin-bottom: 0;}.main-buttons {font-size: 0.6rem;padding: 0.5rem 0.75rem;border-width: 0.3rem;}.pokebutton {width: 2.5rem;height: 2.5rem;margin: 0 0.5rem;border-width: 0.3rem;}.indicador {width: 50%;left: auto;right: 0;}.main-menu {width: 68%;}}
+        @media (max-width: 480px) {.pokebutton {width: 2rem;height: 2rem;margin: 0 0.25rem;}.button-container {margin-top: 0.5rem;}}
         .down-arrow {display: flex;justify-content: center;margin-bottom: 1px;}
         .down-arrow img {max-width: 3rem;height: auto;}
+        :root {--bg-card: #1a1a1a;--unova-grid-1: #151515;--unova-grid-2: #080808;--transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);}
+        .occupation-grid {display: flex;flex-direction: column;gap: 50px;width: 98%;max-width: none;margin: 0 auto;padding: 20px 20px;}
+        .occupation-entry {background: transparent;padding: 5px;width: 98%;}
+        .occupation-entry.destaque {margin-bottom: 60px;}
+        .class-card {background: var(--bg-card);border: 1px solid #222;border-left: 5px solid var(--type-color);display: grid;grid-template-columns: 140px 1fr;position: relative;overflow: hidden;transition: var(--transition);box-shadow: 5px 5px 0px rgba(0,0,0,0.5);}
+        .class-card:hover {transform: scale(1.02);border-color: var(--type-color);box-shadow: 0 0 20px var(--type-glow), 8px 8px 0px #000;}
+        .scan-effect {position: absolute;top: 0;left: -100%;width: 50%;height: 100%;background: linear-gradient(to right, transparent, rgba(255,255,255,0.05) 40%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.05) 60%, transparent);transform: skewX(-20deg);animation: scanMove 4s infinite;z-index: 5;pointer-events: none;}
+        @keyframes scanMove {0% { left: -100%; }30% { left: 150%; }100% { left: 150%; }}
+        .unova-side {background-color: var(--unova-grid-1);background-image: linear-gradient(45deg, var(--unova-grid-2) 25%, transparent 25%), linear-gradient(-45deg, var(--unova-grid-2) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, var(--unova-grid-2) 75%), linear-gradient(-45deg, transparent 75%, var(--unova-grid-2) 75%);background-size: 14px 14px;display: flex;flex-direction: column;align-items: center;justify-content: center;border-right: 1px solid #222;position: relative;}
+        .type-circle {width: 85px;height: 85px;border-radius: 50%;background: rgba(0,0,0,0.7);border: 2px solid var(--type-color);display: flex;align-items: center;justify-content: center;box-shadow: 0 0 15px var(--type-glow);z-index: 2;position: relative;}
+        .type-circle .type-icon {width: 50px;filter: drop-shadow(0 0 5px var(--type-color));}
+        .type-dots {display: flex;gap: 8px;margin-top: 15px;z-index: 2;}
+        .dot {width: 12px;height: 12px;border-radius: 50%;background: #222;border: 1px solid #444;cursor: pointer;transition: 0.3s;}
+        .dot.active {background: var(--type-color);box-shadow: 0 0 8px var(--type-color);border-color: white;}
+        .content-card { padding: 20px; }
+        .type-label {display: inline-block;font-family: 'Press Start 2P';font-size: 8px;padding: 5px 8px;background: var(--type-color);color: white;margin-bottom: 10px; }
+        .class-title {font-family: 'Press Start 2P';font-size: 16px;margin: 0 0 10px 0;letter-spacing: 1px;color: white;}
+        .description {font-family: 'Share Tech', sans-serif;color: #888;font-size: 14px;line-height: 1.4;margin-bottom: 20px;min-height: 60px;}
+        .vant-desv {border-top: 1px solid #222;padding-top: 15px;margin-top: 15px;}
+        .vant-title {font-family: 'Press Start 2P';font-size: 9px;color: var(--type-color);margin-bottom: 8px;display: block;}
+        .vant-item {font-family: 'Share Tech', sans-serif;color: #888;font-size: 14px;line-height: 1.4;margin-bottom: 12px;}
+        .tab-container {display: flex;margin: 15px 0 10px 0;gap: 5px;flex-wrap: wrap;}
+        .tab-btn {padding: 6px 18px;border: 1px solid #333;background: #000;cursor: pointer;font-family: 'Press Start 2P';font-size: 8px;color: #ccc;transition: var(--transition);}
+        .tab-btn.active {background: var(--type-color);color: black;border-color: white;}
+        .data-boxes {display: grid;grid-template-columns: 1fr;gap: 15px;}
+        .info-box {background: #000;border: 1px solid #222;border-left: 4px solid var(--type-color);padding: 15px;min-height: 80px;}
+        .box-title {font-family: 'Press Start 2P';font-size: 8px;color: var(--type-color);margin-bottom: 8px;display: block;}
+        .stats-grid {display: grid;grid-template-columns: 1fr 1fr;gap: 10px;border-top: 1px solid #222;padding-top: 15px;margin-top: 15px;}
+        .stat-row {display: flex;justify-content: space-between;align-items: center;font-family: 'Share Tech';font-size: 13px;color: #bbb;}
+        .stars { color: #222; font-size: 10px; }
+        .stars .active { color: var(--type-color); text-shadow: 0 0 5px var(--type-color); }
+        .type-circle .trainer-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 125px; height: auto; object-fit: contain; z-index: 2; pointer-events: none; filter: drop-shadow(0 0 5px var(--type-color)); }
     </style>
 </head>
 <body>
-
     <div class="left-container">
         <div class="button-frame">
             <div class="main-menu">
@@ -64,452 +86,299 @@
                 <a href="" class="main-buttons">CONTROLES</a>
             </div>
         </div>
-
         <header>
             <img src="https://www.dropbox.com/scl/fi/ll6ch6ff83v8lfb4ov08m/signalpkmbw.gif?rlkey=kzpsssn8sdfyac7oyxe4ds208&st=0tet7vai&raw=1">
             <div id="date"></div>
             <div id="clock"></div>
         </header>
-        
         <div class="cape">
             <img src="https://www.dropbox.com/scl/fi/480cflc155lmxpkmlwr4j/centerpkmbw.png?rlkey=leovgwbvok4anolgjdjx92dui&st=y2wu3x1a&raw=1">
         </div>
-        
         <footer>
             <div class="down-arrow">
                 <img src="https://www.dropbox.com/scl/fi/lg0rb2vflhy1tyrpr5y5s/arrow-down.gif?rlkey=pr6jtpp8y3u1qfcxglvro41vw&st=vzg7ydif&raw=1" alt="Down Arrow">
             </div>
-
             <div class="button-container">
                 <a href=""><div class="pokebutton" id="pokedex"><img title="Pokédex" src="https://www.dropbox.com/scl/fi/83u64f6125glsj2ds8vj9/pok-dexpkmbw.png?rlkey=1q2xwmp2h1t0ua96t3oluuk8j&st=epzb8imz&raw=1"></div></a>
-                
                 <a href=""><div class="pokebutton" id="pokemon"><img title="Pokémon" src="https://www.dropbox.com/scl/fi/vqi3i8v1j8twlltrg54jo/pok-monpkmbw.png?rlkey=ifl8w0g436gvw5g16b60pammm&st=5gl0sp9l&raw=1"></div></a>
-                
                 <a href=""><div class="pokebutton" id="mochila"><img title="Mochila" src="https://www.dropbox.com/scl/fi/30y4c4hvxy6rml9txwdz0/mochilapkmbw.png?rlkey=phjrfx6ityxyk80k0b3l6l5i8&st=eq22cuey&raw=1"></div></a>
-                
                 <a href=""><div class="pokebutton" id="mercado"><img title="Mercado" src="https://www.dropbox.com/scl/fi/n4nu7knoh265cu6ogztra/pokemartpkmbw.png?rlkey=zx4q3wp1ddpnjo7vukvzohjqe&st=20hh53k8&raw=1"></div></a>
-                
                 <a href=""><div class="pokebutton" id="salvar"><img title="Salvar" src="https://www.dropbox.com/scl/fi/8a7fsjvrl080z7qihhsxz/salvarpkmbw.png?rlkey=h2chvobe6h0t0p6hsflvolfw5&st=egiimnn6&raw=1"></div></a>
-                
                 <a href=""><div class="pokebutton" id="presentes"><img title="Presentes" src="https://www.dropbox.com/scl/fi/4stx69jj00x2oadq9khec/giftpkmbw.png?rlkey=9rrblgflbungunc1ymulatx53&st=lbxspee3&raw=1"></div></a>
             </div>
-            
             <div class="button-container">
                 <a href=""><div class="pokebutton" id="mapa"><img title="Mapa" src="https://www.dropbox.com/scl/fi/t1ka6hn45fv084ciev3zv/mapapkmbw.png?rlkey=tw6dyvf466kf6behkad683l4k&st=p72bdyb6&raw=1"></div></a>
-                
                 <a href=""><div class="pokebutton" id="desafios"><img title="Conquistas" src="https://www.dropbox.com/scl/fi/mphot2jnzetll750y5afi/conquistaspkmbw.png?rlkey=iul0igrcxbdfyqs89w6bjhuom&st=ht6ql7av&raw=1"></div></a>
-                
                 <a href=""><div class="pokebutton" id="alertas"><img title="Notificações" src="https://www.dropbox.com/scl/fi/fuu2e7xqaml2hiy29cq60/notifica-espkmbw.png?rlkey=m0624n6x8rebi69egigfy10is&st=zj68h2rv&raw=1"></div></a>
-                
                 <a href=""><div class="pokebutton" id="treinador"><img title="Treinador" src="https://www.dropbox.com/scl/fi/uq4iufoikjb62145ov0h6/treinadorpkmbw.png?rlkey=8qvvsk0u03ll0hodtc40vb6j5&st=ocgaa4bs&raw=1"></div></a>
-                
                 <a href=""><div class="pokebutton" id="classificacao"><img title="Classificação" src="https://www.dropbox.com/scl/fi/4ljlfdglhmshse0kkffpb/classifica-opkmbw.png?rlkey=z4p57kupz6a9pp5a4kcx0c8na&st=rouspxrm&raw=1"></div></a>
-                
                 <a href=""><div class="pokebutton" id="ovos"><img title="Ovos" src="https://www.dropbox.com/scl/fi/n1mqd7qx4bek23rgkxacm/ieggpkmbw.png?rlkey=41mw3vjhcmjipjxke1d1jfyb6&st=bez2ch7l&raw=1"></div></a>
             </div>
         </footer>
     </div>
-
-   <div class="right-container" style="padding: 0; overflow: hidden;">
+    <div class="right-container" style="padding: 0; overflow: hidden;">
         <div class="right-container-content" style="width: 100%; height: 100%; background-color: transparent; position: relative;">
             <style>
                 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-                
-                .scroll-wrapper {
-                    height: 100vh;
-                    overflow-y: auto;
-                    padding: 30px;
-                    box-sizing: border-box;
-                }
-
-                .scroll-wrapper::-webkit-scrollbar {
-                    width: 7px;
-                    background: white;
-                }
-                .scroll-wrapper::-webkit-scrollbar-thumb {
-                    background: gray;
-                }
-                .scroll-wrapper::-webkit-scrollbar-thumb:hover {
-                    background: black;
-                }
-
-                .occupation-grid {
-                    display: grid;
-                    grid-template-columns: 1fr;
-                    gap: 25px;
-                    width: 100%;
-                    max-width: 100%;
-                    margin: 0 auto;
-                }
-
-                .card {
-                    background: #111;
-                    border: 1px solid #333;
-                    border-left: 4px solid var(--current-color);
-                    display: grid;
-                    grid-template-columns: 140px 1fr;
-                    position: relative;
-                    overflow: hidden;
-                    box-shadow: 10px 10px 0px rgba(0,0,0,0.5);
-                    transition: all 0.3s ease;
-                    font-family: 'Press Start 2P', cursive;
-                }
-
-                .card:hover {
-                    transform: translateY(-5px);
-                    border-color: var(--current-color);
-                    box-shadow: 15px 15px 20px rgba(0,0,0,0.8);
-                    z-index: 5;
-                }
-
-                .scan-line {
-                    position: absolute;
-                    top: -100px; left: 0; width: 100%; height: 60px;
-                    background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.05) 50%, transparent);
-                    z-index: 5; pointer-events: none;
-                    animation: scanMove 4s linear infinite;
-                }
-
-                @keyframes scanMove { 0% { top: -100px; } 100% { top: 100%; } }
-
-                .visual {
-                    background: #161616;
-                    position: relative;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    border-right: 1px solid #222;
-                }
-
-                .visual::before {
-                    content: ''; position: absolute; inset: 0;
-                    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), 
-                                      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-                    background-size: 10px 10px;
-                }
-
-                .ring {
-                    position: absolute;
-                    width: 100px; height: 100px;
-                    border: 1px solid var(--current-color);
-                    border-radius: 50%;
-                    opacity: 0.2;
-                    animation: pulse 3s infinite alternate ease-in-out;
-                }
-
-                @keyframes pulse { from { transform: scale(0.9); opacity: 0.1; } to { transform: scale(1.1); opacity: 0.3; } }
-
-                .symbol { z-index: 2; width: 60px; height: 60px; filter: drop-shadow(0 0 10px var(--current-color)); }
-
-                .dots { display: flex; gap: 6px; z-index: 3; margin-top: 15px; }
-                .dot { width: 8px; height: 8px; background: #333; border-radius: 50%; cursor: pointer; border: 1px solid #444; }
-                .dot.active { background: var(--current-color); box-shadow: 0 0 5px var(--current-color); border-color: #fff; }
-
-                .info { padding: 20px; position: relative; z-index: 2; }
-                
-                .tag {
-                    background: var(--current-color); color: #000;
-                    font-size: 8px; font-weight: 900; padding: 5px 5px;
-                    width: fit-content; text-transform: uppercase; margin-bottom: 10px;
-                }
-
-                .title { font-size: 0.75rem; margin: 0 0 10px 0; text-transform: uppercase; color: #fff; line-height: 1.2; }
-                .desc { font-size: 0.6rem; color: #888; line-height: 1.6; text-align: justify; }
-
-                .divider { 
-                    border: none; 
-                    height: 1px; 
-                    background: linear-gradient(90deg, transparent, var(--current-color), transparent); 
-                    margin: 0; 
-                    opacity: 0.6;
-                }
-
-                .skills { 
-                    padding: 20px 12px; 
-                    display: flex; 
-                    flex-direction: column; 
-                    gap: 15px; 
-                    background-color: #000; 
-                    border: 2px solid var(--current-color);
-                    border-radius: 4px;
-                }
-                .row { display: grid; grid-template-columns: 35px 1fr; align-items: flex-start; }
-                .lv { font-weight: bold; font-size: 0.65rem; color: var(--current-color); }
-                .txt { font-size: 0.55rem; color: #ccc; margin: 0; line-height: 1.4; text-transform: uppercase; }
-
-                @media (max-width: 768px) {
-                    .card { grid-template-columns: 1fr; }
-                    .visual { padding: 20px; border-right: none; border-bottom: 1px solid #222; }
-                }
-
-                .skills-container {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 15px;
-                    margin-top: 15px;
-                }
-
-                .skill-item {
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
-                }
-
-                .skill-level {
-                    font-weight: bold;
-                    font-size: 0.65rem;
-                    color: var(--current-color);
-                    min-width: 30px;
-                    text-align: right;
-                }
-
-                .skill-box {
-                    flex: 1;
-                    background-color: #000;
-                    border: 2px solid var(--current-color);
-                    border-radius: 4px;
-                    padding: 12px;
-                    width: 100%;
-                    box-sizing: border-box;
-                }
-
-                .skill-box .txt {
-                    font-size: 0.55rem;
-                    color: #ccc;
-                    margin: 0;
-                    line-height: 1.4;
-                    text-transform: uppercase;
-                    text-align: justify;
-                    overflow-wrap: break-word;
-                    hyphens: auto;
-                    word-break: break-word;
-                }
-
-                .comum-box, .auxiliar-box {
-                    border: 2px solid #A8A878;
-                    padding: 12px;
-                    border-radius: 8px;
-                    margin-bottom: 12px;
-                    width: 100%;
-                    box-sizing: border-box;
-                }
-
-                .comum-box .txt, .auxiliar-box .txt {
-                    overflow-wrap: break-word;
-                    hyphens: auto;
-                    word-break: break-word;
-                }
-
-                @media (max-width: 768px) {
-                    .skill-item {
-                        flex-direction: column;
-                        align-items: flex-start;
-                    }
-                    .skill-level {
-                        text-align: left;
-                        margin-bottom: 5px;
-                    }
-                    .occupation-grid {
-                        gap: 40px;
-                    }
-                }
+                .scroll-wrapper {height: 100vh;overflow-y: auto;overflow-x: hidden;padding: 30px;box-sizing: border-box;}
+                .scroll-wrapper::-webkit-scrollbar {width: 7px;background: white;}
+                .scroll-wrapper::-webkit-scrollbar-thumb {background: gray;}
+                .scroll-wrapper::-webkit-scrollbar-thumb:hover {background: black;}
             </style>
-
             <div class="scroll-wrapper">
                 <div class="occupation-grid" id="occupation-main-grid"></div>
             </div>
         </div>
-
 <script>
     const typeLib = {
-    voador: { c: '#A890F0', n: 'Voador', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/flying.svg' },
-    agua: { c: '#6890F0', n: 'Água', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/water.svg' },
-    fogo: { c: '#F08030', n: 'Fogo', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/fire.svg' },
-    lutador: { c: '#C03028', n: 'Lutador', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/fighting.svg' },
-    eletrico: { c: '#F8D030', n: 'Elétrico', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/electric.svg' },
-    grama: { c: '#78C850', n: 'Grama', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/grass.svg' },
-    aco: { c: '#B8B8D0', n: 'Aço', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/steel.svg' },
-    psiquico: { c: '#F85888', n: 'Psíquico', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/psychic.svg' },
-    sombrio: { c: '#705848', n: 'Sombrio', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/dark.svg' },
-    normal: { c: '#A8A878', n: 'Normal', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/normal.svg' },
-    gelo: { c: '#98D8D8', n: 'Gelo', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/ice.svg' },
-    veneno: { c: '#A040A0', n: 'Veneno', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/poison.svg' },
-    pedra: { c: '#B8A038', n: 'Pedra', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/rock.svg' },
-    inseto: { c: '#A8B820', n: 'Inseto', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/bug.svg' },
-    fantasma: { c: '#705898', n: 'Fantasma', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/ghost.svg' },
-    dragao: { c: '#7038F8', n: 'Dragão', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/dragon.svg' },
-    terra: { c: '#E0C068', n: 'Terra', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/ground.svg' }
-};
+        voador: { c: '#A890F0', glow: 'rgba(168,144,240,0.4)', n: 'Flying', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/flying.svg' },
+        agua: { c: '#6890F0', glow: 'rgba(104,144,240,0.4)', n: 'Water', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/water.svg' },
+        fogo: { c: '#F08030', glow: 'rgba(240,128,48,0.4)', n: 'Fire', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/fire.svg' },
+        lutador: { c: '#C03028', glow: 'rgba(192,48,40,0.4)', n: 'Fighting', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/fighting.svg' },
+        eletrico: { c: '#F8D030', glow: 'rgba(248,208,48,0.4)', n: 'Electric', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/electric.svg' },
+        grama: { c: '#78C850', glow: 'rgba(120,200,80,0.4)', n: 'Grass', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/grass.svg' },
+        aco: { c: '#B8B8D0', glow: 'rgba(184,184,208,0.4)', n: 'Steel', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/steel.svg' },
+        psiquico: { c: '#F85888', glow: 'rgba(248,88,136,0.4)', n: 'Psychic', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/psychic.svg' },
+        sombrio: { c: '#705848', glow: 'rgba(112,88,72,0.4)', n: 'Dark', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/dark.svg' },
+        normal: { c: '#A8A878', glow: 'rgba(168,168,120,0.4)', n: 'Normal', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/normal.svg' },
+        gelo: { c: '#98D8D8', glow: 'rgba(152,216,216,0.4)', n: 'Ice', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/ice.svg' },
+        veneno: { c: '#A040A0', glow: 'rgba(160,64,160,0.4)', n: 'Poison', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/poison.svg' },
+        pedra: { c: '#B8A038', glow: 'rgba(184,160,56,0.4)', n: 'Rock', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/rock.svg' },
+        inseto: { c: '#A8B820', glow: 'rgba(168,184,32,0.4)', n: 'Bug', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/bug.svg' },
+        fantasma: { c: '#705898', glow: 'rgba(112,88,152,0.4)', n: 'Ghost', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/ghost.svg' },
+        dragao: { c: '#7038F8', glow: 'rgba(112,56,248,0.4)', n: 'Dragon', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/dragon.svg' },
+        terra: { c: '#E0C068', glow: 'rgba(224,192,104,0.4)', n: 'Ground', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/ground.svg' },
+        fada: { c: '#EE99AC', glow: 'rgba(238,153,172,0.4)', n: 'Fairy', i: 'https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/master/icons/fairy.svg' }
+    };
 
-const treinadorComum = {
-    title: "Treinador",
-    types: ["normal", "grama", "fogo", "agua"],
-    desc: "O ponto de partida para qualquer habitante de Unova. Representa o cidadão que convive com Pokémon de forma equilibrada, sem uma especialização técnica profunda, focando na versatilidade e no aprendizado constante.",
-    skills: [
-        "Inicia a jornada com uma Mochila Simples. Além disso, recebe um Kit Básico de Viagem contendo x6 Pokébolas e x1 Poção de cura.",
-        "Inicia a jornada com uma Mochila Grande e a Pokédex Regional. Além disso, recebe exclusivamente um Snivy, Tepig ou Oshawott de Nível 6 e um Kit Básico de Viagem contendo x6 Pokébolas e x1 Poção de cura, garantidos pelo Professor de Pokémon."
-    ]
-};
+    const treinadorComum = {
+        comum: { title: "Pokémon Trainer", types: ["normal"], desc: "O ponto de partida para qualquer iniciante. Representa o cidadão que convive com Pokémon de forma equilibrada, sem uma especialização técnica, focando na versatilidade e no aprendizado constante.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Pode se especializar em diversos tipos e estratégias."] }, desvantagensPorTipo: { normal: ["Não recebe bônus ao iniciar sua jornada."] }, equipePorTipo: { normal: ["Um Pokémon da região de origem (Nível 5)"] }, mochilaPorTipo: { normal: [] }, atributosPorTipo: { normal: { captura: 0, tatica: 0, retencao: 0, vigor: 0, fuga: 0, percepcao: 0, afinidade: 0, mobilidade: 0 } } },
+        auxiliar: { title: "Professor’s Assistant", types: ["grama", "fogo", "agua"], desc: "Esses assistentes frequentemente auxiliam os professores em suas pesquisas ou na realização de pequenas tarefas.", overlaysPorTipo: { grama: [""], fogo: [""], agua: [""] }, vantagensPorTipo: { grama: ["Inicia com Pokémon inicial da região (Nível 6)."], fogo: ["Inicia com Pokémon inicial da região (Nível 6)."], agua: ["Inicia com Pokémon inicial da região (Nível 6)."] }, desvantagensPorTipo: { grama: ["Pokémon inicial de Grama tem desvantagem contra Fogo."], fogo: ["Pokémon inicial de Fogo tem desvantagem contra Água."], agua: ["Pokémon inicial de Água tem desvantagem contra Grama."] }, equipePorTipo: { grama: ["Pokémon Inicial de Grama (Nível 6)"], fogo: ["Pokémon Inicial de Fogo (Nível 6)"], agua: ["Pokémon Inicial de Água (Nível 6)"] }, mochilaPorTipo: { grama: [], fogo: [], agua: [] }, atributosPorTipo: { grama: { captura: 0, tatica: 0, retencao: 0, vigor: 0, fuga: 0, percepcao: 0, afinidade: 0, mobilidade: 0 }, fogo: { captura: 0, tatica: 0, retencao: 0, vigor: 0, fuga: 0, percepcao: 0, afinidade: 0, mobilidade: 0 }, agua: { captura: 0, tatica: 0, retencao: 0, vigor: 0, fuga: 0, percepcao: 0, afinidade: 0, mobilidade: 0 } } },
+        aceTrainer: { title: "Ace Trainer", types: ["normal"], desc: "Treinadores que viajam o mundo em busca de batalhas perfeitas.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: [] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: [] }, mochilaPorTipo: { normal: [] }, atributosPorTipo: { normal: { captura: 0, tatica: 0, retencao: 0, vigor: 0, fuga: 0, percepcao: 0, afinidade: 0, mobilidade: 0 } } },
+        gymLeader: { title: "Gym Leader", types: ["normal"], desc: "Líderes de ginásio responsáveis por defender um tipo específico.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: [] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: [] }, mochilaPorTipo: { normal: [] }, atributosPorTipo: { normal: { captura: 0, tatica: 0, retencao: 0, vigor: 0, fuga: 0, percepcao: 0, afinidade: 0, mobilidade: 0 } } },
+        elite4: { title: "Elite Four", types: ["normal"], desc: "Os quatro membros mais fortes da Elite 4.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: [] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: [] }, mochilaPorTipo: { normal: [] }, atributosPorTipo: { normal: { captura: 0, tatica: 0, retencao: 0, vigor: 0, fuga: 0, percepcao: 0, afinidade: 0, mobilidade: 0 } } },
+        champion: { title: "Champion", types: ["normal"], desc: "O campeão regional, o treinador mais poderoso da região.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: [] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: [] }, mochilaPorTipo: { normal: [] }, atributosPorTipo: { normal: { captura: 0, tatica: 0, retencao: 0, vigor: 0, fuga: 0, percepcao: 0, afinidade: 0, mobilidade: 0 } } }
+    };
 
-const specializations = [
-    { title: "Adestrador", types: ["normal"], desc: ".", skills: [".", "."] },
-    { title: "Arqueólogo", types: ["pedra"], desc: "Aventureiro em ruínas antigas e sítios arqueológicos, focado em desvendar os segredos sobre os Pokémon pré-históricos e fósseis.", skills: ["Garante a descoberta de um Fóssil Pokémon. Fósseis obtidos de Pokémon Extintos podem ser restaurados em um laboratório especializado de ressurreição.", "Sua experiência como pesquisador de antiguidades garante a capacidade de decifrar enigmas, ler e traduzir escritos antigos."] },
-    { title: "Ator", types: ["normal"], desc: "", skills: [".", "."] },
-    { title: "Bandido", types: ["normal"], desc: "", skills: [".", "."] },
-    { title: "Bombeiro", types: ["normal"], desc: "", skills: [".", "."] },
-    { title: "Botânico", types: ["normal"], desc: "", skills: [".", "."] },
-    { title: "Caçador de Insetos", types: ["inseto"], desc: "Entusiasta da natureza que dedica sua vida a capturar e estudar a vasta diversidade de insetos pelo Mundo Pokémon, geralmente retratados como jovens carregando redes pequenas e recipientes para mantê-los presos.", skills: ["Inicia a jornada acompanhado de 2 filhotes de Pokémon Inseto comuns Nível 6 com movimentos iniciais. É capaz de encontrar insetos na grama alta com mais facilidade.", "Sua rede evita a fuga de insetos e garante +50% chance de captura. Além disso, recebe um aumento de 30% na efetividade de um item usado em Pokémon do tipo Inseto."] },
-    { title: "Chef de Cozinha", types: ["normal"], desc: "", skills: [".", "."] },
-    { title: "Ciclista", types: ["normal"], desc: "", skills: [".", "."] },
-    { title: "Cientista", types: ["normal"], desc: "", skills: [".", "."] },
-    { title: "Colecionador", types: ["normal"], desc: "", skills: [".", "."] },
-    { title: "Coordenador", types: ["normal"], desc: "", skills: [".", "."] },
-    { title: "Cuidador de Filhotes", types: ["normal"], desc: "", skills: [".", "."] },
-    { title: "Designer de Moda", types: ["inseto"], desc: "", skills: [".", "."] },
-    { title: "Domador de Pássaros", types: ["voador"], desc: "Especialista em Pokémon pássaros, o Domador de Pássaros é fascinado pela graça dos Pokémon do tipo Voador. Eles geralmente são retratados como jovens carregando gaiolas ou com seu parceiro no ombro.", skills: ["Inicia a jornada acompanhado de 2 filhotes de Pokémon pássaros comuns Nível 6 com movimentos iniciais. É capaz de identificar Pokémon voadores à distância e encontrar voadores selvagens com mais facilidade.", "Sua comunicação por assovios atrai e acalma Pokémon voadores selvagens e garante +50% chance de captura e fuga evitada. Além disso, recebe um aumento de 30% na efetividade de um item usado em Pokémon do tipo Voador. "] },
-    { title: "Empresário", types: ["normal"], desc: "Focado em negócios, conexões e oportunidades de lucro, sempre buscando maximizar seus recursos e sucesso no Mundo Pokémon. Eles geralmente parecem muito ocupados porque andam por aí com cadernos, celulares e maletas executivas. Outros parecem mais sérios e confiantes.", skills: ["Inicia a jornada com um Shiny Pokémon Nível 6.", "Possui maior facilidade em identificar e negociar oportunidades de lucro, conseguir vantagens ao trocar itens ou Pokémon com outros treinadores e itens usados para melhorar ganhos de batalha ou lucro recebem um aumento de 30% em efetividade."] },
-    { title: "Enfermeira", types: ["normal"], desc: "", skills: [".", "."] },
-    { title: "Engenheiro", types: ["normal"], desc: "", skills: [".", "."] },
-    { title: "Estudante", types: ["normal"], desc: "", skills: [".", "."] },
-    { title: "Fazendeiro", types: ["normal"], desc: "", skills: [".", "."] },
-    { title: "Fotógrafo", types: ["normal"], desc: "", skills: [".", "."] },
-    { title: "Guia", types: ["normal"], desc: "", skills: [".", "."] },
-    { title: "Historiador", types: ["normal"], desc: "", skills: [".", "."] },
-    { title: "Lutador", types: ["lutador"], desc: "", skills: [".", "."] },
-    { title: "Mecânico", types: ["normal"], desc: "", skills: [".", "."] },
-    { title: "Minerador", types: ["pedra", "terra", "gelo", "aco"], desc: ".", skills: ["", ""] },
-    { title: "Músico", types: ["normal"], desc: "", skills: [".", "."] },
-    { title: "Nadador", types: ["agua"], desc: "Encontrado em mar aberto, o Nadador é especialista em Pokémon do tipo Água. Eles são geralmente retratados como adultos usando toucas, óculos de natação, coletes e trajes de banho. ", skills: ["Inicia sua jornada acompanhado de um filhote de Pokémon do tipo Água comum Nível 6 com movimentos iniciais. Além disso, recebe o TM Surf.", "Recebe o TM Dive e um Kit de Mergulho que facilita o encontro com Pokémon aquáticos."] },
-    { title: "Narrador", types: ["normal"], desc: "", skills: [".", "."] },
-    { title: "Ninja", types: ["normal"], desc: "", skills: [".", "."] },
-    { title: "Ocultista", types: ["psiquico", "fantasma"], desc: "Entusiasta do oculto, o Ocultista é um especialista em Pokémon do tipo Fantasma e às vezes Psíquico. Eles geralmente têm um ar assustador e parecem estar possuídos, como se levitassem com seus poderes psicocinéticos.", skills: [".", "."] },
-    { title: "Pescador", types: ["agua", "eletrico", "dragao"], desc: "Entusiasta da pescaria, o Pescador é tipicamente retratado como um homem de meia-idade equipado com caixas, varas de pesca e molinetes. No entanto, treinadores mais jovens têm sido introduzidos à prática.", skills: ["Inicia sua jornada acompanhado de um Pokémon de Pesca Nível 6 com movimentos iniciais. Além disso, recebe um Kit de Pescador contendo x1 Vara de Pesca Boa e x6 Iscas de Pescaria.", "Recebe um Kit de Pescador Profissional contendo x1 Super Vara de Pescar e x12 Iscas de Pescaria."] },
-    { title: "Policial", types: ["fogo"], desc: ".", skills: [".", "."] },
-    { title: "Programador", types: ["normal"], desc: "", skills: [".", "."] },
-    { title: "Ranger", types: ["normal"], desc: "", skills: ["", ""] },
-    { title: "Repórter", types: ["normal"], desc: "", skills: ["", ""] },
-    { title: "Trabalhador de Usina", types: ["eletrico", "fogo"], desc: "", skills: ["", ""] },
-    { title: "Tutor de Movimentos", types: ["normal"], desc: "", skills: ["", ""] },
-    { title: "Vilão", types: ["sombrio"], desc: "Subordinado de uma equipe vilanesca que usa uniforme e ajuda a executar atos nefastos. Eles atuam como forrão, executores, soldados, trabalhadores, criminosos e apoio para líderes de sua organização criminosa.", skills: ["", ""] }
-];
+    const occupationGroups = {
+        performer: { baseTitle: "Performer", variants: { Actor: { title: "Actor", types: ["normal"], desc: "Treinador de Pokéstar Studios especializado em filmes.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Inicia com Ditto ou Mr. Mime (Nível 8)"] }, desvantagensPorTipo: { normal: ["Vulnerável a Dark/Ghost"] }, equipePorTipo: { normal: ["Ditto (Nível 8)"] }, mochilaPorTipo: { normal: ["Prop Item"] }, atributosPorTipo: { normal: { captura: 1, tatica: 3, retencao: 1, vigor: 1, fuga: 2, percepcao: 3, afinidade: 3, mobilidade: 2 } } }, Clown: { title: "Clown", types: ["normal"], desc: "Palhaço especialista em truques.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Mr. Mime/Spinda +1 nível"] }, desvantagensPorTipo: { normal: ["Fraqueza contra Dark/Ghost"] }, equipePorTipo: { normal: ["Mr. Mime (Nível 7)"] }, mochilaPorTipo: { normal: ["Balloon"] }, atributosPorTipo: { normal: { captura: 2, tatica: 2, retencao: 2, vigor: 1, fuga: 3, percepcao: 2, afinidade: 2, mobilidade: 2 } } }, Harlequin: { title: "Harlequin", types: ["normal"], desc: "Artista acrobático e ilusionista.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Alta mobilidade"] }, desvantagensPorTipo: { normal: ["Baixa resistência"] }, equipePorTipo: { normal: ["Mime Jr. (Nível 8)"] }, mochilaPorTipo: { normal: ["Mask"] }, atributosPorTipo: { normal: { captura: 1, tatica: 3, retencao: 1, vigor: 1, fuga: 3, percepcao: 3, afinidade: 2, mobilidade: 3 } } }, Firebreather: { title: "Firebreather", types: ["fogo"], desc: "Artista que cospe fogo.", overlaysPorTipo: { fogo: [""] }, vantagensPorTipo: { fogo: ["Imunidade a queimadura"] }, desvantagensPorTipo: { fogo: ["Fraqueza contra água"] }, equipePorTipo: { fogo: ["Magmar (Nível 8)"] }, mochilaPorTipo: { fogo: ["Flame Prop"] }, atributosPorTipo: { fogo: { captura: 1, tatica: 2, retencao: 1, vigor: 3, fuga: 1, percepcao: 2, afinidade: 2, mobilidade: 2 } } } } },
+        artist: { baseTitle: "Artist", variants: { Artist: { title: "Artist", types: ["normal"], desc: "Artista plástico.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Bônus em concursos"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Smeargle (Nível 7)"] }, mochilaPorTipo: { normal: ["Paint Set"] }, atributosPorTipo: { normal: { captura: 1, tatica: 2, retencao: 2, vigor: 1, fuga: 1, percepcao: 3, afinidade: 3, mobilidade: 1 } } }, Dancer: { title: "Dancer", types: ["normal"], desc: "Dançarino sincronizado.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Bônus em evasão"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Meloetta (Nível 7)"] }, mochilaPorTipo: { normal: ["Dance Shoes"] }, atributosPorTipo: { normal: { captura: 1, tatica: 1, retencao: 2, vigor: 2, fuga: 3, percepcao: 2, afinidade: 3, mobilidade: 3 } } }, Musician: { title: "Musician", types: ["normal"], desc: "Músico sonoro.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Bônus em concursos"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Whismur (Nível 7)"] }, mochilaPorTipo: { normal: ["Instrument"] }, atributosPorTipo: { normal: { captura: 1, tatica: 2, retencao: 2, vigor: 1, fuga: 2, percepcao: 2, afinidade: 3, mobilidade: 2 } } } } },
+        rancher: { baseTitle: "Rancher", variants: { Rancher: { title: "Rancher", types: ["normal"], desc: "Criador de Pokémon em fazendas.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Tauros/Miltank Nível 7"] }, desvantagensPorTipo: { normal: ["Lento em cidades"] }, equipePorTipo: { normal: ["Tauros (Nível 7)"] }, mochilaPorTipo: { normal: ["Hay Bale"] }, atributosPorTipo: { normal: { captura: 3, tatica: 1, retencao: 3, vigor: 3, fuga: 1, percepcao: 2, afinidade: 3, mobilidade: 1 } } }, Cowboy: { title: "Cowboy", types: ["normal"], desc: "Cowboy com laço e Pokémon de fazenda.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Alta afinidade Ground"] }, desvantagensPorTipo: { normal: ["Fraqueza Flying"] }, equipePorTipo: { normal: ["Miltank (Nível 7)"] }, mochilaPorTipo: { normal: ["Lasso"] }, atributosPorTipo: { normal: { captura: 3, tatica: 1, retencao: 3, vigor: 2, fuga: 2, percepcao: 2, afinidade: 3, mobilidade: 2 } } }, PokemonBreeder: { title: "Pokémon Breeder", types: ["normal"], desc: "Criador e melhorador de Pokémon, especialista em reprodução e cuidados.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Bônus em criação de ovos e felicidade"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Pokémon com alta amizade (Nível 7)"] }, mochilaPorTipo: { normal: ["Breeder Kit"] }, atributosPorTipo: { normal: { captura: 2, tatica: 1, retencao: 4, vigor: 3, fuga: 1, percepcao: 2, afinidade: 4, mobilidade: 1 } } }, Fisher: { title: "Fisher", types: ["agua"], desc: "Pescador especializado em Pokémon aquáticos e criação em lagos/rios.", overlaysPorTipo: { agua: [""] }, vantagensPorTipo: { agua: ["Bônus em pesca e Pokémon de água"] }, desvantagensPorTipo: { agua: ["Lento em terra"] }, equipePorTipo: { agua: ["Magikarp ou Goldeen (Nível 7)"] }, mochilaPorTipo: { agua: ["Old Rod"] }, atributosPorTipo: { agua: { captura: 3, tatica: 1, retencao: 3, vigor: 2, fuga: 1, percepcao: 2, afinidade: 3, mobilidade: 1 } } } } },
+        explorer: { baseTitle: "Explorer", variants: { Backpacker: { title: "Backpacker", types: ["normal"], desc: "Viajante com mochila.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Bônus em exploração"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Bidoof (Nível 6)"] }, mochilaPorTipo: { normal: ["Backpack"] }, atributosPorTipo: { normal: { captura: 3, tatica: 1, retencao: 2, vigor: 2, fuga: 2, percepcao: 3, afinidade: 2, mobilidade: 3 } } }, Collector: { title: "Collector", types: ["normal"], desc: "Colecionador de itens raros.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Bônus em Poké Balls"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Eevee (Nível 7)"] }, mochilaPorTipo: { normal: ["Display Case"] }, atributosPorTipo: { normal: { captura: 3, tatica: 1, retencao: 3, vigor: 1, fuga: 1, percepcao: 3, afinidade: 2, mobilidade: 1 } } } } },
+        rider: { baseTitle: "Rider", variants: { Biker: { title: "Biker", types: ["normal"], desc: "Motociclista rebelde.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Alta velocidade"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Mankey (Nível 7)"] }, mochilaPorTipo: { normal: ["Motorcycle Helmet"] }, atributosPorTipo: { normal: { captura: 1, tatica: 2, retencao: 1, vigor: 2, fuga: 3, percepcao: 2, afinidade: 1, mobilidade: 3 } } }, Cyclist: { title: "Cyclist", types: ["normal"], desc: "Ciclista competitivo.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Bônus em mobilidade"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Starly (Nível 7)"] }, mochilaPorTipo: { normal: ["Bicycle"] }, atributosPorTipo: { normal: { captura: 1, tatica: 2, retencao: 1, vigor: 2, fuga: 3, percepcao: 2, afinidade: 1, mobilidade: 3 } } } } },
+        business: { baseTitle: "Business", variants: { Executive: { title: "Executive", types: ["normal"], desc: "Executivo corporativo.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Mais dinheiro inicial"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Meowth (Nível 7)"] }, mochilaPorTipo: { normal: ["Briefcase"] }, atributosPorTipo: { normal: { captura: 1, tatica: 3, retencao: 2, vigor: 1, fuga: 1, percepcao: 3, afinidade: 2, mobilidade: 1 } } }, OfficeWorker: { title: "Office Worker", types: ["normal"], desc: "Funcionário de escritório.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Bônus em itens"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Porygon (Nível 6)"] }, mochilaPorTipo: { normal: ["Laptop"] }, atributosPorTipo: { normal: { captura: 1, tatica: 3, retencao: 3, vigor: 1, fuga: 1, percepcao: 3, afinidade: 2, mobilidade: 1 } } }, RichBoy: { title: "RichBoy", types: ["normal"], desc: "Herdeiro rico.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Dinheiro ilimitado"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Abra (Nível 7)"] }, mochilaPorTipo: { normal: ["Gold Nugget"] }, atributosPorTipo: { normal: { captura: 1, tatica: 2, retencao: 2, vigor: 1, fuga: 1, percepcao: 3, afinidade: 2, mobilidade: 1 } } } } },
+        academic: { baseTitle: "Academic", variants: { SchoolKid: { title: "SchoolKid", types: ["normal"], desc: "Estudante comum.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Pokémon inicial Nível 6"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Pidgey (Nível 6)"] }, mochilaPorTipo: { normal: ["Notebook"] }, atributosPorTipo: { normal: { captura: 2, tatica: 2, retencao: 2, vigor: 1, fuga: 1, percepcao: 2, afinidade: 2, mobilidade: 1 } } }, SuperNerd: { title: "SuperNerd", types: ["normal"], desc: "Nerd obcecado.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Bônus em lendários"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Magnemite (Nível 7)"] }, mochilaPorTipo: { normal: ["Calculator"] }, atributosPorTipo: { normal: { captura: 2, tatica: 3, retencao: 3, vigor: 1, fuga: 1, percepcao: 3, afinidade: 1, mobilidade: 1 } } }, Teacher: { title: "Teacher", types: ["normal"], desc: "Professor de Pokémon.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Bônus em treinamento"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Eevee (Nível 7)"] }, mochilaPorTipo: { normal: ["Lesson Plan"] }, atributosPorTipo: { normal: { captura: 1, tatica: 3, retencao: 3, vigor: 2, fuga: 1, percepcao: 3, afinidade: 3, mobilidade: 1 } } }, Scientist: { title: "Scientist", types: ["normal"], desc: "Cientista pesquisador.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Bônus em pesquisa"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Klink (Nível 7)"] }, mochilaPorTipo: { normal: ["Lab Coat"] }, atributosPorTipo: { normal: { captura: 2, tatica: 3, retencao: 3, vigor: 1, fuga: 1, percepcao: 3, afinidade: 2, mobilidade: 1 } } } } },
+        media: { baseTitle: "Media", variants: { Interviewer: { title: "Interviewer", types: ["normal"], desc: "Entrevistador.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Bônus em diálogo"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Chatot (Nível 7)"] }, mochilaPorTipo: { normal: ["Microphone"] }, atributosPorTipo: { normal: { captura: 1, tatica: 2, retencao: 2, vigor: 1, fuga: 2, percepcao: 3, afinidade: 3, mobilidade: 2 } } }, Cameraman: { title: "Cameraman", types: ["normal"], desc: "Cinegrafista.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Bônus em captura"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Porygon (Nível 7)"] }, mochilaPorTipo: { normal: ["Camera"] }, atributosPorTipo: { normal: { captura: 2, tatica: 2, retencao: 2, vigor: 1, fuga: 2, percepcao: 3, afinidade: 2, mobilidade: 2 } } } } },
+        medical: { baseTitle: "Medical", variants: { Doctor: { title: "Doctor", types: ["normal"], desc: "Médico de Pokémon.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Cura mais rápida"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Chansey (Nível 7)"] }, mochilaPorTipo: { normal: ["Medical Kit"] }, atributosPorTipo: { normal: { captura: 1, tatica: 2, retencao: 3, vigor: 3, fuga: 1, percepcao: 3, afinidade: 3, mobilidade: 1 } } }, Nurse: { title: "Nurse", types: ["normal"], desc: "Enfermeira.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Acesso grátis a centros"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Audino (Nível 7)"] }, mochilaPorTipo: { normal: ["Syringe"] }, atributosPorTipo: { normal: { captura: 1, tatica: 2, retencao: 3, vigor: 3, fuga: 1, percepcao: 3, afinidade: 3, mobilidade: 1 } } } } },
+        enforcement: { baseTitle: "Enforcer", variants: { PoliceOfficer: { title: "PoliceOfficer", types: ["lutador"], desc: "Oficial da polícia.", overlaysPorTipo: { lutador: [""] }, vantagensPorTipo: { lutador: ["Growlithe Nível 7"] }, desvantagensPorTipo: { lutador: ["Não usa Pokémon criminosos"] }, equipePorTipo: { lutador: ["Growlithe (Nível 7)"] }, mochilaPorTipo: { lutador: ["Handcuffs"] }, atributosPorTipo: { lutador: { captura: 3, tatica: 3, retencao: 2, vigor: 2, fuga: 1, percepcao: 3, afinidade: 1, mobilidade: 2 } } }, Firefighter: { title: "Firefighter", types: ["fogo"], desc: "Bombeiro salvador.", overlaysPorTipo: { fogo: [""] }, vantagensPorTipo: { fogo: ["Imunidade queimadura"] }, desvantagensPorTipo: { fogo: ["Fraqueza contra água"] }, equipePorTipo: { fogo: ["Arcanine (Nível 7)"] }, mochilaPorTipo: { fogo: ["Extinguisher"] }, atributosPorTipo: { fogo: { captura: 2, tatica: 2, retencao: 3, vigor: 3, fuga: 1, percepcao: 2, afinidade: 2, mobilidade: 2 } } }, PokemonRanger: { title: "Pokémon Ranger", types: ["grama"], desc: "Protetor da natureza e capturador de Pokémon selvagens com Capture Styler.", overlaysPorTipo: { grama: [""] }, vantagensPorTipo: { grama: ["Bônus em captura temporária e proteção ambiental"] }, desvantagensPorTipo: { grama: [] }, equipePorTipo: { grama: ["Plusle/Minun ou Pokémon de campo (Nível 7)"] }, mochilaPorTipo: { grama: ["Capture Styler"] }, atributosPorTipo: { grama: { captura: 4, tatica: 2, retencao: 2, vigor: 2, fuga: 2, percepcao: 3, afinidade: 3, mobilidade: 3 } } } } },
+        bandit: { baseTitle: "Bandit", variants: { Burglar: { title: "Burglar", types: ["sombrio"], desc: "Ladrão clássico que invade casas abandonadas (nome oficial desde Gen I).", overlaysPorTipo: { sombrio: [""] }, vantagensPorTipo: { sombrio: ["Alta fuga e roubo"] }, desvantagensPorTipo: { sombrio: ["Fraqueza contra Fighting"] }, equipePorTipo: { sombrio: ["Koffing (Nível 7)"] }, mochilaPorTipo: { sombrio: ["Smoke Ball"] }, atributosPorTipo: { sombrio: { captura: 2, tatica: 2, retencao: 1, vigor: 2, fuga: 3, percepcao: 2, afinidade: 1, mobilidade: 3 } } }, Bandit: { title: "Bandit", types: ["sombrio"], desc: "Bandido geral de estradas e florestas (variação oficial em várias gerações).", overlaysPorTipo: { sombrio: [""] }, vantagensPorTipo: { sombrio: ["Alta fuga e roubo"] }, desvantagensPorTipo: { sombrio: ["Fraqueza contra Fighting"] }, equipePorTipo: { sombrio: ["Koffing (Nível 7)"] }, mochilaPorTipo: { sombrio: ["Smoke Ball"] }, atributosPorTipo: { sombrio: { captura: 2, tatica: 2, retencao: 1, vigor: 2, fuga: 3, percepcao: 2, afinidade: 1, mobilidade: 3 } } }, Grunt: { title: "Grunt", types: ["sombrio"], desc: "Grunt de equipes criminosas.", overlaysPorTipo: { sombrio: [""] }, vantagensPorTipo: { sombrio: ["Bônus em equipe vilanesca"] }, desvantagensPorTipo: { sombrio: ["Baixa hierarquia"] }, equipePorTipo: { sombrio: ["Zubat (Nível 6)"] }, mochilaPorTipo: { sombrio: ["Team Uniform"] }, atributosPorTipo: { sombrio: { captura: 2, tatica: 2, retencao: 1, vigor: 2, fuga: 3, percepcao: 2, afinidade: 1, mobilidade: 2 } } } } },
+        water: { baseTitle: "Water", variants: { Swimmer: { title: "Swimmer", types: ["agua"], desc: "Nadador oficial.", overlaysPorTipo: { agua: [""] }, vantagensPorTipo: { agua: ["Alta mobilidade na água"] }, desvantagensPorTipo: { agua: [] }, equipePorTipo: { agua: ["Tentacool (Nível 7)"] }, mochilaPorTipo: { agua: ["Swim Cap"] }, atributosPorTipo: { agua: { captura: 2, tatica: 1, retencao: 2, vigor: 2, fuga: 3, percepcao: 2, afinidade: 2, mobilidade: 3 } } }, Diver: { title: "Diver", types: ["agua"], desc: "Mergulhador especialista em exploração subaquática e Pokémon aquáticos profundos.", overlaysPorTipo: { agua: [""] }, vantagensPorTipo: { agua: ["Bônus em mergulho e Pokémon de profundidade"] }, desvantagensPorTipo: { agua: ["Lento em terra seca"] }, equipePorTipo: { agua: ["Relicanth ou Corsola (Nível 7)"] }, mochilaPorTipo: { agua: ["Diving Gear"] }, atributosPorTipo: { agua: { captura: 3, tatica: 2, retencao: 2, vigor: 3, fuga: 1, percepcao: 3, afinidade: 2, mobilidade: 2 } } }, Sailor: { title: "Sailor", types: ["agua"], desc: "Marinheiro oficial.", overlaysPorTipo: { agua: [""] }, vantagensPorTipo: { agua: ["Bônus em mar"] }, desvantagensPorTipo: { agua: [] }, equipePorTipo: { agua: ["Poliwag (Nível 7)"] }, mochilaPorTipo: { agua: ["Anchor"] }, atributosPorTipo: { agua: { captura: 2, tatica: 2, retencao: 2, vigor: 3, fuga: 1, percepcao: 2, afinidade: 2, mobilidade: 2 } } } } },
+        birdkeeper: { baseTitle: "Bird Keeper", variants: { BirdKeeper: { title: "BirdKeeper", types: ["voador"], desc: "Especialista em pássaros.", overlaysPorTipo: { voador: [""] }, vantagensPorTipo: { voador: ["Inicia com voador Nível 8"] }, desvantagensPorTipo: { voador: ["Fraqueza contra Pedra"] }, equipePorTipo: { voador: ["Pidgey (Nível 8)"] }, mochilaPorTipo: { voador: ["Cage"] }, atributosPorTipo: { voador: { captura: 3, tatica: 1, retencao: 2, vigor: 1, fuga: 3, percepcao: 2, afinidade: 2, mobilidade: 3 } } } } },
+        occult: { baseTitle: "Occult", variants: { HexManiac: { title: "HexManiac", types: ["psiquico", "fantasma"], desc: "Especialista em oculto.", overlaysPorTipo: { psiquico: [""], fantasma: [""] }, vantagensPorTipo: { psiquico: ["Bônus em status"], fantasma: ["Bônus em status"] }, desvantagensPorTipo: { psiquico: ["Fraqueza Dark"], fantasma: ["Fraqueza Dark"] }, equipePorTipo: { psiquico: ["Gastly (Nível 8)"], fantasma: ["Gastly (Nível 8)"] }, mochilaPorTipo: { psiquico: ["Hex Item"], fantasma: ["Hex Item"] }, atributosPorTipo: { psiquico: { captura: 1, tatica: 3, retencao: 2, vigor: 1, fuga: 2, percepcao: 3, afinidade: 3, mobilidade: 1 }, fantasma: { captura: 1, tatica: 3, retencao: 2, vigor: 1, fuga: 2, percepcao: 3, afinidade: 3, mobilidade: 1 } } }, Sage: { title: "Sage", types: ["psiquico"], desc: "Sábio sobrenatural.", overlaysPorTipo: { psiquico: [""] }, vantagensPorTipo: { psiquico: ["Bônus em Psychic"] }, desvantagensPorTipo: { psiquico: [] }, equipePorTipo: { psiquico: ["Hoothoot (Nível 7)"] }, mochilaPorTipo: { psiquico: ["Scroll"] }, atributosPorTipo: { psiquico: { captura: 1, tatica: 3, retencao: 3, vigor: 1, fuga: 1, percepcao: 3, afinidade: 3, mobilidade: 1 } } } } },
+        plant: { baseTitle: "Plant", variants: { Gardener: { title: "Gardener", types: ["grama"], desc: "Jardineiro especialista.", overlaysPorTipo: { grama: [""] }, vantagensPorTipo: { grama: ["Bônus em Grass"] }, desvantagensPorTipo: { grama: [] }, equipePorTipo: { grama: ["Oddish (Nível 7)"] }, mochilaPorTipo: { grama: ["Watering Can"] }, atributosPorTipo: { grama: { captura: 2, tatica: 1, retencao: 3, vigor: 2, fuga: 1, percepcao: 2, afinidade: 3, mobilidade: 1 } } }, AromaLady: { title: "AromaLady", types: ["grama"], desc: "Especialista em aromas.", overlaysPorTipo: { grama: [""] }, vantagensPorTipo: { grama: ["Bônus em Grass"] }, desvantagensPorTipo: { grama: [] }, equipePorTipo: { grama: ["Roselia (Nível 7)"] }, mochilaPorTipo: { grama: ["Perfume"] }, atributosPorTipo: { grama: { captura: 2, tatica: 2, retencao: 2, vigor: 1, fuga: 2, percepcao: 3, afinidade: 3, mobilidade: 1 } } } } },
+        beauty: { baseTitle: "Beauty", variants: { Beauty: { title: "Beauty", types: ["normal"], desc: "Treinadora elegante.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Bônus em concursos"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Eevee (Nível 7)"] }, mochilaPorTipo: { normal: ["Makeup"] }, atributosPorTipo: { normal: { captura: 1, tatica: 2, retencao: 2, vigor: 1, fuga: 2, percepcao: 3, afinidade: 3, mobilidade: 2 } } }, Model: { title: "Model", types: ["normal"], desc: "Modelo de passarela.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Bônus em concursos"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Eevee (Nível 7)"] }, mochilaPorTipo: { normal: ["Fashion Kit"] }, atributosPorTipo: { normal: { captura: 1, tatica: 2, retencao: 2, vigor: 1, fuga: 2, percepcao: 3, afinidade: 3, mobilidade: 2 } } }, Stylist: { title: "Stylist", types: ["normal"], desc: "Estilista Pokémon oficial especializado em looks e concursos.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Bônus em concursos e Ribbon"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Eevee (Nível 7)"] }, mochilaPorTipo: { normal: ["Style Kit"] }, atributosPorTipo: { normal: { captura: 1, tatica: 2, retencao: 2, vigor: 1, fuga: 2, percepcao: 3, afinidade: 3, mobilidade: 2 } } }, Coordinator: { title: "Coordinator", types: ["normal"], desc: "Treinador oficial de Concursos Pokémon (nome oficial desde Gen III).", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Bônus em Contest e Ribbon"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Pokémon com alto Carisma (Nível 7)"] }, mochilaPorTipo: { normal: ["Contest Pass"] }, atributosPorTipo: { normal: { captura: 1, tatica: 3, retencao: 2, vigor: 1, fuga: 2, percepcao: 3, afinidade: 4, mobilidade: 2 } } } } },
+        martial: { baseTitle: "Martial", variants: { BlackBelt: { title: "BlackBelt", types: ["lutador"], desc: "Especialista oficial em artes marciais (nome canônico desde Gen I).", overlaysPorTipo: { lutador: [""] }, vantagensPorTipo: { lutador: ["Bônus em Fighting"] }, desvantagensPorTipo: { lutador: [] }, equipePorTipo: { lutador: ["Machop (Nível 7)"] }, mochilaPorTipo: { lutador: ["Gi"] }, atributosPorTipo: { lutador: { captura: 1, tatica: 3, retencao: 2, vigor: 3, fuga: 1, percepcao: 2, afinidade: 2, mobilidade: 2 } } }, KarateFamily: { title: "KarateFamily", types: ["lutador"], desc: "Família de karate.", overlaysPorTipo: { lutador: [""] }, vantagensPorTipo: { lutador: ["Bônus em Fighting"] }, desvantagensPorTipo: { lutador: [] }, equipePorTipo: { lutador: ["Machop (Nível 7)"] }, mochilaPorTipo: { lutador: ["Karate Gi"] }, atributosPorTipo: { lutador: { captura: 1, tatica: 3, retencao: 2, vigor: 3, fuga: 1, percepcao: 2, afinidade: 2, mobilidade: 2 } } }, KimonoGirl: { title: "KimonoGirl", types: ["normal"], desc: "Meninas do kimono com artes marciais.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Bônus em Eevee"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Eevee (Nível 7)"] }, mochilaPorTipo: { normal: ["Kimono"] }, atributosPorTipo: { normal: { captura: 1, tatica: 2, retencao: 2, vigor: 1, fuga: 2, percepcao: 3, afinidade: 3, mobilidade: 2 } } }, BattleGirl: { title: "BattleGirl", types: ["lutador"], desc: "Lutadora de rua.", overlaysPorTipo: { lutador: [""] }, vantagensPorTipo: { lutador: ["Bônus em Fighting"] }, desvantagensPorTipo: { lutador: [] }, equipePorTipo: { lutador: ["Machop (Nível 7)"] }, mochilaPorTipo: { lutador: ["Gi"] }, atributosPorTipo: { lutador: { captura: 1, tatica: 3, retencao: 2, vigor: 3, fuga: 1, percepcao: 2, afinidade: 2, mobilidade: 2 } } } } },
+        fantasy: { baseTitle: "Fantasy", variants: { FairyTaleGirl: { title: "FairyTaleGirl", types: ["fada"], desc: "Garota de contos de fadas.", overlaysPorTipo: { fada: [""] }, vantagensPorTipo: { fada: ["Bônus em Fairy"] }, desvantagensPorTipo: { fada: [] }, equipePorTipo: { fada: ["Sylveon (Nível 7)"] }, mochilaPorTipo: { fada: ["Fairy Tale Book"] }, atributosPorTipo: { fada: { captura: 1, tatica: 2, retencao: 2, vigor: 1, fuga: 2, percepcao: 3, afinidade: 3, mobilidade: 2 } } }, DragonTamer: { title: "DragonTamer", types: ["dragao"], desc: "Domador de dragões.", overlaysPorTipo: { dragao: [""] }, vantagensPorTipo: { dragao: ["Bônus em Dragon"] }, desvantagensPorTipo: { dragao: [] }, equipePorTipo: { dragao: ["Dratini (Nível 7)"] }, mochilaPorTipo: { dragao: ["Dragon Scale"] }, atributosPorTipo: { dragao: { captura: 1, tatica: 3, retencao: 2, vigor: 3, fuga: 1, percepcao: 2, afinidade: 2, mobilidade: 2 } } }, NinjaBoy: { title: "NinjaBoy", types: ["sombrio"], desc: "Ninja Boy oficial.", overlaysPorTipo: { sombrio: [""] }, vantagensPorTipo: { sombrio: ["Alta fuga"] }, desvantagensPorTipo: { sombrio: [] }, equipePorTipo: { sombrio: ["Koffing (Nível 7)"] }, mochilaPorTipo: { sombrio: ["Smoke Ball"] }, atributosPorTipo: { sombrio: { captura: 1, tatica: 2, retencao: 1, vigor: 2, fuga: 3, percepcao: 3, afinidade: 1, mobilidade: 3 } } } } },
+        bug: { baseTitle: "Bug", variants: { BugCatcher: { title: "BugCatcher", types: ["inseto"], desc: "Caçador de insetos.", overlaysPorTipo: { inseto: [""] }, vantagensPorTipo: { inseto: ["Inicia com 3 insetos"] }, desvantagensPorTipo: { inseto: ["Fraqueza contra Fogo"] }, equipePorTipo: { inseto: ["Caterpie (Nível 5)"] }, mochilaPorTipo: { inseto: ["Net"] }, atributosPorTipo: { inseto: { captura: 3, tatica: 1, retencao: 2, vigor: 1, fuga: 2, percepcao: 2, afinidade: 2, mobilidade: 2 } } } } },
+        mountain: { baseTitle: "Mountain", variants: { Hiker: { title: "Hiker", types: ["pedra"], desc: "Caminhante de montanha.", overlaysPorTipo: { pedra: [""] }, vantagensPorTipo: { pedra: ["Bônus em montanhas"] }, desvantagensPorTipo: { pedra: [] }, equipePorTipo: { pedra: ["Geodude (Nível 7)"] }, mochilaPorTipo: { pedra: ["Backpack"] }, atributosPorTipo: { pedra: { captura: 2, tatica: 1, retencao: 3, vigor: 3, fuga: 1, percepcao: 2, afinidade: 1, mobilidade: 1 } } }, RuinManiac: { title: "RuinManiac", types: ["pedra"], desc: "Escavador de ruínas.", overlaysPorTipo: { pedra: [""] }, vantagensPorTipo: { pedra: ["Bônus em fósseis"] }, desvantagensPorTipo: { pedra: [] }, equipePorTipo: { pedra: ["Cranidos (Nível 7)"] }, mochilaPorTipo: { pedra: ["Brush"] }, atributosPorTipo: { pedra: { captura: 3, tatica: 2, retencao: 3, vigor: 2, fuga: 1, percepcao: 3, afinidade: 1, mobilidade: 1 } } } } },
+        doubleTeam: { baseTitle: "Double Team", variants: { DoubleTeam: { title: "DoubleTeam", types: ["normal"], desc: "Treinadores especializados em batalhas duplas (nome oficial HGSS).", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Bônus em Double Battle"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Dois Pokémon sincronizados (Nível 7)"] }, mochilaPorTipo: { normal: ["Pair Item"] }, atributosPorTipo: { normal: { captura: 1, tatica: 3, retencao: 2, vigor: 2, fuga: 2, percepcao: 2, afinidade: 3, mobilidade: 2 } } }, Twins: { title: "Twins", types: ["normal"], desc: "Gêmeos que lutam juntos (nome oficial desde Gen II).", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Coordenação perfeita"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Dois Pokémon idênticos (Nível 7)"] }, mochilaPorTipo: { normal: ["Twin Item"] }, atributosPorTipo: { normal: { captura: 2, tatica: 3, retencao: 2, vigor: 2, fuga: 2, percepcao: 2, afinidade: 3, mobilidade: 2 } } }, Couple: { title: "Couple", types: ["normal"], desc: "Casal em dupla (nome oficial desde Gen III).", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Afinidade extrema"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Pokémon românticos (Nível 7)"] }, mochilaPorTipo: { normal: ["Love Ball"] }, atributosPorTipo: { normal: { captura: 1, tatica: 2, retencao: 3, vigor: 2, fuga: 2, percepcao: 3, afinidade: 4, mobilidade: 2 } } } } },
+        watcher: { baseTitle: "Watcher", variants: { PokémonWatcher: { title: "PokémonWatcher", types: ["normal"], desc: "Observador Pokémon oficial que estuda comportamento em habitats naturais.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Bônus em observação e conhecimento de Pokémon selvagens"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Pokémon observado em habitat (Nível 7)"] }, mochilaPorTipo: { normal: ["Binoculars"] }, atributosPorTipo: { normal: { captura: 2, tatica: 1, retencao: 3, vigor: 1, fuga: 2, percepcao: 4, afinidade: 3, mobilidade: 2 } } }, Photographer: { title: "Photographer", types: ["normal"], desc: "Fotógrafo oficial de Pokémon.", overlaysPorTipo: { normal: [""] }, vantagensPorTipo: { normal: ["Bônus em captura de momentos e fotos"] }, desvantagensPorTipo: { normal: [] }, equipePorTipo: { normal: ["Pokémon fotogênico (Nível 7)"] }, mochilaPorTipo: { normal: ["Camera Lens"] }, atributosPorTipo: { normal: { captura: 3, tatica: 2, retencao: 2, vigor: 1, fuga: 2, percepcao: 3, afinidade: 2, mobilidade: 2 } } } } },
+        engineer: { baseTitle: "Engineer", variants: { Engineer: { title: "Engineer", types: ["eletrico"], desc: "Engenheiro eletricista oficial.", overlaysPorTipo: { eletrico: [""] }, vantagensPorTipo: { eletrico: ["Bônus em Pokémon Elétricos e máquinas"] }, desvantagensPorTipo: { eletrico: [] }, equipePorTipo: { eletrico: ["Voltorb ou Magnemite (Nível 7)"] }, mochilaPorTipo: { eletrico: ["Toolbox"] }, atributosPorTipo: { eletrico: { captura: 2, tatica: 3, retencao: 2, vigor: 2, fuga: 1, percepcao: 2, afinidade: 2, mobilidade: 2 } } }, Worker: { title: "Worker", types: ["pedra"], desc: "Trabalhador de obra e construção.", overlaysPorTipo: { pedra: [""] }, vantagensPorTipo: { pedra: ["Bônus em Pokémon de Rock/Ground/Steel e trabalho pesado"] }, desvantagensPorTipo: { pedra: [] }, equipePorTipo: { pedra: ["Geodude ou Onix (Nível 7)"] }, mochilaPorTipo: { pedra: ["Hard Hat"] }, atributosPorTipo: { pedra: { captura: 2, tatica: 1, retencao: 3, vigor: 3, fuga: 1, percepcao: 2, afinidade: 1, mobilidade: 1 } } } } },
+    };
 
-specializations.sort((a, b) => a.title.localeCompare(b.title));
-const finalOccupations = [treinadorComum, ...specializations];
-const grid = document.getElementById('occupation-main-grid');
+    const grid = document.getElementById('occupation-main-grid');
+    const statsOrder = ["captura","tatica","retencao","vigor","fuga","percepcao","afinidade","mobilidade"];
+    const statsLabels = ["CAPTURA","TÁTICA","RETENÇÃO","VIGOR","FUGA","PERCEPÇÃO","AFINIDADE","MOBILIDADE"];
 
-window.updateCard = function(el, typeName) {
-    const card = el.closest('.card');
-    const config = typeLib[typeName];
+    function generateStarsHTML(values) {
+        let html = '';
+        statsOrder.forEach((stat, i) => {
+            const value = values[stat] || 0;
+            let stars = '';
+            for (let s = 0; s < 3; s++) {
+                stars += `<i class="fas fa-star ${s < value ? 'active' : ''}"></i>`;
+            }
+            html += `<div class="stat-row"><span>${statsLabels[i]}</span><div class="stars">${stars}</div></div>`;
+        });
+        return html;
+    }
 
-    card.style.setProperty('--current-color', config.c);
-    card.querySelector('.symbol').src = config.i;
-    card.querySelector('.tag').innerText = config.n;
+    function plainTextHTML(items) {
+        if (!items || items.length === 0) return '<div style="color:#555; font-style:italic;">—</div>';
+        return items.map(item => `<div class="vant-item">${item}</div>`).join('');
+    }
 
-    card.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
-    el.classList.add('active');
-
-    if (card.classList.contains('destaque')) {
-        const auxBox = card.querySelector('.auxiliar-box');
-        const auxTitle = card.querySelector('.auxiliar-title');
-        if (auxBox && auxTitle) {
-            auxBox.style.borderColor = config.c;
-            auxTitle.style.color = config.c;
+    function updateOccupationCard(entry, data, typeName) {
+        const config = typeLib[typeName];
+        entry.style.setProperty('--type-color', config.c);
+        entry.style.setProperty('--type-glow', config.glow);
+        entry.querySelector('.type-icon').src = config.i;
+        entry.querySelector('.type-label').innerText = config.n;
+        entry.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+        const activeDot = Array.from(entry.querySelectorAll('.dot')).find(dot => dot.getAttribute('onclick').includes(`'${typeName}'`));
+        if (activeDot) activeDot.classList.add('active');
+        entry.querySelector('.class-title').innerText = data.title;
+        entry.querySelector('.description').innerText = data.desc;
+        const overlayImg = entry.querySelector('.trainer-overlay');
+        const overlaySrc = data.overlaysPorTipo[typeName] ? data.overlaysPorTipo[typeName][0] : '';
+        if (overlayImg) {
+            overlayImg.src = overlaySrc;
+            overlayImg.style.display = overlaySrc ? 'block' : 'none';
         }
-    }
-};
-
-finalOccupations.forEach(data => {
-    const initialType = data.types[0];
-    const card = document.createElement('div');
-    card.className = data.title === "Treinador" ? 'card destaque' : 'card';
-    card.style.setProperty('--current-color', typeLib[initialType].c);
-
-    let skillsHTML = '';
-
-    if (data.title === "Treinador") {
-        skillsHTML = `
-            <div class="skill-box comum-box" style="border: 2px solid #A8A878; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
-                <div class="skill-title" style="color: #A8A878; font-weight: bold; font-size: 0.55rem; margin-bottom: 6px; letter-spacing: 1px;">Comum</div>
-                <p class="txt" style="margin: 0; font-size: 0.55rem;">${data.skills[0]}</p>
-            </div>
-            <div class="skill-box auxiliar-box" style="border: 2px solid #A8A878; padding: 12px; border-radius: 8px;">
-                <div class="skill-title auxiliar-title" style="color: #A8A878; font-weight: bold; font-size: 0.55rem; margin-bottom: 6px; letter-spacing: 1px;">Auxiliar do Professor de Pokémon</div>
-                <p class="txt" style="margin: 0; font-size: 0.55rem;">${data.skills[1]}</p>
-            </div>
-        `;
-    } else {
-        skillsHTML = `
-            <div class="skills-container">
-                <div class="skill-item">
-                    <span class="skill-level" style="font-size: 1rem;"><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></span>
-                    <div class="skill-box">
-                        <p class="txt">${data.skills[0]}</p>
-                    </div>
-                </div>
-                <div class="skill-item">
-                    <span class="skill-level" style="font-size: 1rem;"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></span>
-                    <div class="skill-box">
-                        <p class="txt">${data.skills[1]}</p>
-                    </div>
-                </div>
-            </div>
-        `;
+        entry.querySelectorAll('.vant-desv')[0].innerHTML = `<span class="vant-title">VANTAGENS:</span>${plainTextHTML(data.vantagensPorTipo[typeName] || [])}`;
+        entry.querySelectorAll('.vant-desv')[1].innerHTML = `<span class="vant-title">DESVANTAGENS:</span>${plainTextHTML(data.desvantagensPorTipo[typeName] || [])}`;
+        const infoBoxes = entry.querySelectorAll('.info-box');
+        infoBoxes[0].innerHTML = `<span class="box-title">EQUIPE</span>${plainTextHTML(data.equipePorTipo[typeName] || [])}`;
+        infoBoxes[1].innerHTML = `<span class="box-title">MOCHILA</span>${plainTextHTML(data.mochilaPorTipo[typeName] || [])}`;
+        entry.querySelector('.stats-grid').innerHTML = `<span class="vant-title">ATRIBUTOS</span><br>${generateStarsHTML(data.atributosPorTipo[typeName] || {})}<br>`;
     }
 
-    card.innerHTML = `
-        <div class="scan-line"></div>
-        <div class="visual">
-            <div class="ring"></div>
-            <img src="${typeLib[initialType].i}" class="symbol">
-            <div class="dots">${data.types.map((t, idx) => `<div class="dot ${idx === 0 ? 'active' : ''}" onclick="updateCard(this, '${t}')"></div>`).join('')}</div>
+    window.switchVariantTab = function(el, groupKey, variantName) {
+        const entry = el.closest('.occupation-entry');
+        entry.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+        const group = occupationGroups[groupKey];
+        const data = group.variants[variantName];
+        const typeName = data.types[0];
+        updateOccupationCard(entry, data, typeName);
+    };
+
+    const treinadorEntry = document.createElement('div');
+    treinadorEntry.className = 'occupation-entry destaque';
+    treinadorEntry.innerHTML = `
+        <div class="class-card">
+            <div class="scan-effect"></div>
+            <div class="unova-side">
+                <div class="type-circle">
+                    <img class="type-icon" src="">
+                    <img class="trainer-overlay" src="">
+                </div>
+                <div class="type-dots" id="treinador-dots"></div>
+            </div>
+            <div class="content-card">
+                <span class="type-label" id="treinador-type-label"></span>
+                <h2 class="class-title" id="treinador-title"></h2>
+                <p class="description" id="treinador-desc"></p>
+                <div class="vant-desv" id="treinador-vant-desv"></div>
+                <div class="vant-desv" id="treinador-desv-desv"></div>
+                <div class="stats-grid" id="treinador-stats"></div>
+            </div>
         </div>
-        <div class="info">
-            <div class="tag">${typeLib[initialType].n}</div>
-            <h2 class="title" style="margin: 8px 0;">${data.title}</h2>
-            <p class="desc" style="font-size: 0.55rem; opacity: 0.8; margin-bottom: 15px;">${data.desc}</p>
-            ${skillsHTML}
+        <div class="tab-container">
+            <div class="tab-btn active" data-tab="comum" onclick="switchTreinadorTab(this)">Common</div>
+            <div class="tab-btn" data-tab="auxiliar" onclick="switchTreinadorTab(this)">Assistant</div>
+            <div class="tab-btn" data-tab="aceTrainer" onclick="switchTreinadorTab(this)">AceTrainer</div>
+            <div class="tab-btn" data-tab="gymLeader" onclick="switchTreinadorTab(this)">GymLeader</div>
+            <div class="tab-btn" data-tab="elite4" onclick="switchTreinadorTab(this)">EliteFour</div>
+            <div class="tab-btn" data-tab="champion" onclick="switchTreinadorTab(this)">Champion</div>
+        </div>
+        <div class="data-boxes">
+            <div class="info-box" id="treinador-equipe-box"><span class="box-title">EQUIPE</span><div id="treinador-equipe"></div></div>
+            <div class="info-box" id="treinador-mochila-box"><span class="box-title">MOCHILA</span><div id="treinador-mochila"></div></div>
         </div>
     `;
+    grid.appendChild(treinadorEntry);
 
-    grid.appendChild(card);
-});
+    window.updateTreinadorCard = function(typeName) {
+        const entry = document.querySelector('.occupation-entry.destaque');
+        const tab = entry.dataset.currentTab || 'comum';
+        const data = treinadorComum[tab];
+        const config = typeLib[typeName];
+        entry.style.setProperty('--type-color', config.c);
+        entry.style.setProperty('--type-glow', config.glow);
+        entry.querySelector('.type-icon').src = config.i;
+        entry.querySelector('#treinador-type-label').innerText = config.n;
+        entry.querySelectorAll('#treinador-dots .dot').forEach(d => d.classList.remove('active'));
+        const activeDot = Array.from(entry.querySelectorAll('#treinador-dots .dot')).find(dot => dot.getAttribute('onclick').includes(`'${typeName}'`));
+        if (activeDot) activeDot.classList.add('active');
+        document.getElementById('treinador-title').innerText = data.title;
+        document.getElementById('treinador-desc').innerText = data.desc;
+        const overlaySrc = data.overlaysPorTipo[typeName] ? data.overlaysPorTipo[typeName][0] : '';
+        const overlayImg = entry.querySelector('.trainer-overlay');
+        if (overlayImg) {
+            overlayImg.src = overlaySrc;
+            overlayImg.style.display = overlaySrc ? 'block' : 'none';
+        }
+        document.getElementById('treinador-vant-desv').innerHTML = `<span class="vant-title">VANTAGENS:</span>${plainTextHTML(data.vantagensPorTipo[typeName] || [])}`;
+        document.getElementById('treinador-desv-desv').innerHTML = `<span class="vant-title">DESVANTAGENS:</span>${plainTextHTML(data.desvantagensPorTipo[typeName] || [])}`;
+        document.getElementById('treinador-equipe').innerHTML = plainTextHTML(data.equipePorTipo[typeName] || []);
+        document.getElementById('treinador-mochila').innerHTML = plainTextHTML(data.mochilaPorTipo[typeName] || []);
+        document.getElementById('treinador-stats').innerHTML = `<span class="vant-title">ATRIBUTOS</span><br>${generateStarsHTML(data.atributosPorTipo[typeName] || {})}<br>`;
+    };
+
+    window.switchTreinadorTab = function(el) {
+        const entry = el.closest('.occupation-entry');
+        entry.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+        entry.dataset.currentTab = el.dataset.tab;
+        const data = treinadorComum[el.dataset.tab];
+        const dotsHTML = data.types.map(t => `<div class="dot" onclick="updateTreinadorCard('${t}')"></div>`).join('');
+        document.getElementById('treinador-dots').innerHTML = dotsHTML;
+        updateTreinadorCard(data.types[0]);
+    };
+
+    switchTreinadorTab(document.querySelector('.tab-btn[data-tab="comum"]'));
+
+    Object.keys(occupationGroups).forEach(groupKey => {
+        const group = occupationGroups[groupKey];
+        const initialVariantName = Object.keys(group.variants)[0];
+        const initialData = group.variants[initialVariantName];
+        const initialType = initialData.types[0];
+        const config = typeLib[initialType];
+        const entry = document.createElement('div');
+        entry.className = 'occupation-entry';
+        entry.dataset.group = groupKey;
+        entry.innerHTML = `
+            <div class="class-card">
+                <div class="scan-effect"></div>
+                <div class="unova-side">
+                    <div class="type-circle">
+                        <img class="type-icon" src="${config.i}">
+                        <img class="trainer-overlay" src="${initialData.overlaysPorTipo[initialType] ? initialData.overlaysPorTipo[initialType][0] : ''}" style="display: ${initialData.overlaysPorTipo[initialType] ? 'block' : 'none'};">
+                    </div>
+                    <div class="type-dots">${initialData.types.map(t => `<div class="dot active" onclick="updateOccupationCard(this.closest('.occupation-entry'), occupationGroups['${groupKey}'].variants['${initialVariantName}'], '${t}')"></div>`).join('')}</div>
+                </div>
+                <div class="content-card">
+                    <span class="type-label">${config.n}</span>
+                    <h2 class="class-title">${initialData.title}</h2>
+                    <p class="description">${initialData.desc}</p>
+                    <div class="vant-desv"><span class="vant-title">VANTAGENS:</span>${plainTextHTML(initialData.vantagensPorTipo[initialType] || [])}</div>
+                    <div class="vant-desv"><span class="vant-title">DESVANTAGENS:</span>${plainTextHTML(initialData.desvantagensPorTipo[initialType] || [])}</div>
+                    <div class="stats-grid"><span class="vant-title">ATRIBUTOS</span><br>${generateStarsHTML(initialData.atributosPorTipo[initialType] || {})}<br></div>
+                </div>
+            </div>
+            <div class="tab-container">
+                ${Object.keys(group.variants).map(variant => `<div class="tab-btn ${variant === initialVariantName ? 'active' : ''}" onclick="switchVariantTab(this, '${groupKey}', '${variant}')">${variant}</div>`).join('')}
+            </div>
+            <div class="data-boxes">
+                <div class="info-box"><span class="box-title">EQUIPE</span>${plainTextHTML(initialData.equipePorTipo[initialType] || [])}</div>
+                <div class="info-box"><span class="box-title">MOCHILA</span>${plainTextHTML(initialData.mochilaPorTipo[initialType] || [])}</div>
+            </div>
+        `;
+        grid.appendChild(entry);
+        updateOccupationCard(entry, initialData, initialType);
+    });
 </script>
-
-<style>
-    .card.destaque {
-        margin-bottom: 5%;
-    }
-    .card .title, .card .tag, .card .txt, .card .desc {
-        text-transform: none !important;
-    }
-</style>
     </div>
-
     <div class="indicador">
-        <p id="indicadorText"></p> 
+        <p id="indicadorText"></p>
     </div>
-    
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var titleElement = document.title;
             var intervalId;
             var repetitions = 3;
             var currentRepetition = 0;
-
             function startTitleAnimation() {
                 var title = ": Virtual Links!";
                 var index = 0;
-
                 intervalId = setInterval(function () {
                     document.title = "POKÉMON" + title.substring(0, index);
                     index++;
-
                     if (index > title.length) {
                         clearInterval(intervalId);
                         setTimeout(function () {
                             currentRepetition++;
-
                             if (currentRepetition < repetitions) {
                                 startTitleAnimation();
                             } else {
@@ -520,54 +389,42 @@ finalOccupations.forEach(data => {
                             }
                         }, 1000);
                     }
-                }, 150); 
+                }, 150);
             }
-
             startTitleAnimation();
         });
     </script>
-
     <script>
         function updateClockAndDate() {
             var now = new Date();
-            
             var futureDate = new Date(now.getFullYear() + 100, now.getMonth(), now.getDate());
-            
             var optionsDate = { month: 'short', day: 'numeric', year: 'numeric' };
             var dateString = futureDate.toLocaleDateString('en-US', optionsDate);
             document.getElementById('date').innerText = dateString;
-
             var tokyoTime = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Tokyo"}));
             var hours = tokyoTime.getHours();
             var minutes = tokyoTime.getMinutes();
             var seconds = tokyoTime.getSeconds();
-
             hours = hours < 10 ? '0' + hours : hours;
             minutes = minutes < 10 ? '0' + minutes : minutes;
             seconds = seconds < 10 ? '0' + seconds : seconds;
-
             var timeString = hours + ':' + minutes + ':' + seconds;
             document.getElementById('clock').innerText = timeString;
         }
-
-        setInterval(updateClockAndDate, 1000); 
-        updateClockAndDate(); 
+        setInterval(updateClockAndDate, 1000);
+        updateClockAndDate();
     </script>
-
     <script>
         function changeText(text) {
             var indicadorText = document.getElementById('indicadorText');
             indicadorText.innerHTML = text;
-
             var indicador = document.querySelector('.indicador');
             indicador.style.display = (text !== '') ? 'flex' : 'none';
         }
-
         function hideIndicador() {
             var indicador = document.querySelector('.indicador');
             indicador.style.display = 'none';
         }
-
         const buttonConfigs = [
             { id: 'pokedex', text: 'POKÉDEX' },
             { id: 'pokemon', text: 'POKÉMON' },
@@ -582,7 +439,6 @@ finalOccupations.forEach(data => {
             { id: 'classificacao', text: 'CLASSIFICAÇÃO' },
             { id: 'ovos', text: 'OVOS' }
         ];
-
         buttonConfigs.forEach(config => {
             const el = document.getElementById(config.id);
             if (el) {
@@ -591,35 +447,28 @@ finalOccupations.forEach(data => {
             }
         });
     </script>
-
     <script>
         document.addEventListener('contextmenu', event => {
             event.preventDefault();
             document.elementFromPoint(event.clientX, event.clientY).click();
         });
-
         document.onkeydown = function(e) {
             if (e.ctrlKey || e.altKey || e.shiftKey) {
                 return false;
             }
         };
-
         document.onselectstart = function() {
             return false;
         };
-
         document.oncopy = function() {
             return false;
         };
-
         document.oncut = function() {
             return false;
         };
-
         document.ondragstart = function() {
             return false;
         };
     </script>
-
 </body>
 </html>
